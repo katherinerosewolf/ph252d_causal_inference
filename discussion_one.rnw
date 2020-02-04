@@ -4,6 +4,7 @@
 \author{Introduction to Causal Inference (PH252D)\\ Study 2, Group 12}
 
 % list of latex packages you'll need
+\usepackage{fontspec}
 \usepackage{float}  % for tables
 \usepackage{mathtools}  % for mathematical symbols
 \usepackage{bm}  % to bold mathematical symbols like betas
@@ -37,17 +38,6 @@
 
 % end the preamble and begin the document
 \begin{document}
-
-
-<<include=FALSE>>=
-
-# packages
-library(tidyverse)
-library(xtable)
-library(kableExtra)
-library(dagitty)
-
-@
 
 \maketitle
 
