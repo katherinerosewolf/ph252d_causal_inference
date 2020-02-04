@@ -1,10 +1,9 @@
 \documentclass{article}
-\title{\textbf{Discussion Assignment One}\\ Katherine Wolf}
-\date{\textbf{\today}}
-\author{Introduction to Causal Inference (PH252D)\\ Study 2, Group 12}
+\title{\textbf{Discussion Assignment One}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ Study 2, Group 12\\ \today}
+\date{}
 
 % list of latex packages you'll need
-\usepackage{fontspec}
 \usepackage{float}  % for tables
 \usepackage{mathtools}  % for mathematical symbols
 \usepackage{bm}  % to bold mathematical symbols like betas
