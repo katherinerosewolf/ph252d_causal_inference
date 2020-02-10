@@ -127,7 +127,7 @@ Exclusion restrictions are restrictions on the parents of a variable in the set 
   
 \end{enumerate}
 
-\includegraphics[scale=1.5]{lion-logo}
+\includegraphics[scale=1]{dag_one.png}
 
 
 \pagebreak
