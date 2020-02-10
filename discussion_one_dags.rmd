@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 
-```{r}
+```{r dag_one}
 
 library(ggdag)
 library(tidyverse)
@@ -23,7 +23,7 @@ positionality_dataframe <- coords2df(positionality)
 
 
 
-my_dag <- dagify(Y ~ A + W + Z + U_Y,
+dag_one <- dagify(Y ~ A + W + Z + U_Y,
                  A ~ W + U_A,
                  W ~ U_W,
                  Z ~ A + W + U_Z, 
@@ -33,10 +33,10 @@ my_dag <- dagify(Y ~ A + W + Z + U_Y,
                  exposure = "A",
                  outcome = "Y") 
 
-coordinates(my_dag) <- coords2list(positionality_dataframe)
+coordinates(dag_one) <- coords2list(positionality_dataframe)
 
 
-my_dag %>%
+dag_one %>%
   tidy_dagitty() %>% 
   arrange(name) %>% 
   mutate(linetype = ifelse(name %in% c("U_A", "U_W", "U_Y", "U_Z"), "dashed", "solid")) %>% 
@@ -55,7 +55,65 @@ ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
                 ) +
   theme_dag()
 
-my_dag
+dag_one
+
+```
+
+
+
+
+```{r dag_two}
+
+library(ggdag)
+library(tidyverse)
+
+# Dag with ggdag
+library(dagitty)
+library(ggdag)
+
+# set coordinates
+positionality <- 
+  list(x = c(a = -1, A = 0, U_A = 0, W = 1, U_W = 1, Z = 1, U_Z = 1, Y = 2, U_Y = 2), 
+              y = c(a = 1, A = 0, U_A = 1, W = 1, U_W = 2, Z = -1, U_Z = -2, Y = 0, U_Y = 1))
+
+positionality_dataframe <- coords2df(positionality)
+
+
+
+
+dag_two <- dagify(Y ~ A + W + Z + U_Y,
+                 A ~ a,
+                 W ~ U_W,
+                 Z ~ A + W + U_Z, 
+                 U_A ~~ U_Y + U_W + U_Z, 
+                 U_W ~~ U_Y + U_Z, 
+                 U_Y ~~ U_Z,
+                 exposure = "A",
+                 outcome = "Y") 
+
+coordinates(dag_two) <- coords2list(positionality_dataframe)
+
+
+dag_two %>%
+  tidy_dagitty() %>% 
+  arrange(name) %>% 
+  mutate(linetype = ifelse(name %in% c("U_A", "U_W", "U_Y", "U_Z"), "dashed", "solid")) %>% 
+ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point() + 
+  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
+  geom_dag_text(parse = TRUE, 
+                label = c("A",
+                           paste0(expression(U[A])), 
+                           paste0(expression(U[W])), 
+                           paste0(expression(U[Y])), 
+                           paste0(expression(U[Z])),
+                           "W", 
+                           "Y", 
+                           "Z")
+                ) +
+  theme_dag()
+
+dag_two
 
 ```
 
