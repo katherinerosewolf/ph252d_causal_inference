@@ -48,21 +48,26 @@
 
   \item \textbf{What causal question or questions was this research aiming to answer?}
   
-How would HIV incidence have differed after two years if everyone in the target population were circumcised at baseline versus if no one in the target population were circumcised at baseline?
+  What is the effect of circumcision on cumulative HIV incidence after two years?  (Stated more counterfactually: How would cumulative HIV incidence have differed after two years if everyone in the target population were circumcised at or before baseline versus if no one in the target population were circumcised at baseline?)
   
-  \item \textbf{What makes this a causal question as opposed to a purely statistical question? Give an example of a purely statistical question that the research described could address. Is the language used by the authors in describing their objective causal or statistical?}
+  \item \textbf{What makes this a causal question as opposed to a purely statistical question?}
   
-This question is a causal question because it asks how the distribution of the outcome, HIV incidence at two years, would change if the distribution of the exposure, circumcision at baseline, changed in the target population, whereas a statistical question asks how the distribution of the outcome is associated with the distribution of the exposure in the target population as is.
+  This question is a causal question because it asks how the distribution of the outcome, HIV incidence at two years, would change if the distribution of the exposure, circumcision at baseline, changed in the target population, whereas a statistical question asks how the distribution of the outcome is associated with the distribution of the exposure in the target population as is.
+  
+  \textbf{Give an example of a purely statistical question that the research described could address.}
 
-An example of a purely statistical question that the research could address: 
-How did the risk of HIV at two years after baseline in the target population differ between participants with penises who were circumcised at baseline and participants with penises who were not?
+  How did the risk of HIV at two years after baseline in the target population differ between participants who were circumcised at baseline and those who were not?
+
+  \textbf{Is the language used by the authors in describing their objective causal or statistical?}
+  
+  The language in the title of the study, "The protective effect of circumcision on HIV incidence in rural low-risk men circumcised predominantly by traditional circumcisers in Kenya: two-year follow-up of the Kericho HIV Cohort Study," implies causality, as it talks about an "effect" of circumcision "on" HIV incidence, implying that the authors believe that circumcision affected HIV incidence in some way. 
+  
+  In the study abstract, however, the authors' language is statistical ("we examined the association between circumcision and HIV infection in a cohort of adult agricultural workers and dependents after two years of follow-up"), as they state that they examined the observed association as-is, and do not elsewhere claim that they attempted to isolate the effect of circumcision on HIV incidence were the intervention of circumcision manipulated in the same underlying population.
   
   \item \textbf{Specify the target population.}
   
-The target population was adult agricultural workers (presumably limited to those with penises) and dependents in rural Kenya.
+  The target population was adult agricultural workers (presumably limited to men with penises) their and dependents in rural Kenya.
 
-\textcolor{red}{Is this the right target population?}
-  
 \end{enumerate}
 
 \pagebreak
@@ -81,47 +86,75 @@ The target population was adult agricultural workers (presumably limited to thos
 
   \item \textbf{What are the endogenous variables $\bm{X}$? What additional covariates besides those observed might be important? How would you incorporate them into the model?}
   
-  The endogenous variables $\bm{X}$ include $\bm{X} = \{\{W_1, \dots, W_j \}, A, Y\}$, where
+  The endogenous variables $\bm{X}$ include $\bm{X} = \{\bm{W} = \{W_1, \dots, W_i \}, \bm{Z} = \{Z_1, \dots, Z_j \}, A, Y\}$, where
   \begin{itemize}
-    \item $\bm{W}$ represents the vector of pre-exposure baseline covariates, here:
+    \item $\bm{W}$ is a vector of random variables representing the pre-exposure baseline covariates affecting the exposure of circumcision by baseline, which here might be
     \begin{itemize}
-      \item $\bm{W_1}$: tribe,
-      \item $\bm{W_2}$: religion,
-      \item $\bm{W_3}$: self-reported sex with a commercial sex worker, and
-      \item $\bm{W_4}$: self-reported diagnosis with a sexually transmitted infection;
+      \item $W_1$: tribe at baseline,
+      \item $W_2$: religion at baseline,
+      \item $W_3$: self-reported sex with a commercial sex worker at baseline, and
+      \item $W_4$: self-reported diagnosis with a sexually transmitted infection at baseline;
     \end{itemize}
-    \item $\bm{Z}$ is a random variable representing changes in sexual behavior occurring after the exposure but before the outcome;
-    \item $\bm{A}$ represents the exposure, here, self-reported circumcision at baseline; and
-    \item $\bm{Y}$ represents the outcome, here, HIV status at two years of follow-up.
+    \item $\bm{Z}$ is a vector of random variables representing covariates occurring after and affected by the exposure, circumcision status at baseline, that might also affect the outcome. Here an example might be, for example, changes in sexual activity during the study due to circumcision status, for example,
+    \begin{itemize}
+      \item $Z_1$: decreased condom usage during the study period due to perceived lowered HIV transmission usage post-circumcision in circumcised participants,
+      \item $Z_2$: decreased sexual activity during the study period due to decreased sexual pleasure post-circumcision;
+    \end{itemize}
+    \item $\bm{A}$ is a random variable representing the exposure, here, self-reported circumcision at baseline; and
+    \item $\bm{Y}$ is a random variable representing the outcome, here, HIV status at two years of follow-up.
   \end{itemize}
   
-  Endogenous variables are those, whether observed or unobserved, that we presume both are affected by and affect other variables in the model. Another endogenous variable might be immune system burden, which, for example, could be affected by a diagnosis with a sexually transmitted infection and also affect incidence of the outcome. We would incorporate it into the model by making it another $W_i$ variable, even if we didn't measure it.  Age, for example, might also be important, and could become another $W_i$ variable.
+  The endogenous variables $\bm{X}$ are those, whether observed or unobserved, that we presume both are affected by and affect other variables in the model. Another endogenous variable or covariate that might be important, for example, is cumulative immune system burden, which, for example, could be affected by a diagnosis with a sexually transmitted infection and also affect the probability of the outcome, HIV incidence. We would incorporate it into the model by making it another $W_i$ variable, even if we didn't measure it.  Age, for example, might also be another important covariate, and could similarly become another $W_i$ variable.
   
   \item \textbf{Discuss your exogenous variables $\bm{U}$. What factors might be included? Did you observe your $\bm{U}$? Could you observe your $\bm{U}$?}
   
-  Exogenous variables $\bm{U}$ include all the unobserved variables that are not affected by other factors in the model but go into determining the values of the endogenous $\bm{X}$ variables. We did not observe the exogenous variables $\bm{U}$ in the current study because exogenous variables are not observed in the current study by definition. Observing them might be possible, though, particularly as science advances. If we do observe a variable in $\bm{U}$, it then becomes one of the variables in $\bm{X}$.
+  Exogenous variables $\bm{U}$ include all the unobserved variables that are not affected by other factors in the model but go into determining the values of the endogenous $\bm{X}$ variables. For example, $U_{W_1}$ is a random variable representing the unobserved influences on the endogenous variable $W_1$, here specified to represent the participant tribe. The joint distribution of the exogenous variables is represented by the symbol $\bm{P_U}$, i.e., $\bm{U_X} = \{\bm{U_W}, U_A, \bm{U_Z}, U_Y\} \sim \bm{P_U}$. We did not observe the exogenous variables $\bm{U}$ in the current study because exogenous variables are not observed in the current study by definition. Observing them might be possible in other circumstances, though, particularly as science advances. If we do observe a variable in $\bm{U}$, it then becomes one of the variables in $\bm{X}$.
   
   \item \textbf{Specify your structural equations $\bm{F}$. (Please be mindful of the notation used in class.) Do your structural equations make any assumptions about functional form?}
   
-The structural equations are:
-\textcolor{red}{Is it OK if this has recursions?}
+  The structural equations are
 
-\begin{itemize}
+  \begin{itemize}
   
-  \item $\bm{W} = f_{\bm{W}} (\bm{U_W})$
-  \item $A = f_{A}(\bm{W}, U_{A})$
-  \item $\bm{Z} = f_{\bm{Z}}(A, U_{\bm{Z}})$
-  \item $Y = f_Y(\bm{W}, A, \bm{Z}, U_Y)$
+    \item $\bm{W} = f_{\bm{W}} (\bm{U_W})$
+    \item $A = f_{A}(\bm{W}, U_{A})$
+    \item $\bm{Z} = f_{\bm{Z}}(A, \bm{W}, \bm{U_Z})$
+    \item $Y = f_Y(A, \bm{W}, \bm{Z}, U_Y)$
   
-\end{itemize}
+  \end{itemize}
 
-These equations do not make assumptions about the functional form of any of the causal relationships. 
+  These equations do not make assumptions about the functional form of any of the causal relationships, as the $f$ terms mean "function of" without specifying the form of each function, although they do list the random variables presumed to determine the ultimate value of each function.
  
-  \item \textbf{Discuss any exclusion restrictions. In general, what are exclusion restrictions? What do they mean in words? For the study, do you feel that any are justified?}
+  \item \textbf{Discuss any exclusion restrictions. In general, what are exclusion restrictions? What do they mean in words?}
   
-Exclusion restrictions are restrictions on the parents of a variable in the set $\bm{X}$, in which the omissions of variables in the parent set represent assumptions that the omitted variables do not directly affect the variable in $\bm{X}$ from whose parents they were omitted.  I do not have evidence that any are justified here except perhaps that HIV incidence does not affect circumcision status.
+  Exclusion restrictions are restrictions on the parents of a random variable in the set $\bm{X}$, in which the omissions of variables in the parent set of a random variable in $\bm{X}$ represent assumptions that the omitted variables do not directly affect that variable.  
   
-  \item \textbf{Discuss any independence assumptions. In general, what are independence assumptions? What do they mean in words? For the study, do you feel that any are justifed? When might they be?}
+  \textbf{For the study, do you feel that any are justified?}
+  
+  I have built the model above to be a recursive (acyclic) structural causal model, meaning that I have assumed that an ordering exists such that each $\bm{X_K}$ in $\bm{X}$ is a function of a subset of its predecessors. Thus 
+  \begin{itemize}
+      \item $\bm{W}$ excludes $A$, $\bm{Z}$, and $Y$ from its parent set,
+      \item $A$ excludes $\bm{Z}$ and $Y$ from its parent set, and
+      \item $\bm{Z}$ excludes $Y$ from its parent set.
+  \end{itemize} 
+  
+  Thus I presume here that 
+  \begin{itemize}
+      \item the variables in $\bm{W}$ (here, tribe and religion) are not affected by circumcision status at baseline $A$, sexual behaviors after circumcision during the study period in $\bm{Z}$, or HIV incidence at the end of the study period $Y$;
+      \item circumcision status at baseline $A$ is not affected by sexual behaviors after circumcision during the study period $\bm{Z}$ or HIV incidence at the end of the study period $Y$; and
+      \item sexual behaviors after circumcision during the study period $\bm{Z}$ are not affected by HIV incidence at the end of the study period $Y$.
+  \end{itemize}
+  
+  Although I can conceive of scenarios where such restrictions do not hold (for example, an individual changing religious affiliations over anger at involuntary infant circumcision or in response to particular sexual experiences), most of them seem reasonable:
+    \begin{itemize}
+      \item Given that HIV is asymptomatic in its early stages and that participants only learn their HIV status at the end of the study if they don't have symptoms, excluding HIV incidence from the parent sets of the other variables in $\bm{X}$ before the end of the study seems justified;
+      \item Given that the sexual behaviors after circumcision $\bm{Z}$ happen by definition during the study and after the exposure of circumcision status at baseline $A$ or the other covariates collected at baseline $\bm{W}$, those behaviors cannot affect covariates recorded before them in time, so excluding them from the parent sets of $A$ and $\bm{W}$ seems justified; and
+      \item Circumcision status at baseline $A$ might or might not affect the values of the covariates in $\bm{W}$, so the assumption that circumcision status at baseline $A$ is not in the parent sets of the variables tribe $W_1$, religion $W_2$, self-reported sex with a commercial sex worker $W_3$, or self-reported diagnosis with a sexually transmitted infection $W_4$, all at baseline, is perhaps the least justified.  \textcolor{red}{COME BACK HERE}
+  \end{itemize}
+  
+  
+  
+  \item \textbf{Discuss any independence assumptions. In general, what are independence assumptions? What do they mean in words? For the study, do you feel that any are justified? When might they be?}
   
   \item \textbf{Draw at least one possible causal graph.}
   
@@ -153,6 +186,24 @@ Exclusion restrictions are restrictions on the parents of a variable in the set 
   The intervention of interest is circumcision at the start of the study.
 
   \item \textbf{Formally express this modification of experimental conditions as an intervention on the SCM and on the causal graph.}
+  
+  Intervention on the structural causal model:
+  
+  \begin{itemize}
+  
+    \item $\bm{W} = f_{\bm{W}} (\bm{U_W})$
+    \item $A = a$
+    \item $\bm{Z} = f_{\bm{Z}}(A = a, \bm{W}, \bm{U_Z})$
+    \item $Y = f_Y(A = a, \bm{W}, \bm{Z}, U_Y)$
+  
+  \end{itemize}
+  
+  
+  Intervention on the causal graph:
+  
+  \vspace{2mm}
+  
+  \includegraphics[scale=0.8]{dag_two.png}
 
   \item \textbf{Specify your counterfactual outcomes under the intervention(s) of interest. How are these counterfactuals defined with an SCM? What do they mean (in words)?}
   \begin{itemize}
@@ -203,6 +254,7 @@ Exclusion restrictions are restrictions on the parents of a variable in the set 
 \vspace{2mm}
 
   \textbf{Do you think  such  an  assumption  is  warranted  here?}   
+  
   No. We don’t have any information here to support such an assumption. Circumcision might alter the experience of and desire for sex with or without a condom, for example, or people might select sex partners with penises in part based on their circumcision statuses.
 
 \vspace{2mm}
