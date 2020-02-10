@@ -10,6 +10,7 @@ library(ggdag)
 library(tidyverse)
 
 # Dag with ggdag
+library(dagitty)
 library(ggdag)
 
 # set coordinates
@@ -26,6 +27,9 @@ my_dag <- dagify(Y ~ A + W + Z + U_Y,
                  A ~ W + U_A,
                  W ~ U_W,
                  Z ~ A + W + U_Z, 
+                 U_A ~~ U_Y + U_W + U_Z, 
+                 U_W ~~ U_Y + U_Z, 
+                 U_Y ~~ U_Z,
                  exposure = "A",
                  outcome = "Y") 
 
