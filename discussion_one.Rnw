@@ -127,12 +127,7 @@ Exclusion restrictions are restrictions on the parents of a variable in the set 
   
 \end{enumerate}
 
-<<echo=FALSE>>=
-
-library(tidyverse)
-library(ggdag)
-
-@
+\includegraphics[scale=1.5]{lion-logo}
 
 
 \pagebreak
