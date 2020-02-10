@@ -102,14 +102,15 @@ ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point() + 
   geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
   geom_dag_text(parse = TRUE, 
-                label = c("A",
-                           paste0(expression(U[A])), 
-                           paste0(expression(U[W])), 
-                           paste0(expression(U[Y])), 
-                           paste0(expression(U[Z])),
-                           "W", 
-                           "Y", 
-                           "Z")
+                label = c("a", 
+                          "A",
+                          paste0(expression(U[A])), 
+                          paste0(expression(U[W])), 
+                          paste0(expression(U[Y])), 
+                          paste0(expression(U[Z])),
+                          "W", 
+                          "Y", 
+                          "Z")
                 ) +
   theme_dag()
 
