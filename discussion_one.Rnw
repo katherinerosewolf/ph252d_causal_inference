@@ -149,14 +149,17 @@
     \begin{itemize}
       \item Given that HIV is asymptomatic in its early stages and that participants only learn their HIV status at the end of the study if they don't have symptoms, excluding HIV incidence from the parent sets of the other variables in $\bm{X}$ before the end of the study seems justified;
       \item Given that the sexual behaviors after circumcision $\bm{Z}$ happen by definition during the study and after the exposure of circumcision status at baseline $A$ or the other covariates collected at baseline $\bm{W}$, those behaviors cannot affect covariates recorded before them in time, so excluding them from the parent sets of $A$ and $\bm{W}$ seems justified; and
-      \item Circumcision status at baseline $A$ might or might not affect the values of the covariates in $\bm{W}$, so the assumption that circumcision status at baseline $A$ is not in the parent sets of the variables tribe $W_1$, religion $W_2$, self-reported sex with a commercial sex worker $W_3$, or self-reported diagnosis with a sexually transmitted infection $W_4$, all at baseline, is perhaps the least justified.  \textcolor{red}{COME BACK HERE}
+      \item Circumcision status at baseline $A$ might or might not affect the values of the covariates in $\bm{W}$, so the assumption that circumcision status at baseline $A$ is not in the parent sets of the variables tribe $W_1$, religion $W_2$, self-reported sex with a commercial sex worker $W_3$, or self-reported diagnosis with a sexually transmitted infection $W_4$, all at baseline, is perhaps the least justified.
+      
   \end{itemize}
-  
-  
   
   \item \textbf{Discuss any independence assumptions. In general, what are independence assumptions? What do they mean in words? For the study, do you feel that any are justified? When might they be?}
   
+  An independence assumption is the presumption that two different random variables have no unmeasured shared common cause in $\bm{U}$, meaning that the random error affecting two different random variables is statistically independent.  I do not feel that any independence assumptions here are justified among these variables, but, for example, if we had, say, sex as a variable, in some populations the unmeasured sources of random error affecting sex (in countries where people do not systemically select births of one sex over the other) might be independent of unmeasured sources of random error affecting, for example, tribe.  Then again, even such an assumption might be specious.  Perhaps the environment where one tribe lives emits chemicals that affect eggs or sperm in such a way as to select preferentially for one sex, for example.
+  
   \item \textbf{Draw at least one possible causal graph.}
+  
+  In the causal graph below, the letter abbreviations correspond to those in parts (a) and (b) above, dotted lines with an arrow at each end represent possible dependence between errors, and bold lines with arrows at one end are directed edges identifying possible parent-child pairs.
   
 \end{enumerate}
 
@@ -183,7 +186,7 @@
 
   \item \textbf{Specify the intervention(s) of interest.}
   
-  The intervention of interest is circumcision at the start of the study.
+  The intervention of interest is circumcision at baseline.
 
   \item \textbf{Formally express this modification of experimental conditions as an intervention on the SCM and on the causal graph.}
   
@@ -192,12 +195,15 @@
   \begin{itemize}
   
     \item $\bm{W} = f_{\bm{W}} (\bm{U_W})$
-    \item $A = a$
+    \item $A = a$ for $a \in A = \{0, 1\}$
     \item $\bm{Z} = f_{\bm{Z}}(A = a, \bm{W}, \bm{U_Z})$
     \item $Y = f_Y(A = a, \bm{W}, \bm{Z}, U_Y)$
   
   \end{itemize}
   
+  Note that $A$ is no longer affected by its usual source of random error $U_A$ nor by $\bm{W}$, as we have assigned it to either 0 or 1 for one or the other value for the entire population.
+  
+  \vspace{2mm}
   
   Intervention on the causal graph:
   
@@ -219,13 +225,13 @@
 
   $E_{U, X}[Y_1]$ - $E_{U, X}[Y_0]$,
 
-  which is the difference in the risk of incident HIV within two years if the whole population had been circumcised at baseline versus if the entire population had been uncircumcised at baseline. 
+  which is the difference in the risk of incident HIV within two years if the whole population had been circumcised at baseline ($E_{U, X}[Y_1]$) minus the risk if the entire population had been uncircumcised at baseline ($E_{U, X}[Y_0]$). 
 
   \item \textbf{\textit{Bonus:} Using counterfactual notation, define a target causal parameter using a working marginal structural model (MSM). What does it mean (in words)?}
 
-  $E_{U, X}(Y_a) = m(a|\bm{\beta}) = expit(\beta_0 + \beta_1 a)$
+  $E_{U, X}[Y_a] = m(a|\bm{\beta}) = expit(\beta_0 + \beta_1 a)$
 
-  This models the risk of HIV incidence using a logistic model, in which the log odds of HIV incidence equals a linear combination of the baseline log odds of HIV incidence $\beta_0$ plus an indicator variable $a$ for circumcision status times a coefficient $\beta_1$ for the log odds ratio comparing the odds of incident HIV in circumcised men in the numerator to the odds of incident HIV in uncircumcised men in the denominator.
+  This models the risk of HIV incidence using a logistic model $m$, in which the log odds of HIV incidence (where expected HIV incidence is represented by $E_{U, X}[Y_a]$, and the log odds of the incidence would be $logit(E_{U, X}[Y_a])$) equals a linear combination of the baseline log odds of HIV incidence $\beta_0$ plus an indicator variable $a$ for circumcision status times the coefficient $\beta_1$, which represents the log odds ratio comparing the odds of incident HIV in circumcised men in the numerator to the odds of incident HIV in uncircumcised men in the denominator.  Since this structural causal model is modeling a binary outcome, however, it is fully saturated, and we can just estimate the causal risk difference directly, making a projection onto a working marginal structural model with an assumed form superfluous.
   
 \end{enumerate}
 
@@ -277,14 +283,4 @@
 
 \end{enumerate}
 
-
-\pagebreak
-
-
-Equation:
-
-$$ \log(h(t|\mathbf{x}, \bm{\beta})) =  \log[h_0(t)] + \beta_1\mathbb{I}(x_1 = 1) + \beta_2 x_2 + \beta_3\mathbb{I}(x_3 = 1) + \beta_4\mathbb{I}(x_4 = 2) + \beta_5\mathbb{I}(x_4 = 3) + \beta_6\mathbb{I}(x_4 = 4) $$
-
-\vspace{2mm}
-      
 \end{document}
