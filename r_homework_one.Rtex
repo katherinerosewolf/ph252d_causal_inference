@@ -1,0 +1,166 @@
+\documentclass{article}
+\title{\textbf{R Lab One}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{soul}  % get underlines
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+
+% set fonts
+\setmainfont{Georgia}
+\setsansfont[Scale=MatchLowercase]{Arial}  % sets the sans font
+\setmonofont[Scale=MatchLowercase]{inconsolata}  % sets the monospace font
+
+% make special code formatting
+\NewDocumentCommand{\codeword}{v}{%
+  \texttt{\textcolor{RoyalPurple}{#1}}%
+}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+\setlength\parindent{0pt}
+
+% end the preamble and begin the document
+\begin{document}
+
+\maketitle
+
+\section{Background Story}
+
+\section{Steps 1-5 of the Roadmap}
+
+  \subsection{Step 1: Causal model representing real knowledge}
+  
+  \begin{enumerate}[label=\textbf{\alph*.}]
+
+    \item \textbf{Draw the accompanying directed acyclic graph (DAG).}
+    
+    \item \textbf{Are there any exclusion restrictions? Recall we are working with recursive (time-ordered) structural causal models.}
+    
+    \item \textbf{Are there any independence assumptions on the distribution of unmeasured factors $\mathbb{P}_U$?}
+
+  \end{enumerate}
+  
+  \subsection{Step 2: Counterfactuals and causal parameter}
+  
+  \begin{enumerate}[label=\textbf{\alph*.}]
+  
+    \item \textbf{Define the counterfactual outcomes of interest with formal notation and in words.}
+    
+    \item \textbf{How are counterfactuals derived?}
+    
+    \item \textbf{Suppose we are interested in the average treatment effect. Specify the target causal parameter. Use formal notation as well as explain in words.}
+ 
+  \end{enumerate}
+  
+  \subsection{Step 3: Observed data and link to causal}
+  
+  \begin{enumerate}[label=\textbf{\alph*.}]
+  
+    \item \textbf{Specify the link between the SCM and the observed data.}
+    
+    \item \textbf{What restrictions, if any, does the SCM place on the allowed distributions for the observed data? (Recall d-separation.)}
+    
+    \item \textbf{What notation do we use to denote the true (but unknown) distribution of the observed data and the statistical model?}
+  
+  \end{enumerate}
+  
+  \subsection{Steps 4-5: Identification and statistical estimand}
+  
+  \begin{enumerate}[label=\textbf{\alph*.}]
+  
+    \item \textbf{Using the backdoor criterion, assess identifiability.}
+    
+    \item \textbf{If the target causal parameter is not identified, under what assumptions would it be?}
+    
+    \item \textbf{What notation is used to denote the original SCM augmented with additional assumptions needed for identifiability?}
+    
+    \item \textbf{Specify the target parameter of the observed data distribution (the statistical estimand).}
+    
+    \item \textbf{What is the relevant positivity assumption? Is it reasonable here?}
+  
+  \end{enumerate}
+  
+\pagebreak
+
+\section{Bonus: Identifying the Mean Outcome Under a Dynamic Intervention}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  
+  \item \textbf{Explain why (1) holds using properties of conditional expectations. Given access to the full population and the ability to implement intervention \textit{d}, what does (1) tell you about how you could compute $\mathbb{E}_{U,X}[Y_d]$?}
+  
+  \item \textbf{Explain why (2) holds using properties of conditional expectations and the fact that $Y_d \Perp A|W_1, W_2$ under our convenience assumptions for the backdoor criterion made in Question 4 of Section 2.}
+  
+  \item \textbf{Explain why (3) holds. What does this mean in terms of the RUTF example?}
+  
+  \item \textbf{Explain why (4) holds. What does this mean in terms of the RUTF example?}
+  
+\end{enumerate}
+
+\pagebreak
+
+\section{A Specific Data-Generating Process}
+
+  \subsection{Closed form evaluation on the target parameter}
+  
+    \begin{enumerate}[label=\textbf{\arabic*.}]
+    
+      \item \textbf{Evaluate the target causal parameter $\psi^F(\mathbb{P}_{U,X})$ in closed form (i.e., by hand) for this data generating process.}
+      
+      \item \textbf{Interpret $\psi^F(\mathbb{P}_{U,X})$.}
+  
+    \end{enumerate}
+    
+  \subsection{Translating this data generating process for $\mathbb{P}_{U,X}$ into simulations, generating counterfactual outcomes and evaluating the target causal parameter.}
+  
+    \begin{enumerate}[label=\textbf{\arabic*.}]
+    
+      \item \textbf{First set the seed to 252.}
+      
+      \item \textbf{Set $n = 50,000$ as the number of independent and identically distributed draws from the data-generating process.}
+      
+      \item \textbf{Simulate the background factors $U$.}
+      
+      \item \textbf{Evaluate the structural equations $F$ to deterministically generate the endogenous nodes $X$.}
+      
+      \item \textbf{Intervene to set the supplement to RUTF $(A = 1)$ and generate counterfactual outcomes $Y_1$ for $n$ units. Then intervene to set the supplement to the standard $(A = 0)$ and generate counterfactual outcomes $Y_0$ for $n$ units.}
+      
+      \item \textbf{Create a data frame $X$ to hold the values of the endogenous factors $(W_1, W_2, A, Y)$ and the counterfactual outcomes $Y_1$ and $Y_0$. The rows are the n children and the columns are their characteristics. Use the head and summary to examine the resulting data.}
+      
+      \item \textbf{Evaluate the causal parameter $\psi^F(\mathbb{P}_{U,X})$ for this population of 50,000 units.}
+  
+    \end{enumerate}
+
+\pagebreak
+  
+\section{Defining the Target Causal Parameter with a Working Marginal Structural Model}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+
+  \item \textbf{For $n = 5,000$ children, generate the exogenous factors $U$ and the pre-intervention covariates $(V, W1, W2)$. Then set $A = 1$ to generate the counterfactual weight gain under RUTF $Y_1$. Likewise, set $A = 0$ to generate the counterfactual weight gain under the standard supplement $Y_0$.}
+  
+  \item \textbf{Create a data frame} \codeword{X.msm} \textbf{consisting of age $V$, the set treatment levels $a$, and the corresponding outcomes $Y_a$.}
+  
+  \item \textbf{Evaluate the target causal parameter.}
+  
+  \item \textbf{Interpret the results.}
+
+\end{enumerate}
+      
+\end{document}
