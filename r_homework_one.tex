@@ -103,16 +103,50 @@
 
     \item \textbf{Draw the accompanying directed acyclic graph (DAG).}
     
+    The directed acyclic graph is
+    
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=4in]{figure/unnamed-chunk-2-1} 
 
 \end{knitrout}
+
+    where the endogenous nodes $\bm{X} = (W1, W2, A, Y)$ include
     
+    \begin{itemize}
+    
+      \item $W1$, a binary indicator variable representing potable water access, where $W1 = 1$ if the child had access to potable water at study initiation and $W1 = 0$ otherwise;
+      
+      \item $W2$, a binary indicator variable representing prior infectious disease within the two weeks prior to the study initiation, where $W2 = 1$ if the child suffered from an infectious disease within the two weeks prior to the study initiation and $W2 = 0$ otherwise;
+      
+      \item $A$, a binary indicator variable representing the exposure of interest, ready-to-use therapeutic food (RUTF), where $A = 1$ if the child received RUTF and $A = 0$ if the child received the standard supplement; and
+      
+      \item $Y$, a continuous variable representing the outcome of interest, the child's weight gain in pounds at study termination;
+      
+    \end{itemize}
+    
+    each of the background exogenous variables $\bm{U} = (U_{W1}, U_{W2}, U_{A}, U_{Y}) \sim \mathbb{P}_U$ represents all the unmeasured factors for the $\bm{X}$ variable denoted in its subscript that determine the values that that variable in $\bm{X}$ takes; and the structural equations $F$ are
+    
+    \begin{itemize}
+    
+      \item $W1 = f_{W1}(U_{W1})$
+      
+      \item $W2 = f_{W2}(W1, U_{W2})$
+      
+      \item $A = f_{A}(W1, W2, U_{A})$
+      
+      \item $Y = f_{Y}(W1, W2, A, U_{Y})$
+      
+    \end{itemize}
+
 
     \item \textbf{Are there any exclusion restrictions? Recall we are working with recursive (time-ordered) structural causal models.}
     
+    Aside from the inherent exclusion restrictions in a time-ordered structural causal model (wherein each variable is excluded from the parent sets of the variables before it in the order, on the assumption that it happened after the events represented by the preceding variables and thus could not have affected them), no.
+    
     \item \textbf{Are there any independence assumptions on the distribution of unmeasured factors $\mathbb{P}_U$?}
+    
+    No, not from this story. We do not know, for example, if the intervention represented by $A$ was randomly assigned (and thus if we can assume that its unmeasured factors don't exist or are independent of the unmeasured factors influencing the values of the other variables in $\bm{X}$).
 
   \end{enumerate}
   
@@ -122,10 +156,44 @@
   
     \item \textbf{Define the counterfactual outcomes of interest with formal notation and in words.}
     
+    The counterfactual outcomes of interest are, formally, 
+    
+    $(Y_a : a \in A) \sim P_{U,X}$, where $A = \{0, 1\}$, or, equivalently,
+    
+    $Y_a = f_{Y}(W1, W2, a, U_Y)$ for $a \in A = \{0, 1\}.$
+    
+    In words, the counterfactual outcome $Y_a$ is the weight gain in pounds of an individual child at study termination if, possibly contrary to fact, that child had intervention (i.e., supplement) status $A = a$.  Thus
+    
+    \begin{itemize}
+    
+      \item $Y_1$ is the counterfactual weight gain in pounds of an individual child at study termination if the child received the RUTF supplement, and
+      
+      \item $Y_0$ is the counterfactual weight gain in pounds of an individual child at study termination if the child received the standard non-RUTF supplement.
+      
+    \end{itemize}
+
     \item \textbf{How are counterfactuals derived?}
     
+    Counterfactuals are derived as the solution to $f_Y$ on the structural causal model after the intervention is set, i.e., after setting $A = a$, as in the second equation above in the first part of this step.
+    
     \item \textbf{Suppose we are interested in the average treatment effect. Specify the target causal parameter. Use formal notation as well as explain in words.}
- 
+    
+    The average treatment effect is the difference between the expected (here, mean) weight gain for children in the population at study termination if all of them had received the RUTF supplement and the expected weight gain for children in the population at study termination if all of them had received the standard supplement.
+    
+    Formally, the average treatment effect is
+    
+    $\phi^F(P_{U,X}) = E_{\bm{U},\bm{X}}Y_1 - E_{\bm{U},\bm{X}}Y_0 = E_{\bm{U},\bm{X}}(Y_1 - Y_0)$,
+    
+where
+
+    \begin{itemize}
+
+      \item $\phi^F(P_{U,X})$ is the average treatment effect $\phi$ as a function of the structural equations $F$,
+      \item $E_{\bm{U},\bm{X}}Y_1$ is the expected weight gain for children in the population, i.e., the expected value of $Y$, at study termination if everyone in the population had received the RUTF supplement, i.e., if for everyone $A$ were set to $a = 1$, and
+      \item $E_{\bm{U},\bm{X}}Y_0$ is the expected weight gain for children in the population, i.e., the expected value of $Y$, at study termination if everyone in the population had received the standard supplement, i.e., if for everyone $A$ were set to $a = 0$.
+
+    \end{itemize}
+
   \end{enumerate}
   
   \subsection{Step 3: Observed data and link to causal}
