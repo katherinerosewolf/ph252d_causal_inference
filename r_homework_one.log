@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  28 FEB 2020 00:17
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  29 FEB 2020 23:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -809,15 +809,19 @@ File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 
 ] [2] [3] [4] [5]
 LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/m/n' will be
-(Font)              scaled to size 8.80356pt on input line 285.
- [6] (./r_homework_one.aux) ) 
+(Font)              scaled to size 8.80356pt on input line 302.
+LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/b/n' will be
+(Font)              scaled to size 8.80356pt on input line 303.
+LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/m/it' will be
+(Font)              scaled to size 8.80356pt on input line 305.
+ [6] [7] (./r_homework_one.aux) ) 
 Here is how much of TeX's memory you used:
- 12977 strings out of 481805
- 253812 string characters out of 5934995
- 547797 words of memory out of 5000000
- 29747 multiletter control sequences out of 15000+600000
- 558078 words of font info for 147 fonts, out of 8000000 for 9000
+ 12983 strings out of 481805
+ 254054 string characters out of 5934995
+ 549797 words of memory out of 5000000
+ 29750 multiletter control sequences out of 15000+600000
+ 558102 words of font info for 150 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,6n,116p,351b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,6n,116p,662b,421s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_one.pdf (6 pages).
+Output written on r_homework_one.pdf (7 pages).
