@@ -1,0 +1,68 @@
+\documentclass{article}
+\title{\textbf{R Lab One}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+\usepackage{dejavu}
+
+% set fonts
+\setmainfont{Georgia}
+\setsansfont[Scale=MatchLowercase]{Arial}  % sets the sans font
+\setmonofont[Scale=MatchLowercase]{DejaVuSansMono}  % sets the monospace font
+
+% make special code formatting
+\NewDocumentCommand{\codeword}{v}{%
+  \texttt{{#1}}%
+}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+\setlength\parindent{0pt}
+
+<<echo=FALSE>>=
+library(knitr)
+knit_hooks$set(document = function(x) {
+  sub('\\usepackage[]{color}', '\\usepackage[]{xcolor}', x, fixed = TRUE)
+})
+@
+
+% end the preamble and begin the document
+\begin{document}
+
+\maketitle
+
+\section{Notes for March 2, 2020}
+
+Conditional expectation
+
+$E(Y_a) = E(Y|A=a, W) = E(Y|A=a)$
+
+Why tower property works -- she derived it
+
+P(X) = \sum_{Y} P(X,Y)
+
+$E(X) = E_Y(E(X|Y)) = \sum_{Y}E(X|Y)P(Y)$ definition of expectation with respect to Y
+
+$ = \sum_{Y} \sum_{X} X P(X|Y)P(Y) = \sum_{Y} \sum_{X} X P(X,Y) = \sum_{X} X P(X)$ why the tower property works
+
+\mathcal(M)^\mathcal(F*), \Psi P_{\bm{U},\bm{X}} = \Psi{P_O}) now in statistical world!
+
+\end{enumerate}
+      
+\end{document}

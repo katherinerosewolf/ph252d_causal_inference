@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  2 MAR 2020 09:58
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  2 MAR 2020 23:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**r_homework_one.tex
-(./r_homework_one.tex
+**discussion_two.tex
+(./discussion_two.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-11>
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
@@ -662,8 +662,8 @@ tim
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)) (./r_homework_one.aux)
-\openout1 = `r_homework_one.aux'.
+)) (./discussion_two.aux)
+\openout1 = `discussion_two.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 92.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
@@ -807,21 +807,14 @@ File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use figure/unnamed-chunk-2-1.pdf>
  [1
 
-] [2] [3] [4] [5] [6]
-LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/m/n' will be
-(Font)              scaled to size 8.80356pt on input line 398.
-LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/b/n' will be
-(Font)              scaled to size 8.80356pt on input line 399.
-LaTeX Font Info:    Font shape `TU/DejaVuSansMono(0)/m/it' will be
-(Font)              scaled to size 8.80356pt on input line 459.
- [7] [8] [9] [10] (./r_homework_one.aux) ) 
+] [2] [3] (./discussion_two.aux) ) 
 Here is how much of TeX's memory you used:
- 12983 strings out of 481805
- 254054 string characters out of 5934995
- 552797 words of memory out of 5000000
- 29750 multiletter control sequences out of 15000+600000
- 558102 words of font info for 150 fonts, out of 8000000 for 9000
+ 12973 strings out of 481805
+ 253652 string characters out of 5934995
+ 543811 words of memory out of 5000000
+ 29745 multiletter control sequences out of 15000+600000
+ 558062 words of font info for 145 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,8n,116p,1465b,423s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,8n,116p,500b,458s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_one.pdf (10 pages).
+Output written on discussion_two.pdf (3 pages).
