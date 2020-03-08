@@ -135,6 +135,7 @@ Y &= f_Y(W,A,U_Y).
 
 \end{itemize}
 
+The structural equations in directed acyclic graph (DAG) format:
     
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
@@ -156,16 +157,66 @@ Another way to state it is that $\bm{Z}$ satisfies the back-door criterion with 
   
   \begin{itemize}
     \item $\bm{Z}$ blocks all paths from $A$ to $Y$ with an arrow into $A$, and
-    \item no node in $\bm{Z}$ is a descendant of $A$.
+    \item No node in $\bm{Z}$ is a descendant of $A$.
   \end{itemize}
   
 If such a set $\bm{Z}$ exists, then the back-door criterion holds, and thus we can identify the effect of $A$ on $Y$, specifically the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$, as a parameter of the observed data distribution $\Psi(\mathbb{P}_O)$ by the G-computation formula.
   
-Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not identified.
+Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not identified, as the only measured variable available for satisfaction of the back-door criterion is $\bm{W}$ (or the empty set), and neither $\bm{W}$ nor the empty set meets the back-door criterion due to the remaining open back-door path between $A$ and $Y$ through $U_A$ and $U_Y$ (including the one through $U_A$, $U_W$, and $U_Y$.)
   
   \begin{enumerate}[label=\textbf{(\alph*)}]
   
     \item \textbf{If not identified, under what assumptions would it be? Are some of these sets of additional assumptions more plausible than others? Are there additional measurements you could make so that the needed identifiability assumptions are more plausible?}
+    
+    The following DAGs show the three possible working structural causal models that identify $\Psi^F(P_{\bm{U},\bm{X}})$.
+    
+\begin{itemize}
+
+  \item $\mathcal{M}^{F^*}_1$ assumptions: 
+  
+  \begin{itemize} 
+  
+    \item $U_A$ is indepdendent of $U_Y$, i.e., the unmeasured factors $U_A$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $U_Y$ influencing survival $Y$
+    
+    \item $U_A$ is indepdendent of $U_W$, i.e., the unmeasured factors $U_A$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $U_W$ influencing the covariates like smoking, comorbidities, and body fat $W$
+    
+  \end{itemize}
+    
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=4in]{figure/unnamed-chunk-3-1} 
+
+\end{knitrout}
+
+
+
+    
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=4in]{figure/unnamed-chunk-4-1} 
+
+\end{knitrout}
+
+    
+    
+    
+    
+    
+   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=4in]{figure/unnamed-chunk-5-1} 
+
+\end{knitrout}
+
+    
+\end{itemize}
+ 
+ 
+ 
+ 
+ 
+    
     
     \item \textbf{What notation do we use to denote the original SCM, augmented with additional assumptions needed for identifiability?}
     
@@ -176,6 +227,8 @@ Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not 
   \item \textbf{Specify the target parameter of the observed data distribution (i.e., the statistical estimand).}
   
   \item \textbf{What is the relevant positivity assumption? Are you concerned about violations of the positivity assumption in your study?}
+  
+  The relevant positivity assumption is
   
 \end{enumerate}
 

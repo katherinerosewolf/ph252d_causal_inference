@@ -89,6 +89,7 @@ Y &= f_Y(W,A,U_Y).
 
 \end{itemize}
 
+The structural equations in directed acyclic graph (DAG) format:
     
 <<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
 
@@ -168,11 +169,204 @@ Another way to state it is that $\bm{Z}$ satisfies the back-door criterion with 
   
 If such a set $\bm{Z}$ exists, then the back-door criterion holds, and thus we can identify the effect of $A$ on $Y$, specifically the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$, as a parameter of the observed data distribution $\Psi(\mathbb{P}_O)$ by the G-computation formula.
   
-Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not identified.
+Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not identified, as the only measured variable available for satisfaction of the back-door criterion is $\bm{W}$ (or the empty set), and neither $\bm{W}$ nor the empty set meets the back-door criterion due to the remaining open back-door path between $A$ and $Y$ through $U_A$ and $U_Y$ (including the one through $U_A$, $U_W$, and $U_Y$.)
   
   \begin{enumerate}[label=\textbf{(\alph*)}]
   
     \item \textbf{If not identified, under what assumptions would it be? Are some of these sets of additional assumptions more plausible than others? Are there additional measurements you could make so that the needed identifiability assumptions are more plausible?}
+    
+    The following DAGs show the three possible working structural causal models that identify $\Psi^F(P_{\bm{U},\bm{X}})$.
+    
+\begin{itemize}
+
+  \item $\mathcal{M}^{F^*}_1$ assumptions: 
+  
+  \begin{itemize} 
+  
+    \item $U_A$ is indepdendent of $U_Y$, i.e., the unmeasured factors $U_A$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $U_Y$ influencing survival $Y$
+    
+    \item $U_A$ is indepdendent of $U_W$, i.e., the unmeasured factors $U_A$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $U_W$ influencing the covariates like smoking, comorbidities, and body fat $W$
+    
+  \end{itemize}
+    
+<<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
+
+# set coordinates
+positionality <- 
+  list(x = c(A = 0, 
+             U_A = 0, 
+             W = 0.66, 
+             U_W = 0.66, 
+             Y = 2, 
+             U_Y = 2), 
+       y = c(A = 0, 
+             U_A = 1, 
+             W = 1, 
+             U_W = 2, 
+             Y = 0, 
+             U_Y = 1))
+
+positionality_dataframe <- coords2df(positionality)
+
+dag_model_a_indep <- dagify(Y ~ W + A + U_Y,
+                  A ~ W + U_A,
+                  W ~ U_W, 
+                  U_W ~~ U_Y,
+                  exposure = "A",
+                  outcome = "Y") 
+
+coordinates(dag_model_a_indep) <- coords2list(positionality_dataframe)
+
+dag_a_indep <- 
+  dag_model_a_indep %>%
+  tidy_dagitty() %>% 
+  arrange(name) %>% 
+  mutate(linetype = ifelse(name %in% c("U_A", 
+                                       "U_W", 
+                                       "U_Y"), 
+                           "dashed", 
+                           "solid")) %>% 
+ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point() + 
+  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
+  geom_dag_text(parse = TRUE, 
+                label = c("A",
+                           paste0(expression(U[A])), 
+                           paste0(expression(U[W])), 
+                           paste0(expression(U[Y])),
+                           "W", 
+                           "Y")
+                ) +
+  theme_dag()
+
+dag_a_indep
+    
+@
+
+
+
+    
+<<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
+
+# set coordinates
+positionality <- 
+  list(x = c(A = 0, 
+             U_A = 0, 
+             W = 0.66, 
+             U_W = 0.66, 
+             Y = 2, 
+             U_Y = 2), 
+       y = c(A = 0, 
+             U_A = 1, 
+             W = 1, 
+             U_W = 2, 
+             Y = 0, 
+             U_Y = 1))
+
+positionality_dataframe <- coords2df(positionality)
+
+dag_model_y_indep <- dagify(Y ~ W + A + U_Y,
+                  A ~ W + U_A,
+                  W ~ U_W,
+                  U_A ~~ U_W, 
+                  exposure = "A",
+                  outcome = "Y") 
+
+coordinates(dag_model_y_indep) <- coords2list(positionality_dataframe)
+
+dag_y_indep <- 
+  dag_model_y_indep %>%
+  tidy_dagitty() %>% 
+  arrange(name) %>% 
+  mutate(linetype = ifelse(name %in% c("U_A", 
+                                       "U_W", 
+                                       "U_Y"), 
+                           "dashed", 
+                           "solid")) %>% 
+ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point() + 
+  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
+  geom_dag_text(parse = TRUE, 
+                label = c("A",
+                           paste0(expression(U[A])), 
+                           paste0(expression(U[W])), 
+                           paste0(expression(U[Y])),
+                           "W", 
+                           "Y")
+                ) +
+  theme_dag()
+
+dag_y_indep
+    
+@
+
+    
+    
+    
+    
+    
+   
+<<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
+
+# set coordinates
+positionality <- 
+  list(x = c(A = 0, 
+             U_A = 0, 
+             W = 0.66, 
+             U_W = 0.66, 
+             Y = 2, 
+             U_Y = 2), 
+       y = c(A = 0, 
+             U_A = 1, 
+             W = 1, 
+             U_W = 2, 
+             Y = 0, 
+             U_Y = 1))
+
+positionality_dataframe <- coords2df(positionality)
+
+dag_model_all_indep <- dagify(Y ~ W + A + U_Y,
+                  A ~ W + U_A,
+                  W ~ U_W,
+                  exposure = "A",
+                  outcome = "Y") 
+
+coordinates(dag_model_all_indep) <- coords2list(positionality_dataframe)
+
+dag_all_indep <- 
+  dag_model_all_indep %>%
+  tidy_dagitty() %>% 
+  arrange(name) %>% 
+  mutate(linetype = ifelse(name %in% c("U_A", 
+                                       "U_W", 
+                                       "U_Y"), 
+                           "dashed", 
+                           "solid")) %>% 
+ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point() + 
+  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
+  geom_dag_text(parse = TRUE, 
+                label = c("A",
+                           paste0(expression(U[A])), 
+                           paste0(expression(U[W])), 
+                           paste0(expression(U[Y])),
+                           "W", 
+                           "Y")
+                ) +
+  theme_dag()
+
+dag_all_indep
+    
+@
+
+    
+\end{itemize}
+ 
+ 
+ 
+ 
+ 
+    
     
     \item \textbf{What notation do we use to denote the original SCM, augmented with additional assumptions needed for identifiability?}
     
@@ -183,6 +377,8 @@ Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not 
   \item \textbf{Specify the target parameter of the observed data distribution (i.e., the statistical estimand).}
   
   \item \textbf{What is the relevant positivity assumption? Are you concerned about violations of the positivity assumption in your study?}
+  
+  The relevant positivity assumption is
   
 \end{enumerate}
 
