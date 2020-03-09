@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  7 MAR 2020 22:58
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.2.14)  9 MAR 2020 01:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -802,27 +802,9 @@ LaTeX Font Info:    Trying to load font information for U+txsyc on input line 9
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
-)
-File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-2-1.pdf>
- [1
+) [1
 
 ]
-File: figure/unnamed-chunk-3-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-3-1.pdf>
- [2]
-File: figure/unnamed-chunk-4-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-4-1.pdf>
-File: figure/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-5-1.pdf>
- [3] [4] (./discussion_two.aux) ) 
-Here is how much of TeX's memory you used:
- 12994 strings out of 481805
- 254291 string characters out of 5934995
- 544811 words of memory out of 5000000
- 29763 multiletter control sequences out of 15000+600000
- 558062 words of font info for 145 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 55i,8n,116p,500b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
-
-Output written on discussion_two.pdf (4 pages).
+File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-2-1.pdf>
+ [2] [3
