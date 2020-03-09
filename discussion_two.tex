@@ -176,9 +176,9 @@ There are no independence assumptions, i.e., no restrictions on the distribution
 
   \end{enumerate}
     
-  \item \textbf{Using the backdoor criterion, assess identifiability of} $\Psi^F(P_{\bm{U},\bm{X}})$.
+  \item \textbf{Using the back-door criterion, assess identifiability of} $\Psi^F(P_{\bm{U},\bm{X}})$.
   
-The back-door criterion states that for a set of variables $\bm{W}$, an exposure of interest represented by the variable $A$, and an outcome of interest represented by the random variable $Y$, $\bm{W}$ satisfies the back-door criterion with respect $A$ and $Y$ if $\bm{W}$ blocks any association between $A$ and $Y$ that arises from unmeasured common causes, does not create any new non-causal associations between $A$ and $Y$. and does not block any of the effect of $A$ on $Y$.
+The back-door criterion states that for a set of covariates represented by the random variable $\bm{W}$, an exposure of interest represented by the random variable $A$, and an outcome of interest represented by the random variable $Y$, $\bm{W}$ satisfies the back-door criterion with respect to $A$ and $Y$ if $\bm{W}$ blocks any association between $A$ and $Y$ that arises from unmeasured common causes, does not create any new non-causal associations between $A$ and $Y$. and does not block any of the effect of $A$ on $Y$.
 
 Another way to state the criteron graphically is that $\bm{W}$ satisfies the back-door criterion with respect to $(A,Y)$ if
   
@@ -187,10 +187,10 @@ Another way to state the criteron graphically is that $\bm{W}$ satisfies the bac
     \item No node in $\bm{W}$ is a descendant of $A$.
   \end{itemize}
   
-If such a set $\bm{W}$ exists, then the back-door criterion holds, and thus we can identify the effect of $A$ on $Y$, specifically the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$, as a parameter of the observed data distribution $\Psi(\mathbb{P}_{\bm{O}})$, by the G-computation formula:
+If such a set $\bm{W}$ exists, then it meets the back-door criterion, which implies that the randomization assumption $Y_a \Perp \!\!\!\! A|\bm{W}$ holds, and thus we can identify the effect of $A$ on $Y$, specifically the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$, as a parameter of the observed data distribution $\Psi(\mathbb{P}_{\bm{O}})$, by the G-computation formula:
 
 \begin{align*}
-\Psi^F(P_{\bm{U},\bm{X}}) = E_{\bm{U},\bm{X}}(Y_a)=sum_{w}E_{\bm{O}}(Y|A=a,\bm{W}=\bm{w})P_{\bm{O}}(\bm{W}=\bm{w})=\Psi(\mathbb{P}_{\bm{O}})
+\Psi^F(P_{\bm{U},\bm{X}}) = E_{\bm{U},\bm{X}}(Y_a)=\sum_{w}E_{\bm{O}}(Y|A=a,\bm{W}=\bm{w})P_{\bm{O}}(\bm{W}=\bm{w})=\Psi(\mathbb{P}_{\bm{O}})
 \end{align*}
   
 Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not identified as a parameter of $\Psi(\mathbb{P}_{\bm{O}})$, as the only measured variable available for satisfaction of the back-door criterion is $\bm{W}$ (or the empty set), and neither $\bm{W}$ nor the empty set meets the back-door criterion due to the remaining open back-door path between $A$ and $Y$ through $\bm{U_A}$ and $\bm{U_Y}$ (including the one through $\bm{U_A}$, $\bm{U_W}$, and $\bm{U_Y}$.)
@@ -199,7 +199,7 @@ Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not 
   
     \item \textbf{If not identified, under what assumptions would it be?}
     
-The following DAGs show three possible working SCMs, $\mathcal{M}^{F^*}_1$, $\mathcal{M}^{F^*}_2$, and $\mathcal{M}^{F^*}_3$, that identify $\Psi^F(P_{\bm{U},\bm{X}})$, since $\bm{W}$ satisfies the back-door criterion as described above for all three. (All three assume that $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$, since if they are associated, no means exists to block that path and thus satisfy the back-door criterion.)
+The following DAGs show three possible working SCMs, $\mathcal{M}^{F^*}_1$, $\mathcal{M}^{F^*}_2$, and $\mathcal{M}^{F^*}_3$, that identify $\Psi^F(P_{\bm{U},\bm{X}})$, since $\bm{W}$ satisfies the back-door criterion as described above for all three. (All three assume that $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$, since if $\bm{U_A}$ and $\bm{U_Y}$ are associated, no means exists to block that path and thus satisfy the back-door criterion.)
     
 \pagebreak
     
@@ -298,13 +298,13 @@ This assumption is likely not justified, as lots of unmeasured social and enviro
   \item Neighborhood gun violence could affect both energy expenditure, by reducing participant walking in the neighborhood, and all-cause seven-year survival directly, via exposure to bullets;
   \item Air pollution around a participant's home might make that participant less likely to exercise and also more likely to die from air pollution exposure;
   \item Social support might influence energy expenditure (e.g., by inspiring travel to meet friends) and is well documented as a factor that increases survival;
-  \item Age or effects of aging, even given the limitation of the study to participants ages 70 to 79, might affect both energy expenditure and seven-year survival.
+  \item Age or effects of aging, even witihin the range of ages in the study from 70 to 79, might affect both energy expenditure and seven-year survival.
 
 \end{itemize}
 
 That said, if a randomized controlled trial, for example, were to randomly assign participants into groups and then assign one group activities that increase energy expenditure and not the other, and were able to influence participants somehow not to alter their activities otherwise, that might make the assumption that $\bm{U_A}$ is independent of $\bm{U_Y}$ more plausible.
 
-The working SCMs then also require one of two additional assumptions. $\mathcal{M}^{F^*}_1$ assumes that the unmeasured factors influencing the covariates listed above neither influence or are influenced by the unmeasured factors influencing the exposure of energy expenditure, i.e., that $\bm{U_W}$ is independent of $\bm{U_A}$.
+The working SCMs then also require at least one of two additional assumptions to achieve identifiability. $\mathcal{M}^{F^*}_1$ assumes that the unmeasured factors influencing the covariates listed above neither influence or are influenced by the unmeasured factors influencing the exposure of energy expenditure, i.e., that $\bm{U_W}$ is independent of $\bm{U_A}$.
 
 This assumption is also likely not justified. Innumerable unmeasured factors likely affect both energy expenditure $A$ and the presence of various covariates in $\bm{W}$. Some examples:
 
@@ -337,6 +337,8 @@ Additional measurements that would make the needed identifiability assumptions m
 In practice, I would probably use $\mathcal{M}^{F^*}_1$ as the working SCM (which assumes no association between $\bm{U_A}$ and $\bm{U_W}$ and no association between $\bm{U_A}$ and $\bm{U_Y}$). I would try to measure the factors listed in the prior paragraph and include them in $\bm{W}$ to make both of those assumptions more plausible. If nothing else, I would choose $\mathcal{M}^{F^*}_1$ because a truly randomized trial forces the independence of $U_A \Perp U_W$ and $U_A \Perp U_Y$, so a later researcher seeking to confirm conclusions from this observational study using a randomized trial to somehow assign energy expenditure could use a similar working SCM to confirm or challenging my results.
 
 Moreover, should I gain access to additional data, I could check assumptions that $U_A \Perp U_W$ in my study data and possibly move factors from $\bm{U_W}$ to $\bm{W}$ much earlier and more easily than I could check assumptions that $U_W \Perp U_Y$ in my study data, as I would have access to the exposure data $A$ years before the outcome data $Y$. By the end of the study it might be too late to measure some of the factors in $\bm{U_W}$ that in my study turned out to be associated with the outcome $Y$.
+
+Although I don't find any of these sets of assumptions particularly plausible, I also think that the assumption that $\mathcal{M}^{F^*}_1$ does not require, of no shared common causes between $\bm{U_W}$ and $\bm{U_Y}$, is perhaps the least plausible given the limited number of behaviors and comorbidities included in $\bm{U_W}$.
     
     \item \textbf{What notation do we use to denote the original SCM, augmented with additional assumptions needed for identifiability?}
     
@@ -354,13 +356,13 @@ Moreover, should I gain access to additional data, I could check assumptions tha
 Under the working SCM $\mathcal{M}^{F^*}$, the target causal parameter of the observed data distribution, i.e., the statistical estimand, is 
   
 \begin{align*}
-\Psi(\mathbb{P}_{\bm{O}} &= \mathbb{E}_{\bm{O}}[\mathbb{E}_O(Y|A=1,\bm{W}) - \mathbb{E}_{\bm{O}}(Y|A=0,\bm{W})] \\
+\Psi(\mathbb{P}_{\bm{O}}) &= \mathbb{E}_{\bm{O}}[\mathbb{E}_O(Y|A=1,\bm{W}) - \mathbb{E}_{\bm{O}}(Y|A=0,\bm{W})] \\
 &= \sum_{w}[\mathbb{E}_{\bm{O}}(Y|A=1,\bm{W}=\bm{w}) - \mathbb{E}_{\bm{O}}(Y|A=0,\bm{W}=\bm{w})]\mathbb{P}_{\bm{O}}(\bm{W}=\bm{w})
 \end{align*}
   
   \item \textbf{What is the relevant positivity assumption? Are you concerned about violations of the positivity assumption in your study?}
   
-The relevant positivity assumption is $\min_{a \in \mathcal{A}}P_O(A=a|\bm{W}=\bm{w})>0$ for all $\bm{W}$ for which $P_O(\bm{W}=\bm{w})>0$, i.e., that there must be a positive probability of each exposure level of $A$ within each possible stratum of covariate combinations in $\bm{W}$. Given the sheer number (12) of factors represented by $\bm{W}$, even without measuring the additional factors that I think are necessary to include in $\bm{W}$, and even if each factor in the existing $\bm{W}$ is binary, that leaves $2^12$ or 4,096 different possible combinations of covariate values in $\bm{W}$. Thus the assumption that each combination of covariate values actually present in $\bm{W}$ then exists for at least one treated and one untreated participant seems highly likely to be violated. Thus I am very concerned.
+The relevant positivity assumption is $\min_{a \in \mathcal{A}}P_O(A=a|\bm{W}=\bm{w})>0$ for all $\bm{W}$ for which $P_O(\bm{W}=\bm{w})>0$, i.e., that there must be a positive probability of each exposure level of $A$ within each possible stratum of covariate combinations in $\bm{W}$. Given the sheer number (12) of factors represented by $\bm{W}$, even without measuring the additional factors that I think are necessary to include in $\bm{W}$, and even if each factor in the existing $\bm{W}$ is binary, that leaves $2^{12}$ or 4,096 different possible combinations of covariate values in $\bm{W}$. Thus the assumption that each combination of covariate values actually present in $\bm{W}$ then exists for at least one treated and one untreated participant seems highly likely to be violated. Thus I am very concerned.
 
 \end{enumerate}
 
@@ -376,7 +378,7 @@ I'm not exactly sure if this is saying that the investigators made the weaker as
 
 \vspace{2mm}
 
-\textbf{The weaker assumption} that no single unmeasured cause exists that causes all three factors represented in the variable set $(\bm{W}, A, Y)$ is necessary but not sufficient. The case in which such an unmeasured cause does exist that affects all three is a subset of the scenario represented in the structural causal model of Figure 1, where all the unmeasured causes are associated with all other unmeasured causes. (Those associations could represent identity, i.e., that a single random variable representing the same cause is an element in all three random variables $\bm{U_W}$, $\bm{U_A}$, and $\bm{U_Y}$). The minimal situation, in which only one unmeasured cause $U$ exists but is a cause of $\bm{W}$, $A$, and $Y$, we can represent as
+\textbf{The weaker assumption} that no single unmeasured cause exists that causes all three factors represented in the variable set $(\bm{W}, A, Y)$ is necessary but not sufficient. The case in which such an unmeasured cause does exist that affects all three is a subset of the scenario represented in the structural causal model of Figure 1, where all the unmeasured causes are associated with all other unmeasured causes. (Those associations could represent identity, i.e., that a single random variable representing the same cause is an element in all three random variables $\bm{U_W}$, $\bm{U_A}$, and $\bm{U_Y}$). The minimal situation, in which only one unmeasured cause $U$ exists but is a cause of $\bm{W}$, $A$, and $Y$, we can represent as in Figure 5.
 
 \begin{figure}[H]
   \caption{Structural causal model where only one unmeasured cause $U$ exists but causes all three of $\bm{W}$, $A$, and $Y$.}
@@ -389,9 +391,9 @@ I'm not exactly sure if this is saying that the investigators made the weaker as
 
 \end{figure}
 
-Because $U$ is unmeasured, we cannot block the path through $U$ from $A$ to $Y$ by controlling for it, so we cannot satisfy the backdoor criterion. Thus we cannot use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured. We would need to measure the cause $U$ affecting all three. Thus, the assumption that no such $U$ exist is necessary. That said, though, the nonexistence of such a $U$ is not sufficient. Take this hypothetical case, where a common cause of $A$ and $Y$ exists that is not a cause of $\bm{W}$:
+Because $U$ is unmeasured, we cannot block the path through $U$ from $A$ to $Y$ by controlling for it, so we cannot satisfy the back-door criterion. Thus we cannot use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured. We would need to measure the cause $U$ affecting all three. Thus, the assumption that no such $U$ exist is necessary. That said, though, the nonexistence of such a $U$ is not sufficient. Take the hypothetical case portrayed in Figure 6, where a common cause of $A$ and $Y$ exists that is not a cause of $\bm{W}$:
 
-\begin{figure}
+\begin{figure}[H]
   \caption{Structural causal model where only one unmeasured cause $U$ exists and causes $A$ and $Y$ but not $\bm{W}$.}
   \centering
 
@@ -403,11 +405,11 @@ Because $U$ is unmeasured, we cannot block the path through $U$ from $A$ to $Y$ 
 
 \end{figure}
 
-Because $U$ is unmeasured, we cannot block the path through $U$ from $A$ to $Y$ by controlling for it, so we cannot satisfy the backdoor criterion. Thus we cannot use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured. We would need to measure the cause $U$ affecting both $A$ and $Y$. Thus, the assumption that no $U$ exists that affects all three of $\bm{W}$, $A$, and $Y$ is not sufficient to identify the target casual parameter as a parameter of the observed data distribution. We've shown by counterexample a situation in which no such $U$ exists but in which we still cannot satisfy the backdoor criterion or use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured.
+Because $U$ is unmeasured, we cannot block the path through $U$ from $A$ to $Y$ by controlling for it, so we cannot satisfy the back-door criterion. Thus we cannot use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured. We would need to measure the cause $U$ affecting both $A$ and $Y$. Thus, the assumption that no $U$ exists that affects all three of $\bm{W}$, $A$, and $Y$ is not sufficient to identify the target casual parameter as a parameter of the observed data distribution. We've shown by counterexample a situation in which no such $U$ exists but in which we still cannot satisfy the back-door criterion or use the G-computation formula to identify the effect of energy expenditure $A$ on all-cause seven-year survival $Y$ with the data we have measured.
 
 \vspace{2mm}
 
-\textbf{The stronger assumption} that none of the three factors represented in the variable set $(\bm{W}, A, Y)$ shares a common cause with another variable in the set is sufficient but not necessary. This case is represented by $\mathcal{M}^{F^*}_3$ in Figure 4. In this case, $\bm{W}$ blocks all paths with an arrow into $A$ without including any descendants of $A$, so it satisfies the backdoor criterion, and we can use the G-computation formula to identify the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$ as a parameter of the observed data distribution $\Psi(\mathbb{P}_{\bm{O}})$. Thus the assumption is sufficient.
+\textbf{The stronger assumption} that none of the three factors represented in the variable set $(\bm{W}, A, Y)$ shares a common cause with another variable in the set is sufficient but not necessary. This case is represented by $\mathcal{M}^{F^*}_3$ in Figure 4. In this case, $\bm{W}$ blocks all paths with an arrow into $A$ without including any descendants of $A$, so it satisfies the back-door criterion, and we can use the G-computation formula to identify the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$ as a parameter of the observed data distribution $\Psi(\mathbb{P}_{\bm{O}})$. Thus the assumption is sufficient.
 
 The working SCMs $\mathcal{M}^{F^*}_1$ and $\mathcal{M}^{F^*}_2$ in figures 2 and 3, however, show that this assumption is not necessary, as the target causal parameter $\Psi^F(P_{\bm{U},\bm{X}})$ is also identifiable as a parameter of the observed data distribution $\Psi(\mathbb{P}_{\bm{O}})$ under those working SCMs despite the potential existence of a common cause of $\bm{W}$ and $Y$ in $\mathcal{M}^{F^*}_1$ (Figure 2) and the potential existence of a common cause of $\bm{W}$ and $A$ in $\mathcal{M}^{F^*}_2$ (Figure 3).
 
