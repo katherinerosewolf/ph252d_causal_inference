@@ -112,7 +112,7 @@ Y &= f_Y(\bm{W},A,\bm{U_Y}).
 
 The structural equations in directed acyclic graph (DAG) format (Figure 1):
 
-\begin{figure}
+\begin{figure}[H]
   \caption{Structural causal model (SCM) $\mathcal{M}^{F}$ represented in directed acyclic graph (DAG) format.}
   \centering
     
@@ -206,7 +206,7 @@ Unfortunately, in the SCM $\mathcal{M}^{F}$, $\Psi^F(P_{\bm{U},\bm{X}})$ is not 
   
     \item \textbf{If not identified, under what assumptions would it be?}
     
-The following DAGs show three possible working SCMs, $\mathcal{M}^{F^*}_1$, $\mathcal{M}^{F^*}_2$, and $\mathcal{M}^{F^*}_3$, that identify $\Psi^F(P_{\bm{U},\bm{X}})$, since $\bm{W}$ satisfies the back-door criterion as described above for all three. (All three assume that $\bm{U_A} \Perp \!\!\! \Perp \bm{U_Y}$, since if they are associated, no means exists to block that path and thus satisfy the back-door criterion.)
+The following DAGs show three possible working SCMs, $\mathcal{M}^{F^*}_1$, $\mathcal{M}^{F^*}_2$, and $\mathcal{M}^{F^*}_3$, that identify $\Psi^F(P_{\bm{U},\bm{X}})$, since $\bm{W}$ satisfies the back-door criterion as described above for all three. (All three assume that $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$, since if they are associated, no means exists to block that path and thus satisfy the back-door criterion.)
     
 \pagebreak
     
@@ -216,9 +216,9 @@ The following DAGs show three possible working SCMs, $\mathcal{M}^{F^*}_1$, $\ma
   
   \begin{itemize} 
   
-    \item $\bm{U_A} \Perp \!\!\! \Perp \bm{U_Y}$, i.e., the unmeasured factors $\bm{U_A}$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $\bm{U_Y}$ influencing seven-year survival $Y$.
+    \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$, i.e., the unmeasured factors $\bm{U_A}$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $\bm{U_Y}$ influencing seven-year survival $Y$.
     
-    \item $\bm{U_A} \Perp \!\!\! \Perp \bm{U_W}$, i.e., the unmeasured factors $\bm{U_A}$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $\bm{U_W}$ influencing the smoking, body fat, and comorbidity covariates in $\bm{W}$.
+    \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_W}$, i.e., the unmeasured factors $\bm{U_A}$ that influence energy expenditure $A$ do not affect and are not affected by the unmeasured factors $\bm{U_W}$ influencing the smoking, body fat, and comorbidity covariates in $\bm{W}$.
     
   \end{itemize}
   
@@ -289,9 +289,9 @@ dag_a_indep
   
   \begin{itemize} 
   
-    \item $\bm{U_A} \Perp \!\!\! \Perp \bm{U_Y}$ (as above).
+    \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$ (as above).
     
-    \item $\bm{U_W} \Perp \!\!\! \Perp \bm{U_Y}$, i.e., the unmeasured factors $\bm{U_W}$ that influence the smoking, body fat, and comorbidity covariates in $\bm{W}$ do not affect and are not affected by the unmeasured factors $\bm{U_Y}$ influencing seven-year survival $Y$.
+    \item $\bm{U_W} \Perp \!\!\!\! \Perp \bm{U_Y}$, i.e., the unmeasured factors $\bm{U_W}$ that influence the smoking, body fat, and comorbidity covariates in $\bm{W}$ do not affect and are not affected by the unmeasured factors $\bm{U_Y}$ influencing seven-year survival $Y$.
     
   \end{itemize}
   
@@ -363,11 +363,11 @@ dag_y_indep
   
   \begin{itemize} 
   
-    \item $\bm{U_A} \Perp \!\!\! \Perp \bm{U_Y}$,
+    \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$,
     
-    \item $\bm{U_A} \Perp \!\!\! \Perp \bm{U_W}$, and
+    \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_W}$, and
     
-    \item $\bm{U_W} \Perp \!\!\! \Perp \bm{U_Y}$.
+    \item $\bm{U_W} \Perp \!\!\!\! \Perp \bm{U_Y}$.
     
   \end{itemize}
   
@@ -493,8 +493,8 @@ Moreover, should I gain access to additional data, I could check assumptions tha
     $\mathcal{M}^{F^*}$. Henceforth $\mathcal{M}^{F^*}$ refers to $\mathcal{M}^{F^*}_1$ above, which adds the following two assumptions:
     
     \begin{itemize}
-      \item $\bm{U_W} \Perp \!\!\! \Perp \bm{U_A}$
-      \item $$\bm{U_A} \Perp \!\!\! \Perp \bm{U_Y}$
+      \item $\bm{U_W} \Perp \!\!\!\! \Perp \bm{U_A}$
+      \item $\bm{U_A} \Perp \!\!\!\! \Perp \bm{U_Y}$
     \end{itemize}
     
   \end{enumerate}
@@ -504,13 +504,13 @@ Moreover, should I gain access to additional data, I could check assumptions tha
 Under the working SCM $\mathcal{M}^{F^*}$, the target causal parameter of the observed data distribution, i.e., the statistical estimand, is 
   
 \begin{align*}
-\Psi(\mathbb{P}_{\bm{O}} &= \mathbb{E}_O[\mathbb{E}_O(Y|A=1,W) - \mathbb{E}_O(Y|A=0,W)] \\
-&= \sum_{w}[\mathbb{E}_O(Y|A=1,W=w) - \mathbb{E}_O(Y|A=0,W=w)]\mathbb{P}_O(W=w)
+\Psi(\mathbb{P}_{\bm{O}} &= \mathbb{E}_{\bm{O}}[\mathbb{E}_O(Y|A=1,\bm{W}) - \mathbb{E}_{\bm{O}}(Y|A=0,\bm{W})] \\
+&= \sum_{w}[\mathbb{E}_{\bm{O}}(Y|A=1,\bm{W}=\bm{w}) - \mathbb{E}_{\bm{O}}(Y|A=0,\bm{W}=\bm{w})]\mathbb{P}_{\bm{O}}(\bm{W}=\bm{w})
 \end{align*}
   
   \item \textbf{What is the relevant positivity assumption? Are you concerned about violations of the positivity assumption in your study?}
   
-The relevant positivity assumption is $\min_{a \in \mathcal{A}}P_O(A=a|W=w)>0$ for all $\bm{W}$ for which $P_O(W=w)>0$, i.e., that there must be a positive probability of each exposure level of $A$ within each possible stratum of covariate combinations in $\bm{W}$. Given the sheer number (12) of factors represented by $\bm{W}$, even without measuring the additional factors that I think are necessary to include in $\bm{W}$, and even if each factor in the existing $\bm{W}$ is binary, that leaves $2^12$ or 4,096 different possible combinations of covariate values in $\bm{W}$. Thus the assumption that each combination of covariate values actually present in $\bm{W}$ then exists for at least one treated and one untreated participant seems highly likely to be violated. Thus I am very concerned.
+The relevant positivity assumption is $\min_{a \in \mathcal{A}}P_O(A=a|\bm{W}=\bm{w})>0$ for all $\bm{W}$ for which $P_O(\bm{W}=\bm{w})>0$, i.e., that there must be a positive probability of each exposure level of $A$ within each possible stratum of covariate combinations in $\bm{W}$. Given the sheer number (12) of factors represented by $\bm{W}$, even without measuring the additional factors that I think are necessary to include in $\bm{W}$, and even if each factor in the existing $\bm{W}$ is binary, that leaves $2^{12}$ or 4,096 different possible combinations of covariate values in $\bm{W}$. Thus the assumption that each combination of covariate values actually present in $\bm{W}$ then exists for at least one treated and one untreated participant seems highly likely to be violated. Thus I am very concerned.
 
 \end{enumerate}
 
@@ -606,7 +606,6 @@ positionality_dataframe <- coords2df(positionality)
 
 dag_model_unmeasured <- dagify(Y ~ W + A + U,
                   A ~ W + U,
-                  W,
                   exposure = "A",
                   outcome = "Y") 
 
