@@ -1,0 +1,247 @@
+\documentclass{article}
+\title{\textbf{R Homework Two}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+\usepackage{dejavu}
+\usepackage{mathpazo}
+
+% set fonts
+\setmainfont{Palatino Linotype}
+\setsansfont{Corbel}
+\setmonofont{Consolas}
+
+% make special code formatting
+\NewDocumentCommand{\codeword}{v}{%
+  \texttt{{#1}}%
+}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+
+<<echo=FALSE>>=
+library(knitr)
+knit_hooks$set(document = function(x) {
+  sub('\\usepackage[]{color}', '\\usepackage[]{xcolor}', x, fixed = TRUE)
+})
+@
+
+% end the preamble and begin the document
+
+\begin{document}
+
+\maketitle
+
+\section{Time to prevent child malnutrition in Sahel}
+
+\section{A specific data generating process}
+
+  \subsection{Evaluate the positivity assumption in closed form for this data generating process.}
+  
+  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
+  
+\section{Translate this data generating process into simulations}
+
+  \subsection{First set the seed to 252.}
+  
+  \subsection{Set the number of draws $n = 100,000$.}
+  
+  \subsection{Sample $n$ independent and identically distributed (i.i.d.) observations of random variable $O=(W1,W2,A,Y) \sim \mathbb{P}_0$.}
+  
+  \subsection{\textit{Bonus}: Intervene to set the exposure to the combination package $(A=1)$ and generate the counterfactual outcome $Y_1$. Intervene to set the exposure to the standard of care $(A=0)$ and generate the counterfactual outcomes $Y_0$. Evaluate the causal parameter $\Psi^F(\mathbb{P}_{U,X})$.}
+  
+  \subsection{Evaluate the positivity assumption.}
+  
+  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
+  
+  \subsection{Interpret $\Psi(\mathbb{P}_0)$.}
+  
+\section{The simple substitution estimator based on the G-compuation formula}
+
+  \subsection{Set the number of iterations $R$ to 500 and the number of observations $n$ to 200. Do not reset the seed.}
+  
+  \subsection{Create a $R = 500$ by 4 matrix \texttt{estimates} to hold the resulting estimates obtained at each iteration.}
+  
+  \subsection{Inside a \texttt{for} loop from $r = 1$ to $r = R = 500$, do the following.}
+  
+  \begin{enumerate}[label=\textbf{\alph*.}]
+  
+    \item Sample $n$ i.i.d. observations of $O = (W1,W2,A,Y)$.
+    
+    \item Create a data frame \texttt{obs} of the resulting observed data.
+    
+    \item Copy the dataset \texttt{obs} into two new data frames \texttt{txt} and \texttt{control}. Then set \texttt{A=1} for all units in \texttt{txt} and set \texttt{A=0} for all units in \texttt{control}.
+    
+    \item Estimator 1: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    
+\begin{align*}
+\bar{Q}^1_0(A,W)=logit^{-1}(\beta_0+\beta_1A)
+\end{align*}
+
+Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+
+    \item Estimator 2: Use Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:
+    
+\begin{align*}
+\bar{Q}^2_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1)
+\end{align*}
+
+Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+
+    \item Estimator 3: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    
+\begin{align*}
+\bar{Q}^3_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W2)
+\end{align*}
+
+Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+    
+    \item Estimator 4: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    
+\begin{align*}
+\bar{Q}^4_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1+\beta_3W2+\beta_4A*W1+\beta_5A*W2)
+\end{align*}
+
+Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+    
+    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(1,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    
+    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(0,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    
+    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:
+    
+\begin{align*}
+\hat{\Psi(\mathbb{n})}=\frac{1}{n}\sum{i=1}{n}[\bar{Q}_n(1,W_i)-\bar{Q}_n(0,W_i)]
+\end{align*}
+    
+    \item Assign the resulting values as a row in matrix \texttt{estimates}.
+    
+  \end{enumerate}
+    
+\section{Performance of the estimators}
+
+  \subsection{What is the average value of each estimator of $\Psi(\mathbb{P}_0)$ across $R=500$ simulations?}
+  
+  \subsection{Estimate the bias of each estimator.}
+  
+  \subsection{Estimate the variance of each estimator.}
+  
+  \subsection{Estimate the mean squared error (MSE) of each estimator.}
+
+  \subsection{Briefly comment on the performance of the estimators. Which estimator has he lowest MSE over the $R=500$ iterations? Are you surprised?}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    
+<<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
+
+library(tidyverse)
+library(dagitty)
+library(ggdag)
+
+# set coordinates
+positionality <- 
+  list(x = c(A = 0, 
+             U_A = 0, 
+             W1 = 0.66, 
+             U_W1 = 0.66, 
+             W2 = 1.33, 
+             U_W2 = 1.33, 
+             Y = 2, 
+             U_Y = 2), 
+       y = c(A = 0, 
+             U_A = 1, 
+             W1 = 1, 
+             U_W1 = 2, 
+             W2 = 1, 
+             U_W2 = 2, 
+             Y = 0, 
+             U_Y = 1))
+
+positionality_dataframe <- coords2df(positionality)
+
+dag_one <- dagify(Y ~ W1 + W2 + A + U_Y,
+                  A ~ W1 + W2 + U_A,
+                  W2 ~ W1 + U_W2,
+                  W1 ~ U_W1, 
+                  U_A ~~ U_Y + U_W1 + U_W2, 
+                  U_W1 ~~ U_Y + U_W2,
+                  U_W2 ~~ U_Y, 
+                  exposure = "A",
+                  outcome = "Y") 
+
+coordinates(dag_one) <- coords2list(positionality_dataframe)
+
+dag_for_the_ages <- 
+  dag_one %>%
+  tidy_dagitty() %>% 
+  arrange(name) %>% 
+  mutate(linetype = ifelse(name %in% c("U_A", 
+                                       "U_W1", 
+                                       "U_W2", 
+                                       "U_Y"), 
+                           "dashed", 
+                           "solid")) %>% 
+ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point() + 
+  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
+  geom_dag_text(parse = TRUE, 
+                label = c("A",
+                           paste0(expression(U[A])), 
+                           paste0(expression(U[W1])), 
+                           paste0(expression(U[W2])), 
+                           paste0(expression(U[Y])),
+                           "W1", 
+                           "W2", 
+                           "Y")
+                ) +
+  theme_dag()
+
+dag_for_the_ages
+    
+@
+      
+      
+      
+\end{document}

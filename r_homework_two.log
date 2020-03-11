@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  10 MAR 2020 22:11
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  10 MAR 2020 22:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**discussion_two.tex
-(./discussion_two.tex
+**r_homework_two.tex
+(./r_homework_two.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-02-25>
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
@@ -480,124 +480,89 @@ Package: DejaVuSans 2011/06/01 Style file for DejaVuSans.
 vu/DejaVuSerif.sty
 Package: DejaVuSerif 2011/06/01 Style file for DejaVuSerif.
 ))
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/mathpazo.sty
+Package: mathpazo 2005/04/12 PSNFSS-v9.2a Palatino w/ Pazo Math (D.Puga, WaS) 
+\symupright=\mathgroup13
+)
 
-Package fontspec Info: Font family 'Georgia(0)' created for font 'Georgia'
-(fontspec)             with options [Ligatures=TeX].
+Package fontspec Info: Font family 'PalatinoLinotype(0)' created for font
+(fontspec)             'Palatino Linotype' with options [Ligatures=TeX].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"Georgia/OT:script=latn;language=dflt;mapping=tex-tex
-t;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
-(fontspec)             <->"Georgia/OT:script=latn;language=dflt;+smcp;mapping=t
-ex-text;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"Georgia/B/OT:script=latn;language=dflt;mapping=tex-t
-ext;"
-(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
-(fontspec)             <->"Georgia/B/OT:script=latn;language=dflt;+smcp;mapping
-=tex-text;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"Georgia/I/OT:script=latn;language=dflt;mapping=tex-t
-ext;"
-(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
-(fontspec)             <->"Georgia/I/OT:script=latn;language=dflt;+smcp;mapping
-=tex-text;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->"Georgia/BI/OT:script=latn;language=dflt;mapping=tex-
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Palatino
+(fontspec)             Linotype/OT:script=latn;language=dflt;mapping=tex-text;"
+
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: <->"Palatino
+(fontspec)             Linotype/OT:script=latn;language=dflt;+smcp;mapping=tex-
 text;"
-(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
-(fontspec)             <->"Georgia/BI/OT:script=latn;language=dflt;+smcp;mappin
-g=tex-text;"
-
-
-Package fontspec Info: Arial scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/B scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/B scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/I scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/I scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/BI scale = 0.9284341795133607.
-
-
-Package fontspec Info: Arial/BI scale = 0.9284341795133607.
-
-
-Package fontspec Info: Font family 'Arial(0)' created for font 'Arial' with
-(fontspec)             options [Ligatures=TeX,Scale=MatchLowercase].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/OT:script=latn;language=
-dflt;mapping=tex-text;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/OT:script=latn;language=
-dflt;+smcp;mapping=tex-text;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/B/OT:script=latn;languag
-e=dflt;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Palatino
+(fontspec)             Linotype/B/OT:script=latn;language=dflt;mapping=tex-text
+;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/B/OT:script=latn;languag
-e=dflt;+smcp;mapping=tex-text;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/I/OT:script=latn;languag
-e=dflt;mapping=tex-text;"
+(fontspec)             <->"Palatino
+(fontspec)             Linotype/B/OT:script=latn;language=dflt;+smcp;mapping=te
+x-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Palatino
+(fontspec)             Linotype/I/OT:script=latn;language=dflt;mapping=tex-text
+;"
 (fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/I/OT:script=latn;languag
-e=dflt;+smcp;mapping=tex-text;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/BI/OT:script=latn;langua
-ge=dflt;mapping=tex-text;"
+(fontspec)             <->"Palatino
+(fontspec)             Linotype/I/OT:script=latn;language=dflt;+smcp;mapping=te
+x-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Palatino
+(fontspec)             Linotype/BI/OT:script=latn;language=dflt;mapping=tex-tex
+t;"
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
-(fontspec)             <->s*[0.9284341795133607]"Arial/BI/OT:script=latn;langua
-ge=dflt;+smcp;mapping=tex-text;"
+(fontspec)             <->"Palatino
+(fontspec)             Linotype/BI/OT:script=latn;language=dflt;+smcp;mapping=t
+ex-text;"
 
 
-Package fontspec Info: DejaVuSansMono scale = 0.8803546865103614.
-
-
-Package fontspec Info: DejaVuSansMono scale = 0.8803546865103614.
-
-
-Package fontspec Info: DejaVuSansMono/B scale = 0.8803546865103614.
-
-
-Package fontspec Info: DejaVuSansMono/I scale = 0.8803546865103614.
-
-
-Package fontspec Info: DejaVuSansMono/BI scale = 0.8803546865103614.
-
-
-Package fontspec Info: Font family 'DejaVuSansMono(0)' created for font
-(fontspec)             'DejaVuSansMono' with options
-(fontspec)             [WordSpace={1,0,0},HyphenChar=None,PunctuationSpace=Word
-Space,Scale=MatchLowercase].
+Package fontspec Info: Font family 'Corbel(0)' created for font 'Corbel' with
+(fontspec)             options [Ligatures=TeX].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->s*[0.8803546865103614]"DejaVuSansMono/OT:script=latn;
-language=dflt;"
+(fontspec)             <->"Corbel/OT:script=latn;language=dflt;mapping=tex-text
+;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->"Corbel/OT:script=latn;language=dflt;+smcp;mapping=te
+x-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"Corbel/B/OT:script=latn;language=dflt;mapping=tex-te
+xt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->"Corbel/B/OT:script=latn;language=dflt;+smcp;mapping=
+tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"Corbel/I/OT:script=latn;language=dflt;mapping=tex-te
+xt;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->"Corbel/I/OT:script=latn;language=dflt;+smcp;mapping=
+tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->"Corbel/BI/OT:script=latn;language=dflt;mapping=tex-t
+ext;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->"Corbel/BI/OT:script=latn;language=dflt;+smcp;mapping
+=tex-text;"
+
+
+Package fontspec Info: Font family 'Consolas(0)' created for font 'Consolas'
+(fontspec)             with options
+(fontspec)             [WordSpace={1,0,0},HyphenChar=None,PunctuationSpace=Word
+Space].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"Consolas/OT:script=latn;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 (fontspec)             and font adjustment code:
 (fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
@@ -605,8 +570,7 @@ language=dflt;"
 (fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->s*[0.8803546865103614]"DejaVuSansMono/B/OT:script=lat
-n;language=dflt;"
+(fontspec)             <->"Consolas/B/OT:script=latn;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 (fontspec)             and font adjustment code:
 (fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
@@ -614,8 +578,7 @@ n;language=dflt;"
 (fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->s*[0.8803546865103614]"DejaVuSansMono/I/OT:script=lat
-n;language=dflt;"
+(fontspec)             <->"Consolas/I/OT:script=latn;language=dflt;"
 (fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
 (fontspec)             and font adjustment code:
 (fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
@@ -623,8 +586,7 @@ n;language=dflt;"
 (fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->s*[0.8803546865103614]"DejaVuSansMono/BI/OT:script=la
-tn;language=dflt;"
+(fontspec)             <->"Consolas/BI/OT:script=latn;language=dflt;"
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 (fontspec)             and font adjustment code:
 (fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
@@ -662,8 +624,8 @@ tim
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)) (./discussion_two.aux)
-\openout1 = `discussion_two.aux'.
+)) (./r_homework_two.aux)
+\openout1 = `r_homework_two.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 92.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
@@ -768,12 +730,33 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+txr on input line 9
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 9
 4.
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
-nts/ot1txr.fd
-File: ot1txr.fd 2000/12/15 v3.1
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/ot1ppl.fd
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
+94.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/omlzplm.fd
+File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
+)
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
+94.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/omszplm.fd
+File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
+)
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
+94.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/omxzplm.fd
+File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Trying to load font information for U+txsya on input line 9
 4.
@@ -789,6 +772,13 @@ LaTeX Font Info:    Trying to load font information for U+txsyb on input line 9
 nts/utxsyb.fd
 File: utxsyb.fd 2000/12/15 v3.1
 )
+LaTeX Font Info:    Trying to load font information for OT1+txr on input line 9
+4.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
+nts/ot1txr.fd
+File: ot1txr.fd 2000/12/15 v3.1
+)
 LaTeX Font Info:    Trying to load font information for U+txmia on input line 9
 4.
 
@@ -802,33 +792,35 @@ LaTeX Font Info:    Trying to load font information for U+txsyc on input line 9
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
+94.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/ot1zplm.fd
+File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
+)
+LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
+102.
+
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
+ss/ufplmbb.fd
+File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
 ) [1
 
 ]
+Missing character: There is no n in font fplmbb!
+Missing character: There is no n in font fplmbb!
 File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use figure/unnamed-chunk-2-1.pdf>
- [2] [3]
-File: figure/unnamed-chunk-3-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-3-1.pdf>
- [4]
-File: figure/unnamed-chunk-4-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-4-1.pdf>
- [5]
-File: figure/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-5-1.pdf>
- [6] [7] [8]
-File: figure/unnamed-chunk-6-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-6-1.pdf>
-File: figure/unnamed-chunk-7-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-7-1.pdf>
- [9] [10] (./discussion_two.aux) ) 
+ [2] [3] (./r_homework_two.aux) ) 
 Here is how much of TeX's memory you used:
- 13035 strings out of 481765
- 255235 string characters out of 5933240
- 550658 words of memory out of 5000000
- 29830 multiletter control sequences out of 15000+600000
- 558062 words of font info for 145 fonts, out of 8000000 for 9000
+ 13180 strings out of 481765
+ 257773 string characters out of 5933240
+ 548686 words of memory out of 5000000
+ 29951 multiletter control sequences out of 15000+600000
+ 560667 words of font info for 161 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,8n,116p,878b,641s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,10n,79p,433b,257s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on discussion_two.pdf (10 pages).
+Output written on r_homework_two.pdf (3 pages).
