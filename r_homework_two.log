@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  10 MAR 2020 22:13
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  24 MAR 2020 00:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -801,26 +801,27 @@ ss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
 LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
-102.
+109.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ufplmbb.fd
 File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
 ) [1
 
-]
+] [2] [3] [4] [5]
 Missing character: There is no n in font fplmbb!
 Missing character: There is no n in font fplmbb!
-File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-2-1.pdf>
- [2] [3] (./r_homework_two.aux) ) 
+ [6] [7] [8]
+File: figure/unnamed-chunk-16-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-16-1.pdf>
+ [9] [10] (./r_homework_two.aux) ) 
 Here is how much of TeX's memory you used:
- 13180 strings out of 481765
- 257773 string characters out of 5933240
- 548686 words of memory out of 5000000
- 29951 multiletter control sequences out of 15000+600000
- 560667 words of font info for 161 fonts, out of 8000000 for 9000
+ 13185 strings out of 481765
+ 257939 string characters out of 5933240
+ 557686 words of memory out of 5000000
+ 29954 multiletter control sequences out of 15000+600000
+ 560683 words of font info for 163 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,10n,79p,433b,257s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,10n,79p,433b,284s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_two.pdf (3 pages).
+Output written on r_homework_two.pdf (10 pages).

@@ -99,29 +99,293 @@
 
   \subsection{Evaluate the positivity assumption in closed form for this data generating process.}
   
-  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_O)$ in closed form for this data generating process.}
+For the positivity assumption to hold, there must be a positive probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e.:
+
+\begin{align*}
+0<\mathbb{P}_0(A=1|W1=1,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=1,W2=0)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
+\end{align*}
+
+This data generating process specifies that the endogenous factors influencing the value of A are generated as $U_A \sim Uniform(0,1)$ and that, given the endogenous factors $U_A$, the value of $A$ is derministically generated as 
   
+\begin{align*}
+A=\mathbb{I}[U_A<logit^{-1}(-0.5+W1-1.5*W2)]
+\end{align*}
+
+Since $U_A \sim Uniform(0,1)$, plugging that probability into the structural equation for \textcolor{red}{look up this wording} $A$ gives the conditional probability of receiving the intervention, i.e., of $A=1$, as
+
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1,W2)=logit^{-1}(-0.5+W1-1.5*W2)
+\end{align*}
+
+We can plug the four possible combinations of $W1$ and $W2$ values into that equation, then, to check the positivity assumption, which is satisfied if the equation generates a number between 0 and 1 exclusive for all possible covariate combinations
+
+\begin{itemize}
+  
+  \item For $W1=1, W2=1$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = 0.2689414
+\end{align*}
+
+  \item For $W1=1, W2=0$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = 0.6224593
+\end{align*}
+
+  \item For $W1=0, W2=1$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = 0.1192029
+\end{align*}
+
+  \item For $W1=0, W2=0$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = 0.3775407
+\end{align*}
+  
+\end{itemize}
+
+Since all four probabilities are between 0 and 1, the positivity assumption is satisfied.
+  
+  \subsection{\textit{Bonus (optional)}: Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
+  
+
+In this data generating system, the conditional probability of survival given the intervention and the baseline covariates is
+
+\begin{align*}
+\mathbb{P}_0(Y=1|A,W1,W2) &= \mathbb{E}_0(Y|A,W1,W2) \\
+&= logit^{-1}(-0.75+W1-2*W2+2.5*A+A*W1)
+\end{align*}
+
+
+Per the assignment, under the working structural causal model $\mathcal{M}^{\mathcal{F}^*}$, the statistical estimand $\Psi(\mathbb{P}_0)$ is
+
+\begin{align*}
+\Psi(\mathbb{P}_0) &= \mathbb{E}_0[\mathbb{E}_0(Y|A=1,W1,W2)-\mathbb{E}_0(Y|A=0,W1,W2)] \\
+&= \sum_{w1,w2}[\mathbb{E}_0(Y|A=1,W1=w1,W2=w2)-\mathbb{E}_0(Y|A=0,W1=w1,W2=w2)]\mathbb{P}_0(W1=w1,W2=w2) \\
+&= \sum_{w1,w2}([logit^{-1}(-0.75+W1-2*W2+2.5*(A=1)+(A=1)*W1)- \\ 
+&\qquad \qquad logit^{-1}(-0.75+W1-2*W2+2.5*(A=0)+(A=0)*W1)]* \\ 
+&\qquad \qquad \mathbb{P}_0(W1=w1,W2=w2)) \\
+&= [logit^{-1}(-0.75+1-2*1+2.5*1+1*1) - logit^{-1}(-0.75+1-2*1+2.5*0+0*1)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+1-2*0+2.5*1+1*1) - logit^{-1}(-0.75+1-2*0+2.5*0+0*1)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+0-2*1+2.5*1+1*0) - logit^{-1}(-0.75+0-2*1+2.5*0+0*0)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+0-2*0+2.5*1+1*0) - logit^{-1}(-0.75+0-2*0+2.5*0+0*0)]*0.5*0.5 \\
+&= 0.506905
+\end{align*}
+
+
+
+
+
+
 \section{Translate this data generating process into simulations}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(tidyverse)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# -- Attaching packages ------------------------------------------- tidyverse 1.3.0 --}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# v ggplot2 3.3.0\ \ \ \  v purrr\ \  0.3.3\\\#\# v tibble\ \ 2.1.3\ \ \ \  v dplyr\ \  0.8.4\\\#\# v tidyr\ \  1.0.2\ \ \ \  v stringr 1.4.0\\\#\# v readr\ \  1.3.1\ \ \ \  v forcats 0.5.0}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'dplyr' was built under R version 3.6.3}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'forcats' was built under R version 3.6.3}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# -- Conflicts ---------------------------------------------- tidyverse\_conflicts() --\\\#\# x dplyr::filter() masks stats::filter()\\\#\# x dplyr::lag()\ \ \ \ masks stats::lag()}}\end{kframe}
+\end{knitrout}
+
 
   \subsection{First set the seed to 252.}
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{252}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
   \subsection{Set the number of draws $n = 100,000$.}
   
-  \subsection{Sample $n$ independent and identically distributed (i.i.d.) observations of random variable $O=(W1,W2,A,Y) \sim \mathbb{P}_O$.}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{n} \hlkwb{=} \hlnum{100000}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
+  \subsection{Sample $n$ independent and identically distributed (i.i.d.) observations of random variable $O=(W1,W2,A,Y) \sim \mathbb{P}_0$.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{U_W1} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+\hlstd{U_W2} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+\hlstd{U_A} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+\hlstd{U_Y} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+
+\hlstd{W1} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_W1} \hlopt{<} \hlnum{0.5}\hlstd{)}
+\hlstd{W2} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_W2} \hlopt{<} \hlnum{0.5}\hlstd{)}
+\hlstd{A} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_A} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.5}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{1.5}\hlopt{*}\hlstd{W2))}
+\hlstd{Y} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_Y} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.75}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{2}\hlopt{*}\hlstd{W2}\hlopt{+}\hlnum{2.5}\hlopt{*}\hlstd{A}\hlopt{+}\hlstd{A}\hlopt{*}\hlstd{W1))}
+
+\hlstd{X} \hlkwb{<-}
+  \hlkwd{tibble}\hlstd{(W1, W2, A, Y)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
   
   \subsection{\textit{Bonus}: Intervene to set the exposure to the combination package $(A=1)$ and generate the counterfactual outcome $Y_1$. Intervene to set the exposure to the standard of care $(A=0)$ and generate the counterfactual outcomes $Y_0$. Evaluate the causal parameter $\Psi^F(\mathbb{P}_{U,X})$.}
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{Y_1} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_Y} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.75}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{2}\hlopt{*}\hlstd{W2}\hlopt{+}\hlnum{2.5}\hlopt{*}\hlnum{1}\hlopt{+}\hlnum{1}\hlopt{*}\hlstd{W1))}
+
+\hlstd{Y_0} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_Y} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.75}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{2}\hlopt{*}\hlstd{W2}\hlopt{+}\hlnum{2.5}\hlopt{*}\hlnum{0}\hlopt{+}\hlnum{0}\hlopt{*}\hlstd{W1))}
+
+\hlstd{Psi_F} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y_1)} \hlopt{-} \hlkwd{mean}\hlstd{(Y_0)}
+
+\hlstd{Psi_F}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.50707
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+\textcolor{red}{interpret this}
+  
   \subsection{Evaluate the positivity assumption.}
   
-  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_O)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mean_A_W1_1_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(A[W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{mean_A_W1_1_W2_1}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.271355
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_A_W1_1_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(A[W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{mean_A_W1_1_W2_0}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.6221695
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_A_W1_0_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(A[W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{mean_A_W1_0_W2_1}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1190666
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_A_W1_0_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(A[W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{mean_A_W1_0_W2_0}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.3756981
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
   
-  \subsection{Interpret $\Psi(\mathbb{P}_O)$.}
+  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mean_Y_A_1_W1_1_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{mean_Y_A_0_W1_1_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{P_W1_1_W2_1} \hlkwb{<-} \hlkwd{length}\hlstd{(Y[W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}\hlopt{/}\hlstd{n}
+
+
+\hlstd{mean_Y_A_1_W1_1_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{mean_Y_A_0_W1_1_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{P_W1_1_W2_0} \hlkwb{<-} \hlkwd{length}\hlstd{(Y[W1} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}\hlopt{/}\hlstd{n}
+
+
+\hlstd{mean_Y_A_1_W1_0_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{mean_Y_A_0_W1_0_W2_1} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}
+
+\hlstd{P_W1_0_W2_1} \hlkwb{<-} \hlkwd{length}\hlstd{(Y[W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{1}\hlstd{])}\hlopt{/}\hlstd{n}
+
+
+\hlstd{mean_Y_A_1_W1_0_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{1} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{mean_Y_A_0_W1_0_W2_0} \hlkwb{<-} \hlkwd{mean}\hlstd{(Y[A} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}
+
+\hlstd{P_W1_0_W2_0} \hlkwb{<-} \hlkwd{length}\hlstd{(Y[W1} \hlopt{==} \hlnum{0} \hlopt{&} \hlstd{W2} \hlopt{==} \hlnum{0}\hlstd{])}\hlopt{/}\hlstd{n}
+
+
+\hlcom{# underscore instead of period because periods are of the devil}
+
+\hlstd{Psi_P0} \hlkwb{<-}
+  \hlstd{(mean_Y_A_1_W1_1_W2_1} \hlopt{-} \hlstd{mean_Y_A_0_W1_1_W2_1)}\hlopt{*}\hlstd{P_W1_1_W2_1} \hlopt{+}
+  \hlstd{(mean_Y_A_1_W1_1_W2_0} \hlopt{-} \hlstd{mean_Y_A_0_W1_1_W2_0)}\hlopt{*}\hlstd{P_W1_1_W2_0} \hlopt{+}
+  \hlstd{(mean_Y_A_1_W1_0_W2_1} \hlopt{-} \hlstd{mean_Y_A_0_W1_0_W2_1)}\hlopt{*}\hlstd{P_W1_0_W2_1} \hlopt{+}
+  \hlstd{(mean_Y_A_1_W1_0_W2_0} \hlopt{-} \hlstd{mean_Y_A_0_W1_0_W2_0)}\hlopt{*}\hlstd{P_W1_0_W2_0}
+
+\hlstd{Psi_P0}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.5041414
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
   
+  \subsection{Interpret $\Psi(\mathbb{P}_0)$.}
+  
+\textcolor{red}{do this}  
+
+
+
+
+
 \section{The simple substitution estimator based on the G-compuation formula}
 
   \subsection{Set the number of iterations $R$ to 500 and the number of observations $n$ to 200. Do not reset the seed.}
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R} \hlkwb{=} \hlnum{500}
+
+\hlstd{n} \hlkwb{=} \hlnum{200}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
   \subsection{Create a $R = 500$ by 4 matrix \texttt{estimates} to hold the resulting estimates obtained at each iteration.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{estimates} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{NA}\hlstd{,} \hlkwc{nrow} \hlstd{=} \hlnum{500}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
   
   \subsection{Inside a \texttt{for} loop from $r = 1$ to $r = R = 500$, do the following.}
   
@@ -129,67 +393,281 @@
   
     \item Sample $n$ i.i.d. observations of $O = (W1,W2,A,Y)$.
     
-    \item Create a data frame \texttt{obs} of the resulting observed data.
+    \item \textbf{Create a data frame \texttt{obs} of the resulting observed data.}
     
-    \item Copy the dataset \texttt{obs} into two new data frames \texttt{txt} and \texttt{control}. Then set \texttt{A=1} for all units in \texttt{txt} and set \texttt{A=0} for all units in \texttt{control}.
+    \item \textbf{Copy the dataset \texttt{obs} into two new data frames \texttt{txt} and \texttt{control}. Then set \texttt{A=1} for all units in \texttt{txt} and set \texttt{A=0} for all units in \texttt{control}.}
     
-    \item Estimator 1: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 1: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^1_0(A,W)=logit^{-1}(\beta_0+\beta_1A)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
 
-    \item Estimator 2: Use Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:
+    \item \textbf{Estimator 2: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^2_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
 
-    \item Estimator 3: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 3: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^3_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W2)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
     
-    \item Estimator 4: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 4: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^4_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1+\beta_3W2+\beta_4A*W1+\beta_5A*W2)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(1,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(1,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(0,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(0,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:}
     
 \begin{align*}
 \hat{\Psi(\mathbb{n})}=\frac{1}{n}\sum{i=1}{n}[\bar{Q}_n(1,W_i)-\bar{Q}_n(0,W_i)]
 \end{align*}
     
-    \item Assign the resulting values as a row in matrix \texttt{estimates}.
+    \item \textbf{Assign the resulting values as a row in matrix \texttt{estimates}.}
     
   \end{enumerate}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{R)\{}
+
+  \hlcom{# sample n i.i.d. observations}
+  \hlstd{U_W1} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+  \hlstd{U_W2} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+  \hlstd{U_A} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+  \hlstd{U_Y} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,} \hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{max}\hlstd{=}\hlnum{1}\hlstd{)}
+
+  \hlstd{W1} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_W1} \hlopt{<} \hlnum{0.5}\hlstd{)}
+  \hlstd{W2} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_W2} \hlopt{<} \hlnum{0.5}\hlstd{)}
+  \hlstd{A} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_A} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.5}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{1.5}\hlopt{*}\hlstd{W2))}
+  \hlstd{Y} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(U_Y} \hlopt{<} \hlkwd{plogis}\hlstd{(}\hlopt{-}\hlnum{0.75}\hlopt{+}\hlstd{W1}\hlopt{-}\hlnum{2}\hlopt{*}\hlstd{W2}\hlopt{+}\hlnum{2.5}\hlopt{*}\hlstd{A}\hlopt{+}\hlstd{A}\hlopt{*}\hlstd{W1))}
+
+  \hlcom{# create data frame obs of the resulting observed data}
+  \hlstd{obs} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(W1, W2, A, Y)}
+
+  \hlcom{# copy the data set obs into two new data frames}
+  \hlstd{txt} \hlkwb{<-} \hlstd{control} \hlkwb{<-} \hlstd{obs}
+
+  \hlcom{# set A = 1 for all units in txt}
+  \hlstd{txt} \hlkwb{<-} \hlstd{txt} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{A} \hlstd{=} \hlnum{1}\hlstd{)}
+
+  \hlcom{# set A = 0 for all units in control}
+  \hlstd{control} \hlkwb{<-} \hlstd{control} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{A} \hlstd{=} \hlnum{0}\hlstd{)}
+
+  \hlcom{# estimator one}
+  \hlstd{estimator_one} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{A,} \hlkwc{family} \hlstd{=} \hlstr{'binomial'}\hlstd{,} \hlkwc{data} \hlstd{= obs)}
+  \hlstd{predict_one_txt} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_one,} \hlkwc{newdata} \hlstd{= txt,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{predict_one_control} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_one,} \hlkwc{newdata} \hlstd{= control,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{psi_hat_one} \hlkwb{<-} \hlkwd{mean}\hlstd{(predict_one_txt)} \hlopt{-} \hlkwd{mean}\hlstd{(predict_one_control)}
+
+  \hlcom{# estimator two}
+  \hlstd{estimator_two} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{A} \hlopt{+} \hlstd{W1,} \hlkwc{family} \hlstd{=} \hlstr{'binomial'}\hlstd{,} \hlkwc{data} \hlstd{= obs)}
+  \hlstd{predict_two_txt} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_two,} \hlkwc{newdata} \hlstd{= txt,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{predict_two_control} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_two,} \hlkwc{newdata} \hlstd{= control,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{psi_hat_two} \hlkwb{<-} \hlkwd{mean}\hlstd{(predict_two_txt)} \hlopt{-} \hlkwd{mean}\hlstd{(predict_two_control)}
+
+  \hlcom{# estimator three}
+  \hlstd{estimator_three} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{A} \hlopt{+} \hlstd{W2,} \hlkwc{family} \hlstd{=} \hlstr{'binomial'}\hlstd{,} \hlkwc{data} \hlstd{= obs)}
+  \hlstd{predict_three_txt} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_three,} \hlkwc{newdata} \hlstd{= txt,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{predict_three_control} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_three,} \hlkwc{newdata} \hlstd{= control,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{psi_hat_three} \hlkwb{<-} \hlkwd{mean}\hlstd{(predict_three_txt)} \hlopt{-} \hlkwd{mean}\hlstd{(predict_three_control)}
+
+  \hlcom{# estimator four}
+  \hlstd{estimator_four} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{A} \hlopt{+} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{A}\hlopt{*}\hlstd{W1} \hlopt{+} \hlstd{A}\hlopt{*}\hlstd{W2,}
+                        \hlkwc{family} \hlstd{=} \hlstr{'binomial'}\hlstd{,}
+                        \hlkwc{data} \hlstd{= obs)}
+  \hlstd{predict_four_txt} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_four,} \hlkwc{newdata} \hlstd{= txt,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{predict_four_control} \hlkwb{<-} \hlkwd{predict}\hlstd{(estimator_four,} \hlkwc{newdata} \hlstd{= control,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{)}
+  \hlstd{psi_hat_four} \hlkwb{<-} \hlkwd{mean}\hlstd{(predict_four_txt)} \hlopt{-} \hlkwd{mean}\hlstd{(predict_four_control)}
+
+  \hlcom{# assign the resulting values as a row in matrix estimates}
+  \hlstd{estimates[i,]} \hlkwb{<-} \hlkwd{c}\hlstd{(psi_hat_one,}
+                     \hlstd{psi_hat_two,}
+                     \hlstd{psi_hat_three,}
+                     \hlstd{psi_hat_four)}
+
+\hlstd{\}}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred}}\begin{alltt}
+\hlcom{# estimates}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
     
 \section{Performance of the estimators}
 
   \subsection{What is the average value of each estimator of $\Psi(\mathbb{P}_0)$ across $R=500$ simulations?}
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mean_estimator_one} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{1}\hlstd{])}
+\hlstd{mean_estimator_one}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.6505123
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_estimator_two} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{2}\hlstd{])}
+\hlstd{mean_estimator_two}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.6228431
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_estimator_three} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{3}\hlstd{])}
+\hlstd{mean_estimator_three}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.5653621
+\end{verbatim}
+\begin{alltt}
+\hlstd{mean_estimator_four} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{4}\hlstd{])}
+\hlstd{mean_estimator_four}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.5060037
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+  
   \subsection{Estimate the bias of each estimator.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{bias_estimator_one} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}
+\hlstd{bias_estimator_one}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.146371
+\end{verbatim}
+\begin{alltt}
+\hlstd{bias_estimator_two} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{2}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}
+\hlstd{bias_estimator_two}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1187018
+\end{verbatim}
+\begin{alltt}
+\hlstd{bias_estimator_three} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{3}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}
+\hlstd{bias_estimator_three}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.06122073
+\end{verbatim}
+\begin{alltt}
+\hlstd{bias_estimator_four} \hlkwb{<-} \hlkwd{mean}\hlstd{(estimates[,}\hlnum{4}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}
+\hlstd{bias_estimator_four}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.001862327
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
   
   \subsection{Estimate the variance of each estimator.}
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{var_estimator_one} \hlkwb{<-} \hlkwd{var}\hlstd{(estimates[,}\hlnum{1}\hlstd{])}
+\hlstd{var_estimator_one}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.003184073
+\end{verbatim}
+\begin{alltt}
+\hlstd{var_estimator_two} \hlkwb{<-} \hlkwd{var}\hlstd{(estimates[,}\hlnum{2}\hlstd{])}
+\hlstd{var_estimator_two}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.003727014
+\end{verbatim}
+\begin{alltt}
+\hlstd{var_estimator_three} \hlkwb{<-} \hlkwd{var}\hlstd{(estimates[,}\hlnum{3}\hlstd{])}
+\hlstd{var_estimator_three}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.004709279
+\end{verbatim}
+\begin{alltt}
+\hlstd{var_estimator_four} \hlkwb{<-} \hlkwd{var}\hlstd{(estimates[,}\hlnum{4}\hlstd{])}
+\hlstd{var_estimator_four}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.006161725
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+  
   \subsection{Estimate the mean squared error (MSE) of each estimator.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mse_estimator_one} \hlkwb{<-} \hlkwd{mean}\hlstd{((estimates[,}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{mse_estimator_one}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.02460217
+\end{verbatim}
+\begin{alltt}
+\hlstd{mse_estimator_two} \hlkwb{<-} \hlkwd{mean}\hlstd{((estimates[,}\hlnum{2}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{mse_estimator_two}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.01780967
+\end{verbatim}
+\begin{alltt}
+\hlstd{mse_estimator_three} \hlkwb{<-} \hlkwd{mean}\hlstd{((estimates[,}\hlnum{3}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{mse_estimator_three}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.008447838
+\end{verbatim}
+\begin{alltt}
+\hlstd{mse_estimator_four} \hlkwb{<-} \hlkwd{mean}\hlstd{((estimates[,}\hlnum{4}\hlstd{]} \hlopt{-} \hlstd{Psi_P0)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{mse_estimator_four}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.00615287
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
   \subsection{Briefly comment on the performance of the estimators. Which estimator has he lowest MSE over the $R=500$ iterations? Are you surprised?}
+  
+\textcolor{red}{do this}
  
  
  
@@ -221,7 +699,7 @@ Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs
     
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=4in]{figure/unnamed-chunk-2-1} 
+\includegraphics[width=4in]{figure/unnamed-chunk-16-1} 
 
 \end{knitrout}
       

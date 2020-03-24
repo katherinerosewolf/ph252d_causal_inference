@@ -54,29 +54,248 @@ knit_hooks$set(document = function(x) {
 
   \subsection{Evaluate the positivity assumption in closed form for this data generating process.}
   
-  \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
+For the positivity assumption to hold, there must be a positive probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e.:
+
+\begin{align*}
+0<\mathbb{P}_0(A=1|W1=1,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=1,W2=0)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
+\end{align*}
+
+This data generating process specifies that the endogenous factors influencing the value of A are generated as $U_A \sim Uniform(0,1)$ and that, given the endogenous factors $U_A$, the value of $A$ is derministically generated as 
   
+\begin{align*}
+A=\mathbb{I}[U_A<logit^{-1}(-0.5+W1-1.5*W2)]
+\end{align*}
+
+Since $U_A \sim Uniform(0,1)$, plugging that probability into the structural equation for \textcolor{red}{look up this wording} $A$ gives the conditional probability of receiving the intervention, i.e., of $A=1$, as
+
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1,W2)=logit^{-1}(-0.5+W1-1.5*W2)
+\end{align*}
+
+We can plug the four possible combinations of $W1$ and $W2$ values into that equation, then, to check the positivity assumption, which is satisfied if the equation generates a number between 0 and 1 exclusive for all possible covariate combinations
+
+\begin{itemize}
+  
+  \item For $W1=1, W2=1$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = \Sexpr{plogis(-0.5+1-1.5*1)}
+\end{align*}
+
+  \item For $W1=1, W2=0$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = \Sexpr{plogis(-0.5+1-1.5*0)}
+\end{align*}
+
+  \item For $W1=0, W2=1$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = \Sexpr{plogis(-0.5+0-1.5*1)}
+\end{align*}
+
+  \item For $W1=0, W2=0$:
+  
+\begin{align*}
+A=\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = \Sexpr{plogis(-0.5+0-1.5*0)}
+\end{align*}
+  
+\end{itemize}
+
+Since all four probabilities are between 0 and 1, the positivity assumption is satisfied.
+  
+  \subsection{\textit{Bonus (optional)}: Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
+  
+
+In this data generating system, the conditional probability of survival given the intervention and the baseline covariates is
+
+\begin{align*}
+\mathbb{P}_0(Y=1|A,W1,W2) &= \mathbb{E}_0(Y|A,W1,W2) \\
+&= logit^{-1}(-0.75+W1-2*W2+2.5*A+A*W1)
+\end{align*}
+
+
+Per the assignment, under the working structural causal model $\mathcal{M}^{\mathcal{F}^*}$, the statistical estimand $\Psi(\mathbb{P}_0)$ is
+
+\begin{align*}
+\Psi(\mathbb{P}_0) &= \mathbb{E}_0[\mathbb{E}_0(Y|A=1,W1,W2)-\mathbb{E}_0(Y|A=0,W1,W2)] \\
+&= \sum_{w1,w2}[\mathbb{E}_0(Y|A=1,W1=w1,W2=w2)-\mathbb{E}_0(Y|A=0,W1=w1,W2=w2)]\mathbb{P}_0(W1=w1,W2=w2) \\
+&= \sum_{w1,w2}([logit^{-1}(-0.75+W1-2*W2+2.5*(A=1)+(A=1)*W1)- \\ 
+&\qquad \qquad logit^{-1}(-0.75+W1-2*W2+2.5*(A=0)+(A=0)*W1)]* \\ 
+&\qquad \qquad \mathbb{P}_0(W1=w1,W2=w2)) \\
+&= [logit^{-1}(-0.75+1-2*1+2.5*1+1*1) - logit^{-1}(-0.75+1-2*1+2.5*0+0*1)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+1-2*0+2.5*1+1*1) - logit^{-1}(-0.75+1-2*0+2.5*0+0*1)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+0-2*1+2.5*1+1*0) - logit^{-1}(-0.75+0-2*1+2.5*0+0*0)]*0.5*0.5 \\
+&\qquad + [logit^{-1}(-0.75+0-2*0+2.5*1+1*0) - logit^{-1}(-0.75+0-2*0+2.5*0+0*0)]*0.5*0.5 \\
+&= \Sexpr{
+(plogis(-0.75+1-2*1+2.5*1+1*1) - plogis(-0.75+1-2*1+2.5*0+0*1))*0.5*0.5 + 
+(plogis(-0.75+1-2*0+2.5*1+1*1) - plogis(-0.75+1-2*0+2.5*0+0*1))*0.5*0.5 + (plogis(-0.75+0-2*1+2.5*1+1*0) - plogis(-0.75+0-2*1+2.5*0+0*0))*0.5*0.5 +
+(plogis(-0.75+0-2*0+2.5*1+1*0) - plogis(-0.75+0-2*0+2.5*0+0*0))*0.5*0.5
+}
+\end{align*}
+
+
+
+
+
+
 \section{Translate this data generating process into simulations}
+
+<<>>=
+
+library(tidyverse)
+
+@
+
 
   \subsection{First set the seed to 252.}
   
+<<echo=TRUE>>=
+
+set.seed(252)
+
+@
+  
   \subsection{Set the number of draws $n = 100,000$.}
+  
+<<echo=TRUE>>=
+
+n = 100000
+
+@
   
   \subsection{Sample $n$ independent and identically distributed (i.i.d.) observations of random variable $O=(W1,W2,A,Y) \sim \mathbb{P}_0$.}
   
+<<echo=TRUE>>=
+
+U_W1 <- runif(n, min=0, max=1)
+U_W2 <- runif(n, min=0, max=1)
+U_A <- runif(n, min=0, max=1)
+U_Y <- runif(n, min=0, max=1)
+
+W1 <- as.numeric(U_W1 < 0.5)
+W2 <- as.numeric(U_W2 < 0.5)
+A <- as.numeric(U_A < plogis(-0.5+W1-1.5*W2))
+Y <- as.numeric(U_Y < plogis(-0.75+W1-2*W2+2.5*A+A*W1))
+
+X <- 
+  tibble(W1, W2, A, Y)
+
+@
+  
+  
   \subsection{\textit{Bonus}: Intervene to set the exposure to the combination package $(A=1)$ and generate the counterfactual outcome $Y_1$. Intervene to set the exposure to the standard of care $(A=0)$ and generate the counterfactual outcomes $Y_0$. Evaluate the causal parameter $\Psi^F(\mathbb{P}_{U,X})$.}
+  
+<<echo=TRUE>>=
+
+Y_1 <- as.numeric(U_Y < plogis(-0.75+W1-2*W2+2.5*1+1*W1))
+
+Y_0 <- as.numeric(U_Y < plogis(-0.75+W1-2*W2+2.5*0+0*W1))
+
+Psi_F <- mean(Y_1) - mean(Y_0)
+
+Psi_F
+
+@
+ 
+\textcolor{red}{interpret this}
   
   \subsection{Evaluate the positivity assumption.}
   
+<<echo=TRUE>>=
+
+mean_A_W1_1_W2_1 <- mean(A[W1 == 1 & W2 == 1])
+
+mean_A_W1_1_W2_1 
+
+mean_A_W1_1_W2_0 <- mean(A[W1 == 1 & W2 == 0])
+
+mean_A_W1_1_W2_0
+
+mean_A_W1_0_W2_1 <- mean(A[W1 == 0 & W2 == 1])
+
+mean_A_W1_0_W2_1
+
+mean_A_W1_0_W2_0 <- mean(A[W1 == 0 & W2 == 0])
+
+mean_A_W1_0_W2_0
+
+@
+  
   \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
+
+<<echo=TRUE>>=
+
+mean_Y_A_1_W1_1_W2_1 <- mean(Y[A == 1 & W1 == 1 & W2 == 1])
+
+mean_Y_A_0_W1_1_W2_1 <- mean(Y[A == 0 & W1 == 1 & W2 == 1])
+
+P_W1_1_W2_1 <- length(Y[W1 == 1 & W2 == 1])/n
+
+
+mean_Y_A_1_W1_1_W2_0 <- mean(Y[A == 1 & W1 == 1 & W2 == 0])
+
+mean_Y_A_0_W1_1_W2_0 <- mean(Y[A == 0 & W1 == 1 & W2 == 0])
+
+P_W1_1_W2_0 <- length(Y[W1 == 1 & W2 == 0])/n
+
+
+mean_Y_A_1_W1_0_W2_1 <- mean(Y[A == 1 & W1 == 0 & W2 == 1])
+
+mean_Y_A_0_W1_0_W2_1 <- mean(Y[A == 0 & W1 == 0 & W2 == 1])
+
+P_W1_0_W2_1 <- length(Y[W1 == 0 & W2 == 1])/n
+
+
+mean_Y_A_1_W1_0_W2_0 <- mean(Y[A == 1 & W1 == 0 & W2 == 0])
+
+mean_Y_A_0_W1_0_W2_0 <- mean(Y[A == 0 & W1 == 0 & W2 == 0])
+
+P_W1_0_W2_0 <- length(Y[W1 == 0 & W2 == 0])/n
+
+
+# underscore instead of period because periods are of the devil
+
+Psi_P0 <- 
+  (mean_Y_A_1_W1_1_W2_1 - mean_Y_A_0_W1_1_W2_1)*P_W1_1_W2_1 +
+  (mean_Y_A_1_W1_1_W2_0 - mean_Y_A_0_W1_1_W2_0)*P_W1_1_W2_0 +
+  (mean_Y_A_1_W1_0_W2_1 - mean_Y_A_0_W1_0_W2_1)*P_W1_0_W2_1 +
+  (mean_Y_A_1_W1_0_W2_0 - mean_Y_A_0_W1_0_W2_0)*P_W1_0_W2_0
+  
+Psi_P0
+
+@
   
   \subsection{Interpret $\Psi(\mathbb{P}_0)$.}
   
+\textcolor{red}{do this}  
+
+
+
+
+
 \section{The simple substitution estimator based on the G-compuation formula}
 
   \subsection{Set the number of iterations $R$ to 500 and the number of observations $n$ to 200. Do not reset the seed.}
   
+<<echo=TRUE>>=
+
+R = 500
+
+n = 200
+
+@
+  
   \subsection{Create a $R = 500$ by 4 matrix \texttt{estimates} to hold the resulting estimates obtained at each iteration.}
+  
+<<echo=TRUE>>=
+
+estimates <- matrix(NA, nrow = 500, ncol = 4)
+
+@
   
   \subsection{Inside a \texttt{for} loop from $r = 1$ to $r = R = 500$, do the following.}
   
@@ -84,67 +303,198 @@ knit_hooks$set(document = function(x) {
   
     \item Sample $n$ i.i.d. observations of $O = (W1,W2,A,Y)$.
     
-    \item Create a data frame \texttt{obs} of the resulting observed data.
+    \item \textbf{Create a data frame \texttt{obs} of the resulting observed data.}
     
-    \item Copy the dataset \texttt{obs} into two new data frames \texttt{txt} and \texttt{control}. Then set \texttt{A=1} for all units in \texttt{txt} and set \texttt{A=0} for all units in \texttt{control}.
+    \item \textbf{Copy the dataset \texttt{obs} into two new data frames \texttt{txt} and \texttt{control}. Then set \texttt{A=1} for all units in \texttt{txt} and set \texttt{A=0} for all units in \texttt{control}.}
     
-    \item Estimator 1: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 1: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^1_0(A,W)=logit^{-1}(\beta_0+\beta_1A)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
 
-    \item Estimator 2: Use Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:
+    \item \textbf{Estimator 2: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^2_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
 
-    \item Estimator 3: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 3: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^3_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W2)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
     
-    \item Estimator 4: Use \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ (the conditional probability of survival, given the intervention and baseline covariates) based on the following parametric regression model:
+    \item \textbf{Estimator 4: Use the \texttt{glm} function to estimate $\bar{Q}_0(A,W)$ based on the following parametric regression model:}
     
 \begin{align*}
 \bar{Q}^4_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1+\beta_3W2+\beta_4A*W1+\beta_5A*W2)
 \end{align*}
 
-Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.
+\textbf{Be sure to specify the arguments \texttt{family='binomial'} and \texttt{data=obs}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(1,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(1,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(0,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, use the \texttt{predict} function to get the expected (mean) outcome for each unit under the intervention $\bar{Q}_n(0,W_i)$. Be sure to specify the arguments \texttt{newdata=control} and \texttt{type='response'}.}
     
-    \item For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:
+    \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:}
     
 \begin{align*}
 \hat{\Psi(\mathbb{n})}=\frac{1}{n}\sum{i=1}{n}[\bar{Q}_n(1,W_i)-\bar{Q}_n(0,W_i)]
 \end{align*}
     
-    \item Assign the resulting values as a row in matrix \texttt{estimates}.
+    \item \textbf{Assign the resulting values as a row in matrix \texttt{estimates}.}
     
   \end{enumerate}
+  
+<<>>=
+
+for(i in 1:R){
+  
+  # sample n i.i.d. observations
+  U_W1 <- runif(n, min=0, max=1)
+  U_W2 <- runif(n, min=0, max=1)
+  U_A <- runif(n, min=0, max=1)
+  U_Y <- runif(n, min=0, max=1)
+
+  W1 <- as.numeric(U_W1 < 0.5)
+  W2 <- as.numeric(U_W2 < 0.5)
+  A <- as.numeric(U_A < plogis(-0.5+W1-1.5*W2))
+  Y <- as.numeric(U_Y < plogis(-0.75+W1-2*W2+2.5*A+A*W1))
+  
+  # create data frame obs of the resulting observed data
+  obs <- data.frame(W1, W2, A, Y)
+  
+  # copy the data set obs into two new data frames
+  txt <- control <- obs
+  
+  # set A = 1 for all units in txt
+  txt <- txt %>% mutate(A = 1)
+  
+  # set A = 0 for all units in control
+  control <- control %>% mutate(A = 0)
+  
+  # estimator one
+  estimator_one <- glm(Y ~ A, family = 'binomial', data = obs)
+  predict_one_txt <- predict(estimator_one, newdata = txt, type = 'response')
+  predict_one_control <- predict(estimator_one, newdata = control, type = 'response')
+  psi_hat_one <- mean(predict_one_txt) - mean(predict_one_control)
+  
+  # estimator two
+  estimator_two <- glm(Y ~ A + W1, family = 'binomial', data = obs)
+  predict_two_txt <- predict(estimator_two, newdata = txt, type = 'response')
+  predict_two_control <- predict(estimator_two, newdata = control, type = 'response')
+  psi_hat_two <- mean(predict_two_txt) - mean(predict_two_control)
+  
+  # estimator three
+  estimator_three <- glm(Y ~ A + W2, family = 'binomial', data = obs)
+  predict_three_txt <- predict(estimator_three, newdata = txt, type = 'response')
+  predict_three_control <- predict(estimator_three, newdata = control, type = 'response')
+  psi_hat_three <- mean(predict_three_txt) - mean(predict_three_control)
+  
+  # estimator four
+  estimator_four <- glm(Y ~ A + W1 + W2 + A*W1 + A*W2, 
+                        family = 'binomial', 
+                        data = obs)
+  predict_four_txt <- predict(estimator_four, newdata = txt, type = 'response')
+  predict_four_control <- predict(estimator_four, newdata = control, type = 'response')
+  psi_hat_four <- mean(predict_four_txt) - mean(predict_four_control)
+  
+  # assign the resulting values as a row in matrix estimates
+  estimates[i,] <- c(psi_hat_one, 
+                     psi_hat_two, 
+                     psi_hat_three, 
+                     psi_hat_four)
+  
+}
+
+# estimates
+
+@
     
 \section{Performance of the estimators}
 
   \subsection{What is the average value of each estimator of $\Psi(\mathbb{P}_0)$ across $R=500$ simulations?}
   
+<<>>=
+
+mean_estimator_one <- mean(estimates[,1])
+mean_estimator_one
+
+mean_estimator_two <- mean(estimates[,2])
+mean_estimator_two
+
+mean_estimator_three <- mean(estimates[,3])
+mean_estimator_three
+
+mean_estimator_four <- mean(estimates[,4])
+mean_estimator_four
+
+@
+  
   \subsection{Estimate the bias of each estimator.}
+  
+<<>>=
+
+bias_estimator_one <- mean(estimates[,1] - Psi_P0)
+bias_estimator_one
+
+bias_estimator_two <- mean(estimates[,2] - Psi_P0)
+bias_estimator_two
+
+bias_estimator_three <- mean(estimates[,3] - Psi_P0)
+bias_estimator_three
+
+bias_estimator_four <- mean(estimates[,4] - Psi_P0)
+bias_estimator_four
+
+@
   
   \subsection{Estimate the variance of each estimator.}
   
+<<>>=
+
+var_estimator_one <- var(estimates[,1])
+var_estimator_one
+
+var_estimator_two <- var(estimates[,2])
+var_estimator_two
+
+var_estimator_three <- var(estimates[,3])
+var_estimator_three
+
+var_estimator_four <- var(estimates[,4])
+var_estimator_four
+
+@
+  
   \subsection{Estimate the mean squared error (MSE) of each estimator.}
+  
+<<>>=
+
+mse_estimator_one <- mean((estimates[,1] - Psi_P0)^2)
+mse_estimator_one
+
+mse_estimator_two <- mean((estimates[,2] - Psi_P0)^2)
+mse_estimator_two
+
+mse_estimator_three <- mean((estimates[,3] - Psi_P0)^2)
+mse_estimator_three
+
+mse_estimator_four <- mean((estimates[,4] - Psi_P0)^2)
+mse_estimator_four
+
+@
 
   \subsection{Briefly comment on the performance of the estimators. Which estimator has he lowest MSE over the $R=500$ iterations? Are you surprised?}
+  
+\textcolor{red}{do this}
  
  
  
