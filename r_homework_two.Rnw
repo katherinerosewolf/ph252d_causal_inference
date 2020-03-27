@@ -35,6 +35,9 @@
 % set the margins of the document
 \usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
 
+% remove automatic indenting
+\setlength{\parindent}{0pt}
+
 <<echo=FALSE>>=
 library(knitr)
 knit_hooks$set(document = function(x) {
@@ -54,7 +57,7 @@ knit_hooks$set(document = function(x) {
 
   \subsection{Evaluate the positivity assumption in closed form for this data generating process.}
   
-For the positivity assumption to hold, there must be a positive probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e.:
+For the positivity assumption to hold, there must be a positive (but less than one) probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e., all of the following must hold:
 
 \begin{align*}
 0<\mathbb{P}_0(A=1|W1=1,W2=1)<1 \\
@@ -63,88 +66,169 @@ For the positivity assumption to hold, there must be a positive probability of r
 0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
 \end{align*}
 
-This data generating process specifies that the endogenous factors influencing the value of A are generated as $U_A \sim Uniform(0,1)$ and that, given the endogenous factors $U_A$, the value of $A$ is derministically generated as 
-  
+This data generating process specifies
+\begin{itemize}
+\item That the exogenous factors influencing the value of A are generated as $U_A \sim Uniform(0,1)$, and 
+\item That given the exogenous factors $U_A$, the value of $A$ is derministically generated as 
 \begin{align*}
-A=\mathbb{I}[U_A<logit^{-1}(-0.5+W1-1.5*W2)]
+A=\mathbb{I}[U_A<logit^{-1}(-0.5+W1-1.5*W2)],
 \end{align*}
 
-Since $U_A \sim Uniform(0,1)$, plugging that probability into the structural equation for \textcolor{red}{look up this wording} $A$ gives the conditional probability of receiving the intervention, i.e., of $A=1$, as
+where $A=1$ if the value of $U_A$ is less than the expression on the right of the inequality sign and $A=0$ otherwise.
+\end{itemize}
 
+Since the $logit^{-1}$ function is bounded between 0 and 1, and since $U_A \sim Uniform(0,1)$, i.e., equally likely to be any number from 0 to 1, the probability that $A=1$ conditional on the covariates $W1$ and $W2$ in this data generating system is then the value of $logit^{-1}(-0.5+W1-1.5*W2)$, i.e., 
 \begin{align*}
-A=\mathbb{P}_0(A=1|W1,W2)=logit^{-1}(-0.5+W1-1.5*W2)
+\mathbb{P}_0(A=1|W1,W2)=logit^{-1}(-0.5+W1-1.5*W2).
 \end{align*}
 
-We can plug the four possible combinations of $W1$ and $W2$ values into that equation, then, to check the positivity assumption, which is satisfied if the equation generates a number between 0 and 1 exclusive for all possible covariate combinations
+To evaluate the positivity assumption in closed form for this data-generating process, then, we can plug the four possible combinations of $W1$ and $W2$ into the equation above. The positivity assumption is satisfied if the equation generates a number between 0 and 1 exclusive for all four possible covariate combinations.
 
 \begin{itemize}
   
   \item For $W1=1, W2=1$:
-  
 \begin{align*}
-A=\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = \Sexpr{plogis(-0.5+1-1.5*1)}
+\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = \Sexpr{plogis(-0.5+1-1.5*1)}
 \end{align*}
 
   \item For $W1=1, W2=0$:
-  
 \begin{align*}
-A=\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = \Sexpr{plogis(-0.5+1-1.5*0)}
+\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = \Sexpr{plogis(-0.5+1-1.5*0)}
 \end{align*}
 
   \item For $W1=0, W2=1$:
-  
 \begin{align*}
-A=\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = \Sexpr{plogis(-0.5+0-1.5*1)}
+\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = \Sexpr{plogis(-0.5+0-1.5*1)}
 \end{align*}
 
   \item For $W1=0, W2=0$:
-  
 \begin{align*}
-A=\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = \Sexpr{plogis(-0.5+0-1.5*0)}
+\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = \Sexpr{plogis(-0.5+0-1.5*0)}
 \end{align*}
   
 \end{itemize}
 
-Since all four probabilities are between 0 and 1, the positivity assumption is satisfied.
-  
-  \subsection{\textit{Bonus (optional)}: Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
-  
+Since $0 < \mathbb{P}_0(A=1|W1,W2) < 1$ for all four possible combinations of $W1$ and $W2$, the positivity assumption is satisfied.
 
-In this data generating system, the conditional probability of survival given the intervention and the baseline covariates is
 
+\newpage
+  
+\subsection{\textit{Bonus (optional)}: Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ in closed form for this data generating process.}
+
+The target causal parameter $\Psi^F(\mathbb{P}_{U,X})$ is the difference between the counterfactual probability of survival (of $Y=1$) if all children receive the combination prevention package and the counterfactual probability of survival if all children do not receive the package. (Because $Y$ is a Bernoulli variable, its probabilty of equaling one, $\mathbb{P}(Y=1)$, equals its expectation $\mathbb{E}(Y)$.) Formally,
 \begin{align*}
-\mathbb{P}_0(Y=1|A,W1,W2) &= \mathbb{E}_0(Y|A,W1,W2) \\
-&= logit^{-1}(-0.75+W1-2*W2+2.5*A+A*W1)
+\Psi^F(\mathbb{P}_{U,X})=\mathbb{P}_{U,X}(Y_1=1)-\mathbb{P}_{U,X}(Y_0=1)=\mathbb{E}_{U,X}(Y_1)-\mathbb{E}_{U,X}(Y_0)
 \end{align*}
 
-
-Per the assignment, under the working structural causal model $\mathcal{M}^{\mathcal{F}^*}$, the statistical estimand $\Psi(\mathbb{P}_0)$ is
-
-\begin{align*}
+Under the assumptions of the working structural causal model $\mathcal{M}^{\mathcal{F}^*}$, the target causal parameter $\Psi^{F^*}(\mathbb{P}_{U,X})=\mathbb{E}_{U,X}(Y_1)-\mathbb{E}_{U,X}(Y_0)$ is identified by statistical estimand $\Psi(\mathbb{P}_0)$ using the G-computation formula:
+\begin{align}
+\begin{split}
 \Psi(\mathbb{P}_0) &= \mathbb{E}_0[\mathbb{E}_0(Y|A=1,W1,W2)-\mathbb{E}_0(Y|A=0,W1,W2)] \\
-&= \sum_{w1,w2}[\mathbb{E}_0(Y|A=1,W1=w1,W2=w2)-\mathbb{E}_0(Y|A=0,W1=w1,W2=w2)]\mathbb{P}_0(W1=w1,W2=w2) \\
-&= \sum_{w1,w2}([logit^{-1}(-0.75+W1-2*W2+2.5*(A=1)+(A=1)*W1)- \\ 
-&\qquad \qquad logit^{-1}(-0.75+W1-2*W2+2.5*(A=0)+(A=0)*W1)]* \\ 
-&\qquad \qquad \mathbb{P}_0(W1=w1,W2=w2)) \\
-&= [logit^{-1}(-0.75+1-2*1+2.5*1+1*1) - logit^{-1}(-0.75+1-2*1+2.5*0+0*1)]*0.5*0.5 \\
-&\qquad + [logit^{-1}(-0.75+1-2*0+2.5*1+1*1) - logit^{-1}(-0.75+1-2*0+2.5*0+0*1)]*0.5*0.5 \\
-&\qquad + [logit^{-1}(-0.75+0-2*1+2.5*1+1*0) - logit^{-1}(-0.75+0-2*1+2.5*0+0*0)]*0.5*0.5 \\
-&\qquad + [logit^{-1}(-0.75+0-2*0+2.5*1+1*0) - logit^{-1}(-0.75+0-2*0+2.5*0+0*0)]*0.5*0.5 \\
-&= \Sexpr{
-(plogis(-0.75+1-2*1+2.5*1+1*1) - plogis(-0.75+1-2*1+2.5*0+0*1))*0.5*0.5 + 
-(plogis(-0.75+1-2*0+2.5*1+1*1) - plogis(-0.75+1-2*0+2.5*0+0*1))*0.5*0.5 + (plogis(-0.75+0-2*1+2.5*1+1*0) - plogis(-0.75+0-2*1+2.5*0+0*0))*0.5*0.5 +
-(plogis(-0.75+0-2*0+2.5*1+1*0) - plogis(-0.75+0-2*0+2.5*0+0*0))*0.5*0.5
-}
+&= \sum_{w1,w2}[\mathbb{E}_0(Y|A=1,W1=w1,W2=w2)-\mathbb{E}_0(Y|A=0,W1=w1,W2=w2)]\mathbb{P}_0(W1=w1,W2=w2)
+\end{split}
+\end{align}
+
+This specific data generating process specifies 
+\begin{itemize}
+
+\item That the exogenous factors influencing the value of Y are generated as $U_Y \sim Uniform(0,1)$ and 
+
+\item That, given the exogenous factors $U_Y$, the exposure $A$, and the covariates $W1$ and $W2$, the value of $Y$ is derministically generated as 
+\begin{align*}
+Y=\mathbb{I}[U_Y<logit^{-1}(-0.75+W1-2W2+2.5*A+A*W1)],
 \end{align*}
 
+where $Y=1$ if the value of $U_Y$ is less than the expression on the right of the inequality sign and $Y=0$ otherwise.  
+
+\end{itemize}
+
+Since the $logit^{-1}$ function is bounded between 0 and 1, and since $U_Y \sim Uniform(0,1)$, i.e., equally likely to be any number from 0 to 1, the probability that $Y=1$ conditional on the exposure $A$ and covariates $W1$ and $W2$ in this data generating process is then the value of $logit^{-1}(-0.75+W1-2W2+2.5A+A*W1)$, i.e., 
+\begin{align*}
+\mathbb{P}_0(Y=1|A,W1,W2)=logit^{-1}(-0.75+W1-2W2+2.5A+A*W1).
+\end{align*}
+  
+Since $Y$ is a Bernoulli random variable, its (conditional) probability of equaling one $\mathbb{P}_0(Y=1|A,W1,W2)$ equals its expectation $\mathbb{E}_0(Y|A,W1,W2)$, i.e.,
+\begin{align*}
+\mathbb{E}_0(Y|A,W1,W2)=\mathbb{P}_0(Y=1|A,W1,W2)=logit^{-1}(-0.75+W1-2W2+2.5A+A*W1)
+\end{align*}
+
+Similarly, for W1 and W2, this specific data generating process specifies 
+\begin{itemize}
+
+\item That the exogenous factors influencing the value of W1 and W2 are generated as $U_{W1} \sim Uniform(0,1)$ and $U_{W2} \sim Uniform(0,1)$, respectively, and
+
+\item That, given the exogenous factors $U_{W1}$ and $U_{W2}$, respectively, the values of $W1$ and $W2$ are deterministically generated respectively as 
+\begin{align*}
+W1=\mathbb{I}[U_{W1}<0.50] \\
+W2=\mathbb{I}[U_{W2}<0.50]
+\end{align*}
+
+where $W1=1$ or $W2=1$ if the value of $U_W1$ or $U_W2$, respectively, is less than 0.50 and 0 otherwise.  
+
+\end{itemize}
+
+Since $U_{W1}$ and $U_{W2}$ are distributed as $Uniform(0,1)$ and thus equally likely to be any number from 0 to 1, the probability that $W1=1$ and the probability that $W2=1$ are each 0.50, i.e., 
+
+\begin{align*}
+P_0(W1=1)=P_0(W2=1)=0.50.
+\end{align*}
+
+Since 0 is the only other possible value for each of $W1$ and $W2$, and the total probability must sum to 1, the probability that $W1=0$ and the probability that $W2=0$ are also each 0.50:
+
+\begin{align*}
+P_0(W1=0)=1-P_0(W1=1)=1-0.50=0.50 \\
+P_0(W2=0)=1-P_0(W2=1)=1-0.50=0.50
+\end{align*}
+
+Moreover, since $W1$ and $W2$ are independent in the working structural causal model and this particular data generating process, we can obtain their joint distribution $P_0(W1=w1,W2=w2)$ via multiplication:
+
+\begin{align*}
+P_0(W1=w1,W2=w2)=P_0(W1=w1)*P_0(W2=w2)
+\end{align*}
+
+Moreover, since $P_0(W1=w1)=P_0(W2=w2)=0.50$ for every possible value of $w1$ and $w2$, $P_0(W1=w1,W2=w2)=P_0(W1=w1)*P_0(W2=w2)=0.5*0.5=0.25$ for every one of the four possible combinations of $w1$ and $w2$.
+
+\vspace{2mm}
+
+Thus to calculate the statistical estimand $\Psi(\mathbb{P}_0)$, we can plug the expressions for the above expected values of $Y$, 
+
+$\mathbb{E}_0(Y|A,W1,W2)$, and the joint probability of $W1=w1$ and $W2=w2$, $P_0(W1=w1,W2=w2)$, into the G-computation formula outlined above in numbered equation (1):
+
+<<r code for the answer, echo=FALSE>>=
+
+p0_closed <- 
+  (plogis(-0.75+1-2*1+2.5*1+1*1) - 
+     plogis(-0.75+1-2*1+2.5*0+0*1))*0.25 + 
+  (plogis(-0.75+1-2*0+2.5*1+1*1) - 
+     plogis(-0.75+1-2*0+2.5*0+0*1))*0.25 + 
+  (plogis(-0.75+0-2*1+2.5*1+1*0) - 
+     plogis(-0.75+0-2*1+2.5*0+0*0))*0.25 +
+  (plogis(-0.75+0-2*0+2.5*1+1*0) - 
+     plogis(-0.75+0-2*0+2.5*0+0*0))*0.25
+
+@ 
+
+{\scriptsize
+\begin{align*}
+\Psi(\mathbb{P}_0) &= \sum_{w1,w2}[\mathbb{E}_0(Y|A=1,W1=w1,W2=w2)-\mathbb{E}_0(Y|A=0,W1=w1,W2=w2)]\mathbb{P}_0(W1=w1,W2=w2) \\
+&= \sum_{w1,w2}([logit^{-1}(-0.75+W1-2W2+2.5(A=1)+(A=1)W1)-logit^{-1}(-0.75+W1-2W2+2.5(A=0)+(A=0)W1)]*0.25 \\
+&= [logit^{-1}(-0.75+1-2*1+2.5*1+1*1) - logit^{-1}(-0.75+1-2*1+2.5*0+0*1)]*0.25 \\
+&\qquad + [logit^{-1}(-0.75+1-2*0+2.5*1+1*1) - logit^{-1}(-0.75+1-2*0+2.5*0+0*1)]*0.25 \\
+&\qquad + [logit^{-1}(-0.75+0-2*1+2.5*1+1*0) - logit^{-1}(-0.75+0-2*1+2.5*0+0*0)]*0.25 \\
+&\qquad + [logit^{-1}(-0.75+0-2*0+2.5*1+1*0) - logit^{-1}(-0.75+0-2*0+2.5*0+0*0)]*0.25 \\
+&= \Sexpr{p0_closed}
+\end{align*}\par}
+
+This says that the strata-specific (i.e., (health-care-access-and-conflict-history-specific) conditional probability of survival for those who receive the combination prevention package, averaged with respect to the distribution of the baseline covariates (health care access and confict history), is \Sexpr{round(p0_closed, 4)} higher than that of those who do not receive the combination prevention package. Since this data generating process satisfies the positivity assumption and under this data generating process the set of covariates $(W1, W2)$ satisfies the backdoor criterion, for this data generating process, $\Psi(\mathbb{P}_0)$ identifies the average treatment effect $\Psi^F(\mathbb{P}_{U,X})$, the difference between the counterfactual probability of survival if all children receive the combination prevention package and the counterfactual probabiilty of survival if all children do not receive the package.
 
 
 
 
+\newpage
 
 \section{Translate this data generating process into simulations}
 
-<<>>=
+<<warning=FALSE, message=FALSE, results=FALSE, echo=TRUE>>=
 
 library(tidyverse)
 
@@ -181,8 +265,7 @@ W2 <- as.numeric(U_W2 < 0.5)
 A <- as.numeric(U_A < plogis(-0.5+W1-1.5*W2))
 Y <- as.numeric(U_Y < plogis(-0.75+W1-2*W2+2.5*A+A*W1))
 
-X <- 
-  tibble(W1, W2, A, Y)
+X <- tibble(W1, W2, A, Y)
 
 @
   
@@ -201,30 +284,65 @@ Psi_F
 
 @
  
-\textcolor{red}{interpret this}
+The above result of $\Psi^F(\mathbb{P}_{U,X}) = \Sexpr{round(Psi_F, 4)}$ shows that under this data generating process and given the distribution of baseline covariates $W1$ and $W2$ in this population, the difference between the counterfactual probability of survival if all children receive the combination prevention package and the counterfactual probabiilty of survival if all children do not receive the package, i.e., the average treatment effect, is \Sexpr{round(Psi_F, 4)}.
   
   \subsection{Evaluate the positivity assumption.}
+  
+For the positivity assumption to hold, there must be a positive (but less than one) probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e., all of the following must hold:
+
+\begin{align*}
+0<\mathbb{P}_0(A=1|W1=1,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=1,W2=0)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=1)<1 \\
+0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
+\end{align*}
+
+Using this simulated data, we can check the positivity assumption by checking whether the mean of $A$ within each possible stratum of $(W1, W2)$ in the simulated data is between 0 and 1 exclusive:
   
 <<echo=TRUE>>=
 
 mean_A_W1_1_W2_1 <- mean(A[W1 == 1 & W2 == 1])
-
 mean_A_W1_1_W2_1 
 
 mean_A_W1_1_W2_0 <- mean(A[W1 == 1 & W2 == 0])
-
 mean_A_W1_1_W2_0
 
 mean_A_W1_0_W2_1 <- mean(A[W1 == 0 & W2 == 1])
-
 mean_A_W1_0_W2_1
 
 mean_A_W1_0_W2_0 <- mean(A[W1 == 0 & W2 == 0])
-
 mean_A_W1_0_W2_0
 
 @
-  
+
+
+Thus we have 
+
+\begin{itemize}
+  \item For $W1=1,W2=1$:
+  \begin{itemize}
+    \item $\mathbb{P}_0(A=1|W1=1,W2=1)=\Sexpr{round(mean_A_W1_1_W2_1, 4)}$
+    \item $\mathbb{P}_0(A=0|W1=1,W2=1)=1-\mathbb{P}_0(A=1|W1=1,W2=1)=\Sexpr{round(1-mean_A_W1_1_W2_1, 4)}$
+  \end{itemize}
+  \item For $W1=1,W2=0$:
+  \begin{itemize}
+    \item $\mathbb{P}_0(A=1|W1=1,W2=0)=\Sexpr{round(mean_A_W1_1_W2_0, 4)}$
+    \item $\mathbb{P}_0(A=0|W1=1,W2=0)=1-\mathbb{P}_0(A=1|W1=1,W2=0)=\Sexpr{round(1-mean_A_W1_1_W2_0, 4)}$  
+  \end{itemize}
+  \item For $W1=0,W2=1$:
+  \begin{itemize}
+    \item $\mathbb{P}_0(A=1|W1=0,W2=1)=\Sexpr{round(mean_A_W1_0_W2_1, 4)}$
+    \item $\mathbb{P}_0(A=0|W1=0,W2=1)=1-\mathbb{P}_0(A=1|W1=0,W2=1)=\Sexpr{round(1-mean_A_W1_0_W2_1, 4)}$  
+  \end{itemize}
+  \item For $W1=0,W2=0$:
+  \begin{itemize}
+    \item $\mathbb{P}_0(A=1|W1=0,W2=0)=\Sexpr{round(mean_A_W1_0_W2_0, 4)}$
+    \item $\mathbb{P}_0(A=0|W1=0,W2=0)=1-\mathbb{P}_0(A=1|W1=0,W2=0)=\Sexpr{round(1-mean_A_W1_0_W2_0, 4)}$
+  \end{itemize}
+\end{itemize}
+
+Since the simulated mean probability of $A=0$ and the simulated mean probability of $A=1$ is between 0 and 1 exclusive for all strata (possible combinations of values of $W1$ and $W2$), the positivity assumption is met.
+
   \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
 
 <<echo=TRUE>>=
@@ -271,7 +389,7 @@ Psi_P0
   
   \subsection{Interpret $\Psi(\mathbb{P}_0)$.}
   
-\textcolor{red}{do this}  
+This says that the strata-specific (i.e., (health-care-access-and-conflict-history-specific) conditional probability of survival for those who receive the combination prevention package, averaged with respect to the distribution of the baseline covariates (health care access and confict history), is \Sexpr{round(Psi_P0, 4)} higher than that of those who do not receive the combination prevention package. Since this data generating process satisfies the positivity assumption and under this data generating process the set of covariates $(W1, W2)$ satisfies the backdoor criterion, if this is the real data generating process, $\Psi(\mathbb{P}_0)$ identifies the average treatment effect $\Psi^F(\mathbb{P}_{U,X})$, the difference between the counterfactual probability of survival if all children receive the combination prevention package and the counterfactual probabiilty of survival if all children do not receive the package.
 
 
 
@@ -346,7 +464,7 @@ estimates <- matrix(NA, nrow = 500, ncol = 4)
     \item \textbf{For \textit{each} estimator of $\bar{Q}_0(A,W)$, estimate $\Psi(\mathbb{P}_0)$ by substituting the predicted mean outcomes under the treatment $\bar{Q}_n(1,W_i)$ and control $\bar{Q}_n(0,W_i)$ into the G-computation formula and using the sample proportion to estimate the marginal distribution of baseline covariates:}
     
 \begin{align*}
-\hat{\Psi(\mathbb{n})}=\frac{1}{n}\sum{i=1}{n}[\bar{Q}_n(1,W_i)-\bar{Q}_n(0,W_i)]
+\hat{\Psi}(\mathbb{n})=\frac{1}{n}\sum{i=1}{n}[\bar{Q}_n(1,W_i)-\bar{Q}_n(0,W_i)]
 \end{align*}
     
     \item \textbf{Assign the resulting values as a row in matrix \texttt{estimates}.}
@@ -357,7 +475,7 @@ estimates <- matrix(NA, nrow = 500, ncol = 4)
 
 for(i in 1:R){
   
-  # sample n i.i.d. observations
+  # sample n i.i.d. observations of O = (W1, W2, A, Y)
   U_W1 <- runif(n, min=0, max=1)
   U_W2 <- runif(n, min=0, max=1)
   U_A <- runif(n, min=0, max=1)
@@ -371,7 +489,7 @@ for(i in 1:R){
   # create data frame obs of the resulting observed data
   obs <- data.frame(W1, W2, A, Y)
   
-  # copy the data set obs into two new data frames
+  # copy the data set obs into two new data frames txt and control
   txt <- control <- obs
   
   # set A = 1 for all units in txt
@@ -380,41 +498,60 @@ for(i in 1:R){
   # set A = 0 for all units in control
   control <- control %>% mutate(A = 0)
   
-  # estimator one
+  # estimator one (use glm to estimate conditional survival probability)
   estimator_one <- glm(Y ~ A, family = 'binomial', data = obs)
-  predict_one_txt <- predict(estimator_one, newdata = txt, type = 'response')
-  predict_one_control <- predict(estimator_one, newdata = control, type = 'response')
-  psi_hat_one <- mean(predict_one_txt) - mean(predict_one_control)
   
   # estimator two
   estimator_two <- glm(Y ~ A + W1, family = 'binomial', data = obs)
-  predict_two_txt <- predict(estimator_two, newdata = txt, type = 'response')
-  predict_two_control <- predict(estimator_two, newdata = control, type = 'response')
-  psi_hat_two <- mean(predict_two_txt) - mean(predict_two_control)
-  
+
   # estimator three
   estimator_three <- glm(Y ~ A + W2, family = 'binomial', data = obs)
-  predict_three_txt <- predict(estimator_three, newdata = txt, type = 'response')
-  predict_three_control <- predict(estimator_three, newdata = control, type = 'response')
-  psi_hat_three <- mean(predict_three_txt) - mean(predict_three_control)
-  
+
   # estimator four
   estimator_four <- glm(Y ~ A + W1 + W2 + A*W1 + A*W2, 
                         family = 'binomial', 
                         data = obs)
-  predict_four_txt <- predict(estimator_four, newdata = txt, type = 'response')
-  predict_four_control <- predict(estimator_four, newdata = control, type = 'response')
-  psi_hat_four <- mean(predict_four_txt) - mean(predict_four_control)
+  
+  # for each estimator predict expected mean outcome under the intervention
+  predict_one_txt <- predict(estimator_one, 
+                             newdata = txt, 
+                             type = 'response')
+  predict_two_txt <- predict(estimator_two, 
+                             newdata = txt, 
+                             type = 'response')
+  predict_three_txt <- predict(estimator_three, 
+                               newdata = txt, 
+                               type = 'response')
+  predict_four_txt <- predict(estimator_four, 
+                              newdata = txt, 
+                              type = 'response')
+  
+  # for each estimator predict expected mean outcome under the control
+  predict_one_control <- predict(estimator_one, 
+                                 newdata = control, 
+                                 type = 'response')
+  predict_two_control <- predict(estimator_two, 
+                                 newdata = control, 
+                                 type = 'response')
+  predict_three_control <- predict(estimator_three, 
+                                   newdata = control, 
+                                   type = 'response')
+  predict_four_control <- predict(estimator_four, 
+                                  newdata = control, 
+                                  type = 'response')
+  
+  # estimate psi_hat for each
+  psi_hat_one <- mean(predict_one_txt - predict_one_control)
+  psi_hat_two <- mean(predict_two_txt - predict_two_control)
+  psi_hat_three <- mean(predict_three_txt - predict_three_control)
+  psi_hat_four <- mean(predict_four_txt - predict_four_control)
   
   # assign the resulting values as a row in matrix estimates
   estimates[i,] <- c(psi_hat_one, 
                      psi_hat_two, 
                      psi_hat_three, 
                      psi_hat_four)
-  
 }
-
-# estimates
 
 @
     
@@ -437,7 +574,15 @@ mean_estimator_four <- mean(estimates[,4])
 mean_estimator_four
 
 @
-  
+
+
+\begin{itemize}
+  \item The average value of estimator one is \Sexpr{round(mean_estimator_one, 4)};
+  \item The average value of estimator two is \Sexpr{round(mean_estimator_two, 4)};
+  \item The average value of estimator three is \Sexpr{round(mean_estimator_three, 4)}; and
+  \item The average value of estimator four is \Sexpr{round(mean_estimator_four, 4)}
+\end{itemize}
+
   \subsection{Estimate the bias of each estimator.}
   
 <<>>=
@@ -455,6 +600,18 @@ bias_estimator_four <- mean(estimates[,4] - Psi_P0)
 bias_estimator_four
 
 @
+  
+The bias, or mean difference between the point estimate $\hat{\Psi}(\mathbb{P}_n)$ and the true value of the statistical estimand $\Psi(\mathbb{P}_0)$, $\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n)-\Psi(\mathbb{P}_0)]$, for each of the estimators is
+
+\begin{itemize}
+
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^1))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^1)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_one}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^2))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^2)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_two}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^3))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^3)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_three}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^4))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^4)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_four}$
+
+\end{itemize}
+
   
   \subsection{Estimate the variance of each estimator.}
   
@@ -474,10 +631,28 @@ var_estimator_four
 
 @
   
+The variance of an etsimator is given by the mean value of the squares of the differences between the point estimates and their mean:
+
+\begin{align*}
+Variance(\hat{\Psi}(\mathbb{P}_n))=\mathbb{E}_0((\hat{\Psi}(\mathbb{P}_n)-\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n)])^2)
+\end{align*}
+
+The variance for each of the estimators is:
+
+\begin{itemize}
+
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^1))=\Sexpr{round(var_estimator_one, 4)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^2))=\Sexpr{round(var_estimator_two, 4)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^3))=\Sexpr{round(var_estimator_three, 4)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^4))=\Sexpr{round(var_estimator_four, 4)}$
+
+\end{itemize}
+
   \subsection{Estimate the mean squared error (MSE) of each estimator.}
   
-<<>>=
+<<echo=TRUE>>=
 
+# calculate mse for all four estimators
 mse_estimator_one <- mean((estimates[,1] - Psi_P0)^2)
 mse_estimator_one
 
@@ -490,13 +665,57 @@ mse_estimator_three
 mse_estimator_four <- mean((estimates[,4] - Psi_P0)^2)
 mse_estimator_four
 
+# calculate mse equivalent bias^2 + var
+mse_alternate_estimator_one <- bias_estimator_one^2 + var_estimator_one
+mse_alternate_estimator_one
+
+mse_alternate_estimator_two <- bias_estimator_two^2 + var_estimator_two
+mse_alternate_estimator_two
+
+mse_alternate_estimator_three <- bias_estimator_three^2 + var_estimator_three
+mse_alternate_estimator_three
+
+mse_alternate_estimator_four <- bias_estimator_four^2 + var_estimator_four
+mse_alternate_estimator_four
+
 @
 
-  \subsection{Briefly comment on the performance of the estimators. Which estimator has he lowest MSE over the $R=500$ iterations? Are you surprised?}
+The mean squared error (MSE) of an estimator is the mean of the squares of the differences between each point estimate $\hat{\Psi}(\mathbb{P}_n)$ and the true value of the statistical estimand $\Psi(\mathbb{P}_0)$, or, equivalently, the sum of the variance and the squared bias:
+
+\begin{align*}
+MSE(\hat{\Psi}(\mathbb{P}_n))=\mathbb{E}_0((\hat{\Psi}(\mathbb{P}_n)-\Psi(\mathbb{P}_0)])^2)
+\end{align*}
+
+The MSE for each of the estimators is:
+
+\begin{itemize}
+
+  \item $MSE(\hat{\Psi}(\mathbb{P}_n^1))=\Sexpr{round(mse_estimator_one, 4)}$
+  \item $MSE(\hat{\Psi}(\mathbb{P}_n^2))=\Sexpr{round(mse_estimator_two, 4)}$
+  \item $MSE(\hat{\Psi}(\mathbb{P}_n^3))=\Sexpr{round(mse_estimator_three, 4)}$
+  \item $MSE(\hat{\Psi}(\mathbb{P}_n^4))=\Sexpr{round(mse_estimator_four, 4)}$
+
+\end{itemize}
+
+  \subsection{Briefly comment on the performance of the estimators. Which estimator has the lowest MSE over the $R=500$ iterations? Are you surprised?}
   
-\textcolor{red}{do this}
- 
- 
+The fourth estimator, which estimated $\bar{Q}^4_0(A,W)$ via the logistic regression model
+
+\begin{align*}
+\bar{Q}^4_0(A,W)=logit^{-1}(\beta_0+\beta_1A+\beta_2W1+\beta_3W2+\beta_4A*W1+\beta_5A*W2),
+\end{align*}
+
+performed the best (i.e., had the smallest mean squared error) of the four estimators.  I am not surprised because I know the particular data generating process, by which the expected value of $Y$ given the covariates $A$, $W1$, and $W2$ is
+
+\begin{align*}
+\mathbb{E}_0(Y|A,W1,W2)=logit^{-1}(-0.75+W1-2W2+2.5A+A*W1)
+\end{align*}
+
+Thus I know the value of $Y$ is generated by a logistic function of a constant intercept term, $W1$, $W2$, $A$, and the product of $A$ and $W1$. Although all four estimators are logistic models, the first estimator only includes terms for the intercept and $A$, the second only terms for the intercept, $A$, and $W1$, the third only terms for the intercept, $A$, and $W2$. Only the fourth model includes both $W1$ and $W2$, and only the fourth model includes a product (interaction) term for $A$ and $W1$. Thus only the fourth model is correctly parametrically specified and can capture the entire true data generation process. (It also contains a superfluous interaction term between $A$ and $W2$, but the $\beta$ coefficient for that term can be 0 to recover the correctly specified model for the true data generating process.)
+
+
+
+
  
  
  

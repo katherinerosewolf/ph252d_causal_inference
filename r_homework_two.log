@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  24 MAR 2020 00:52
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  27 MAR 2020 15:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -627,66 +627,66 @@ Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 )) (./r_homework_two.aux)
 \openout1 = `r_homework_two.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 92.
+LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 95.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
-92.
+95.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omltxmi.fd
 File: omltxmi.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 95.
 LaTeX Font Info:    Trying to load font information for OMS+txsy on input line 
-92.
+95.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omstxsy.fd
 File: omstxsy.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 95.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 9
-2.
+5.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 95.
 LaTeX Font Info:    Trying to load font information for OMX+txex on input line 
-92.
+95.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omxtxex.fd
 File: omxtxex.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 95.
 LaTeX Font Info:    Trying to load font information for U+txexa on input line 9
-2.
+5.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxexa.fd
 File: utxexa.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 92.
-LaTeX Font Info:    Trying to load font information for T3+cmr on input line 92
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 95.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 95
 .
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tipa
 /t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    ... okay on input line 95.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: longtable package is loaded.
 
@@ -731,97 +731,107 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-94.
+97.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-94.
+97.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-94.
+97.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Trying to load font information for U+txsya on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsya.fd
 File: utxsya.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyb on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyb.fd
 File: utxsyb.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for OT1+txr on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/ot1txr.fd
 File: ot1txr.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txmia on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxmia.fd
 File: utxmia.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyc on input line 9
-4.
+7.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-94.
+97.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
 LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
-109.
+112.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ufplmbb.fd
 File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
 ) [1
 
-] [2] [3] [4] [5]
+] [2] [3] [4] [5] [6] [7] [8]
 Missing character: There is no n in font fplmbb!
 Missing character: There is no n in font fplmbb!
- [6] [7] [8]
+ [9] [10]
+Overfull \hbox (7.20815pt too wide) in paragraph at lines 724--725
+[]\TU/PalatinoLinotype(0)/m/n/10 The bias, or mean difference between the point
+ estimate $[]\OT1/zplm/m/n/10 (\U/fplmbb/m/n/10 P[]\OT1/zplm/m/n/10 )$ \TU/Pala
+tinoLinotype(0)/m/n/10 and the true value of the statistical estimand $\OT1/zpl
+m/m/n/10 ^^I(\U/fplmbb/m/n/10 P[]\OT1/zplm/m/n/10 )$\TU/PalatinoLinotype(0)/m/n
+/10 , $\U/fplmbb/m/n/10 E[]\OT1/zplm/m/n/10 [[](\U/fplmbb/m/n/10 P[]\OT1/zplm/m
+/n/10 ) \OMS/zplm/m/n/10 ^^@
+ []
+
+[11] [12] [13]
 File: figure/unnamed-chunk-16-1.pdf Graphic file (type pdf)
 <use figure/unnamed-chunk-16-1.pdf>
- [9] [10] (./r_homework_two.aux) ) 
+ [14] (./r_homework_two.aux) ) 
 Here is how much of TeX's memory you used:
- 13185 strings out of 481765
- 257939 string characters out of 5933240
- 557686 words of memory out of 5000000
- 29954 multiletter control sequences out of 15000+600000
- 560683 words of font info for 163 fonts, out of 8000000 for 9000
+ 13205 strings out of 481765
+ 258254 string characters out of 5933240
+ 560686 words of memory out of 5000000
+ 29970 multiletter control sequences out of 15000+600000
+ 565344 words of font info for 179 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,10n,79p,433b,284s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,14n,79p,954b,282s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_two.pdf (10 pages).
+Output written on r_homework_two.pdf (14 pages).
