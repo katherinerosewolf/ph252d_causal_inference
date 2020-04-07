@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  30 MAR 2020 09:58
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  7 APR 2020 00:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**r_homework_two.tex
-(./r_homework_two.tex
+**r_homework_three.tex
+(./r_homework_three.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-02-25>
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
@@ -485,114 +485,84 @@ ss/mathpazo.sty
 Package: mathpazo 2005/04/12 PSNFSS-v9.2a Palatino w/ Pazo Math (D.Puga, WaS) 
 \symupright=\mathgroup13
 )
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/l
+modern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/ppl/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/zplm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/zplm/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/zplm/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/ppl/b/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/zplm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/zplm/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/zplm/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/zplm/b/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/txss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/ppl/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/txtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/zplm/b/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/txss/b/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/ppl/b/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/txtt/b/n --> OT1/lmtt/m/n on input line 38.
+)
 
-Package fontspec Info: Font family 'PalatinoLinotype(0)' created for font
-(fontspec)             'Palatino Linotype' with options [Ligatures=TeX].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Palatino
-(fontspec)             Linotype/OT:script=latn;language=dflt;mapping=tex-text;"
-
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: <->"Palatino
-(fontspec)             Linotype/OT:script=latn;language=dflt;+smcp;mapping=tex-
-text;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Palatino
-(fontspec)             Linotype/B/OT:script=latn;language=dflt;mapping=tex-text
-;"
-(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
-(fontspec)             <->"Palatino
-(fontspec)             Linotype/B/OT:script=latn;language=dflt;+smcp;mapping=te
-x-text;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Palatino
-(fontspec)             Linotype/I/OT:script=latn;language=dflt;mapping=tex-text
-;"
-(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
-(fontspec)             <->"Palatino
-(fontspec)             Linotype/I/OT:script=latn;language=dflt;+smcp;mapping=te
-x-text;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Palatino
-(fontspec)             Linotype/BI/OT:script=latn;language=dflt;mapping=tex-tex
-t;"
-(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
-(fontspec)             <->"Palatino
-(fontspec)             Linotype/BI/OT:script=latn;language=dflt;+smcp;mapping=t
-ex-text;"
-
-
-Package fontspec Info: Font family 'Corbel(0)' created for font 'Corbel' with
-(fontspec)             options [Ligatures=TeX].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"Corbel/OT:script=latn;language=dflt;mapping=tex-text
-;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
-(fontspec)             <->"Corbel/OT:script=latn;language=dflt;+smcp;mapping=te
-x-text;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"Corbel/B/OT:script=latn;language=dflt;mapping=tex-te
-xt;"
-(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
-(fontspec)             <->"Corbel/B/OT:script=latn;language=dflt;+smcp;mapping=
-tex-text;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"Corbel/I/OT:script=latn;language=dflt;mapping=tex-te
-xt;"
-(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
-(fontspec)             <->"Corbel/I/OT:script=latn;language=dflt;+smcp;mapping=
-tex-text;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->"Corbel/BI/OT:script=latn;language=dflt;mapping=tex-t
-ext;"
-(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
-(fontspec)             <->"Corbel/BI/OT:script=latn;language=dflt;+smcp;mapping
-=tex-text;"
-
-
-Package fontspec Info: Font family 'Consolas(0)' created for font 'Consolas'
-(fontspec)             with options
-(fontspec)             [WordSpace={1,0,0},HyphenChar=None,PunctuationSpace=Word
-Space].
+Package fontspec Info: Font family 'Garamond(0)' created for font 'Garamond'
+(fontspec)             with options [Ligatures=TeX].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"Consolas/OT:script=latn;language=dflt;"
+(fontspec)             <->"Garamond/OT:language=dflt;mapping=tex-text;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
-(fontspec)             and font adjustment code:
-(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
-(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
-(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
-(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"Consolas/B/OT:script=latn;language=dflt;"
+(fontspec)             <->"Garamond/B/OT:language=dflt;mapping=tex-text;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
-(fontspec)             and font adjustment code:
-(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
-(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
-(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
-(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"Consolas/I/OT:script=latn;language=dflt;"
+(fontspec)             <->"Garamond/I/OT:language=dflt;mapping=tex-text;"
 (fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
-(fontspec)             and font adjustment code:
-(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
-(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
-(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
-(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 (fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->"Consolas/BI/OT:script=latn;language=dflt;"
+(fontspec)             <->"Garamond/BI/OT:language=dflt;mapping=tex-text;"
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
-(fontspec)             and font adjustment code:
-(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
-(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
-(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
-(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
+
+
+Package fontspec Info: Could not resolve font "Lucida Console/BI" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "Lucida Console/B" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "Lucida Console/I" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Font family 'LucidaConsole(0)' created for font 'Lucida
+(fontspec)             Console' with options [Ligatures=TeX].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Lucida
+(fontspec)             Console/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geom
@@ -624,69 +594,69 @@ tim
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)) (./r_homework_two.aux)
-\openout1 = `r_homework_two.aux'.
+)) (./r_homework_three.aux)
+\openout1 = `r_homework_three.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 95.
+LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 90.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
-95.
+90.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omltxmi.fd
 File: omltxmi.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 90.
 LaTeX Font Info:    Trying to load font information for OMS+txsy on input line 
-95.
+90.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omstxsy.fd
 File: omstxsy.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 9
-5.
+0.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 90.
 LaTeX Font Info:    Trying to load font information for OMX+txex on input line 
-95.
+90.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/omxtxex.fd
 File: omxtxex.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 90.
 LaTeX Font Info:    Trying to load font information for U+txexa on input line 9
-5.
+0.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxexa.fd
 File: utxexa.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 95.
-LaTeX Font Info:    Trying to load font information for T3+cmr on input line 95
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 90.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 90
 .
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tipa
 /t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    ... okay on input line 90.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: longtable package is loaded.
 
@@ -730,105 +700,98 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 9
-7.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
+2.
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
-ss/ot1ppl.fd
-File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/o
+t1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-97.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
+2.
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
-ss/omlzplm.fd
-File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/o
+mllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-97.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+92.
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
-ss/omszplm.fd
-File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/o
+mslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-97.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+92.
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
-ss/omxzplm.fd
-File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
+(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/o
+mxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 92.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 92.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 92.
 LaTeX Font Info:    Trying to load font information for U+txsya on input line 9
-7.
+2.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsya.fd
 File: utxsya.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyb on input line 9
-7.
+2.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyb.fd
 File: utxsyb.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for OT1+txr on input line 9
-7.
+2.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/ot1txr.fd
 File: ot1txr.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txmia on input line 9
-7.
+2.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxmia.fd
 File: utxmia.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyc on input line 9
-7.
+2.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/txfo
 nts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-97.
+92.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
-LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
-116.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 96.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 98.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 103.
+ [1
 
-(c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
-ss/ufplmbb.fd
-File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
-) [1
-
-] [2] [3] [4] [5] [6] [7] [8]
-Missing character: There is no n in font fplmbb!
-Missing character: There is no n in font fplmbb!
- [9] [10]
-Overfull \hbox (7.20815pt too wide) in paragraph at lines 734--735
-[]\TU/PalatinoLinotype(0)/m/n/10 The bias, or mean difference between the point
- estimate $[]\OT1/zplm/m/n/10 (\U/fplmbb/m/n/10 P[]\OT1/zplm/m/n/10 )$ \TU/Pala
-tinoLinotype(0)/m/n/10 and the true value of the statistical estimand $\OT1/zpl
-m/m/n/10 ^^I(\U/fplmbb/m/n/10 P[]\OT1/zplm/m/n/10 )$\TU/PalatinoLinotype(0)/m/n
-/10 , $\U/fplmbb/m/n/10 E[]\OT1/zplm/m/n/10 [[](\U/fplmbb/m/n/10 P[]\OT1/zplm/m
-/n/10 ) \OMS/zplm/m/n/10 ^^@
- []
-
-[11] [12] [13] [14] (./r_homework_two.aux) ) 
+] [2] [3] [4] [5] [6] (./r_homework_three.aux) ) 
 Here is how much of TeX's memory you used:
- 13196 strings out of 481765
- 258024 string characters out of 5933240
- 560686 words of memory out of 5000000
- 29964 multiletter control sequences out of 15000+600000
- 565344 words of font info for 179 fonts, out of 8000000 for 9000
+ 13057 strings out of 481765
+ 254369 string characters out of 5933240
+ 551376 words of memory out of 5000000
+ 29849 multiletter control sequences out of 15000+600000
+ 552883 words of font info for 96 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,14n,79p,954b,282s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,6n,67p,376b,292s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_two.pdf (14 pages).
+Output written on r_homework_three.pdf (6 pages).

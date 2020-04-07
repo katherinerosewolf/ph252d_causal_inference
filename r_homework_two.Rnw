@@ -57,13 +57,17 @@ knit_hooks$set(document = function(x) {
 
   \subsection{Evaluate the positivity assumption in closed form for this data generating process.}
   
-For the positivity assumption to hold, there must be a positive (but less than one) probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e., all of the following must hold:
+For the positivity assumption to hold, there must be a positive probability of receiving the intervention package ($A = 1$) and the standard of care ($A = 0$) within all possible strata of health care access ($W1$) and conflict history ($W2$), i.e., all of the following must hold:
 
 \begin{align*}
-0<\mathbb{P}_0(A=1|W1=1,W2=1)<1 \\
-0<\mathbb{P}_0(A=1|W1=1,W2=0)<1 \\
-0<\mathbb{P}_0(A=1|W1=0,W2=1)<1 \\
-0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
+0<\mathbb{P}_0(A=1|W1=1,W2=1) \\
+0<\mathbb{P}_0(A=0|W1=1,W2=1) \\
+0<\mathbb{P}_0(A=1|W1=1,W2=0) \\
+0<\mathbb{P}_0(A=0|W1=1,W2=0) \\
+0<\mathbb{P}_0(A=1|W1=0,W2=1) \\
+0<\mathbb{P}_0(A=0|W1=0,W2=1) \\
+0<\mathbb{P}_0(A=1|W1=0,W2=0) \\
+0<\mathbb{P}_0(A=0|W1=0,W2=0) \\
 \end{align*}
 
 This data generating process specifies
@@ -82,34 +86,43 @@ Since the $logit^{-1}$ function is bounded between 0 and 1, and since $U_A \sim 
 \mathbb{P}_0(A=1|W1,W2)=logit^{-1}(-0.5+W1-1.5*W2).
 \end{align*}
 
-To evaluate the positivity assumption in closed form for this data-generating process, then, we can plug the four possible combinations of $W1$ and $W2$ into the equation above. The positivity assumption is satisfied if the equation generates a number between 0 and 1 exclusive for all four possible covariate combinations.
+Since 0 is the only other possible value for A, and since the total probability must sum to 1, the probability of $A=0$ conditional on the covariates $W1$ and $W2$ in this data generating system is then the one minus that value, i.e.,
+
+\begin{align*}
+\mathbb{P}_0(A=0|W1,W2)=1-logit^{-1}(-0.5+W1-1.5*W2).
+\end{align*}
+
+To evaluate the positivity assumption in closed form for this data-generating process, then, we can plug the four possible combinations of $W1$ and $W2$ into the equations above. The positivity assumption is satisfied if all the equations generate a number above 0 for all four possible covariate combinations.
 
 \begin{itemize}
   
   \item For $W1=1, W2=1$:
 \begin{align*}
-\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = \Sexpr{plogis(-0.5+1-1.5*1)}
+\mathbb{P}_0(A=1|W1=1,W2=1) &= logit^{-1}(-0.5+1-1.5*1) = \Sexpr{plogis(-0.5+1-1.5*1)} \\
+\mathbb{P}_0(A=0|W1=1,W2=1) &= 1-logit^{-1}(-0.5+1-1.5*1) = \Sexpr{1-plogis(-0.5+1-1.5*1)}
 \end{align*}
 
   \item For $W1=1, W2=0$:
 \begin{align*}
-\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = \Sexpr{plogis(-0.5+1-1.5*0)}
+\mathbb{P}_0(A=1|W1=1,W2=0) &= logit^{-1}(-0.5+1-1.5*0) = \Sexpr{plogis(-0.5+1-1.5*0)} \\
+\mathbb{P}_0(A=0|W1=1,W2=0) &= 1-logit^{-1}(-0.5+1-1.5*0) = \Sexpr{1-plogis(-0.5+1-1.5*0)}
 \end{align*}
 
   \item For $W1=0, W2=1$:
 \begin{align*}
-\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = \Sexpr{plogis(-0.5+0-1.5*1)}
+\mathbb{P}_0(A=1|W1=0,W2=1) &= logit^{-1}(-0.5+0-1.5*1) = \Sexpr{plogis(-0.5+0-1.5*1)} \\
+\mathbb{P}_0(A=0|W1=0,W2=1) &= 1-logit^{-1}(-0.5+0-1.5*1) = \Sexpr{1-plogis(-0.5+0-1.5*1)}
 \end{align*}
 
   \item For $W1=0, W2=0$:
 \begin{align*}
-\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = \Sexpr{plogis(-0.5+0-1.5*0)}
+\mathbb{P}_0(A=1|W1=0,W2=0) &= logit^{-1}(-0.5+0-1.5*0) = \Sexpr{plogis(-0.5+0-1.5*0)} \\
+\mathbb{P}_0(A=0|W1=0,W2=0) &= 1-logit^{-1}(-0.5+0-1.5*0) = \Sexpr{1-plogis(-0.5+0-1.5*0)} 
 \end{align*}
   
 \end{itemize}
 
-Since $0 < \mathbb{P}_0(A=1|W1,W2) < 1$ for all four possible combinations of $W1$ and $W2$, the positivity assumption is satisfied.
-
+Since $0 < \mathbb{P}_0(A=1|W1,W2)$ and $0 < \mathbb{P}_0(A=0|W1,W2)$ for all four possible combinations of $W1$ and $W2$, the positivity assumption is satisfied.
 
 \newpage
   
@@ -163,30 +176,27 @@ W1=\mathbb{I}[U_{W1}<0.50] \\
 W2=\mathbb{I}[U_{W2}<0.50]
 \end{align*}
 
-where $W1=1$ or $W2=1$ if the value of $U_W1$ or $U_W2$, respectively, is less than 0.50 and 0 otherwise.  
+where $W1=1$ or $W2=1$ if the value of $U_{W1}$ or $U_{W2}$, respectively, is less than 0.50, and $W1=0$ or $W2=0$ otherwise.  
 
 \end{itemize}
 
-Since $U_{W1}$ and $U_{W2}$ are distributed as $Uniform(0,1)$ and thus equally likely to be any number from 0 to 1, the probability that $W1=1$ and the probability that $W2=1$ are each 0.50, i.e., 
-
+Since $U_{W1}$ and $U_{W2}$ are each distributed as $Uniform(0,1)$ and thus equally likely to be any number from 0 to 1, the probability that $W1=1$ and the probability that $W2=1$ are each 0.50, i.e., 
 \begin{align*}
 P_0(W1=1)=P_0(W2=1)=0.50.
 \end{align*}
 
 Since 0 is the only other possible value for each of $W1$ and $W2$, and the total probability must sum to 1, the probability that $W1=0$ and the probability that $W2=0$ are also each 0.50:
-
 \begin{align*}
 P_0(W1=0)=1-P_0(W1=1)=1-0.50=0.50 \\
 P_0(W2=0)=1-P_0(W2=1)=1-0.50=0.50
 \end{align*}
 
 Moreover, since $W1$ and $W2$ are independent in the working structural causal model and this particular data generating process, we can obtain their joint distribution $P_0(W1=w1,W2=w2)$ via multiplication:
-
 \begin{align*}
 P_0(W1=w1,W2=w2)=P_0(W1=w1)*P_0(W2=w2)
 \end{align*}
 
-Moreover, since $P_0(W1=w1)=P_0(W2=w2)=0.50$ for every possible value of $w1$ and $w2$, $P_0(W1=w1,W2=w2)=P_0(W1=w1)*P_0(W2=w2)=0.5*0.5=0.25$ for every one of the four possible combinations of $w1$ and $w2$.
+Moreover, since $P_0(W1=w1)=P_0(W2=w2)=0.50$ for every possible value of $w1$ and $w2$, $P_0(W1=w1,W2=w2)=P_0(W1=w1)*P_0(W2=w2)=0.50*0.50=0.25$ for every one of the four possible combinations of $w1$ and $w2$.
 
 \vspace{2mm}
 
@@ -297,7 +307,7 @@ For the positivity assumption to hold, there must be a positive (but less than o
 0<\mathbb{P}_0(A=1|W1=0,W2=0)<1
 \end{align*}
 
-Using this simulated data, we can check the positivity assumption by checking whether the mean of $A$ within each possible stratum of $(W1, W2)$ in the simulated data is between 0 and 1 exclusive:
+Using this simulated data, we can check the positivity assumption by checking whether the mean of $A$ within each possible stratum of $(W1, W2)$ in the simulated data is between 0 and 1 exclusive. (Checking for whether $\mathbb{P}_0(A=0|W1=1,W2=1)<1$ is equivalent to checking whether $0<\mathbb{P}_0(A=0|W1=1,W2=1)$, as A can only take values of 0 or 1.):
   
 <<echo=TRUE>>=
 
@@ -341,7 +351,7 @@ Thus we have
   \end{itemize}
 \end{itemize}
 
-Since the simulated mean probability of $A=0$ and the simulated mean probability of $A=1$ is between 0 and 1 exclusive for all strata (possible combinations of values of $W1$ and $W2$), the positivity assumption is met.
+Since the simulated mean probability of $A=0$ and the simulated mean probability of $A=1$ are greater than 0 for all strata (possible combinations of values of $W1$ and $W2$), the positivity assumption is met.
 
   \subsection{Evaluate the statistical estimand $\Psi(\mathbb{P}_0)$ and assign the value $\psi_0$ to \texttt{Psi.P0}.}
 
@@ -577,10 +587,10 @@ mean_estimator_four
 
 
 \begin{itemize}
-  \item The average value of estimator one is \Sexpr{round(mean_estimator_one, 4)};
-  \item The average value of estimator two is \Sexpr{round(mean_estimator_two, 4)};
-  \item The average value of estimator three is \Sexpr{round(mean_estimator_three, 4)}; and
-  \item The average value of estimator four is \Sexpr{round(mean_estimator_four, 4)}
+  \item The average value of estimator one is $\mathbb{E}_0(\hat{\Psi}(\mathbb{P}_n^1))=\Sexpr{round(mean_estimator_one, 5)}$;
+  \item The average value of estimator two is $\mathbb{E}_0(\hat{\Psi}(\mathbb{P}_n^2))=\Sexpr{round(mean_estimator_two, 5)}$;
+  \item The average value of estimator three is $\mathbb{E}_0(\hat{\Psi}(\mathbb{P}_n^3))=\Sexpr{round(mean_estimator_three, 5)}$; and
+  \item The average value of estimator four is $\mathbb{E}_0(\hat{\Psi}(\mathbb{P}_n^4))=\Sexpr{round(mean_estimator_four, 5)}$.
 \end{itemize}
 
   \subsection{Estimate the bias of each estimator.}
@@ -605,10 +615,10 @@ The bias, or mean difference between the point estimate $\hat{\Psi}(\mathbb{P}_n
 
 \begin{itemize}
 
-  \item $Bias(\hat{\Psi}(\mathbb{P}_n^1))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^1)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_one}$
-  \item $Bias(\hat{\Psi}(\mathbb{P}_n^2))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^2)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_two}$
-  \item $Bias(\hat{\Psi}(\mathbb{P}_n^3))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^3)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_three}$
-  \item $Bias(\hat{\Psi}(\mathbb{P}_n^4))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^4)-\Psi(\mathbb{P}_0)]=\Sexpr{bias_estimator_four}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^1))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^1)-\Psi(\mathbb{P}_0)]=\Sexpr{round(bias_estimator_one, 5)}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^2))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^2)-\Psi(\mathbb{P}_0)]=\Sexpr{round(bias_estimator_two, 5)}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^3))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^3)-\Psi(\mathbb{P}_0)]=\Sexpr{round(bias_estimator_three, 5)}$
+  \item $Bias(\hat{\Psi}(\mathbb{P}_n^4))=\mathbb{E}_0[\hat{\Psi}(\mathbb{P}_n^4)-\Psi(\mathbb{P}_0)]=\Sexpr{round(bias_estimator_four, 5)}$
 
 \end{itemize}
 
@@ -641,10 +651,10 @@ The variance for each of the estimators is:
 
 \begin{itemize}
 
-  \item $Variance(\hat{\Psi}(\mathbb{P}_n^1))=\Sexpr{round(var_estimator_one, 4)}$
-  \item $Variance(\hat{\Psi}(\mathbb{P}_n^2))=\Sexpr{round(var_estimator_two, 4)}$
-  \item $Variance(\hat{\Psi}(\mathbb{P}_n^3))=\Sexpr{round(var_estimator_three, 4)}$
-  \item $Variance(\hat{\Psi}(\mathbb{P}_n^4))=\Sexpr{round(var_estimator_four, 4)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^1))=\Sexpr{round(var_estimator_one, 5)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^2))=\Sexpr{round(var_estimator_two, 5)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^3))=\Sexpr{round(var_estimator_three, 5)}$
+  \item $Variance(\hat{\Psi}(\mathbb{P}_n^4))=\Sexpr{round(var_estimator_four, 5)}$
 
 \end{itemize}
 
@@ -712,105 +722,5 @@ performed the best (i.e., had the smallest mean squared error) of the four estim
 \end{align*}
 
 Thus I know the value of $Y$ is generated by a logistic function of a constant intercept term, $W1$, $W2$, $A$, and the product of $A$ and $W1$. Although all four estimators are logistic models, the first estimator only includes terms for the intercept and $A$, the second only terms for the intercept, $A$, and $W1$, the third only terms for the intercept, $A$, and $W2$. Only the fourth model includes both $W1$ and $W2$, and only the fourth model includes a product (interaction) term for $A$ and $W1$. Thus only the fourth model is correctly parametrically specified and can capture the entire true data generation process. (It also contains a superfluous interaction term between $A$ and $W2$, but the $\beta$ coefficient for that term can be 0 to recover the correctly specified model for the true data generating process.)
-
-
-
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-    
-<<echo=FALSE, warning=FALSE, message=FALSE, out.width='4in'>>=
-
-library(tidyverse)
-library(dagitty)
-library(ggdag)
-
-# set coordinates
-positionality <- 
-  list(x = c(A = 0, 
-             U_A = 0, 
-             W1 = 0.66, 
-             U_W1 = 0.66, 
-             W2 = 1.33, 
-             U_W2 = 1.33, 
-             Y = 2, 
-             U_Y = 2), 
-       y = c(A = 0, 
-             U_A = 1, 
-             W1 = 1, 
-             U_W1 = 2, 
-             W2 = 1, 
-             U_W2 = 2, 
-             Y = 0, 
-             U_Y = 1))
-
-positionality_dataframe <- coords2df(positionality)
-
-dag_one <- dagify(Y ~ W1 + W2 + A + U_Y,
-                  A ~ W1 + W2 + U_A,
-                  W2 ~ W1 + U_W2,
-                  W1 ~ U_W1, 
-                  U_A ~~ U_Y + U_W1 + U_W2, 
-                  U_W1 ~~ U_Y + U_W2,
-                  U_W2 ~~ U_Y, 
-                  exposure = "A",
-                  outcome = "Y") 
-
-coordinates(dag_one) <- coords2list(positionality_dataframe)
-
-dag_for_the_ages <- 
-  dag_one %>%
-  tidy_dagitty() %>% 
-  arrange(name) %>% 
-  mutate(linetype = ifelse(name %in% c("U_A", 
-                                       "U_W1", 
-                                       "U_W2", 
-                                       "U_Y"), 
-                           "dashed", 
-                           "solid")) %>% 
-ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
-  geom_dag_point() + 
-  geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) +
-  geom_dag_text(parse = TRUE, 
-                label = c("A",
-                           paste0(expression(U[A])), 
-                           paste0(expression(U[W1])), 
-                           paste0(expression(U[W2])), 
-                           paste0(expression(U[Y])),
-                           "W1", 
-                           "W2", 
-                           "Y")
-                ) +
-  theme_dag()
-
-dag_for_the_ages
-    
-@
-      
-      
       
 \end{document}

@@ -1,0 +1,300 @@
+\documentclass{article}
+\title{\textbf{R Homework Three}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+\usepackage{dejavu}
+\usepackage{mathpazo}
+\usepackage{lmodern}
+
+% set fonts
+\setmainfont{Garamond}
+\setsansfont{Lucida Console}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+
+% remove automatic indenting
+\setlength{\parindent}{0pt}
+
+<<echo=FALSE>>=
+library(knitr)
+knit_hooks$set(document = function(x) {
+  sub('\\usepackage[]{color}', '\\usepackage[]{xcolor}', x, fixed = TRUE)
+})
+@
+
+% end the preamble and begin the document
+
+\begin{document}
+
+\maketitle
+
+\section{Background story.}
+
+\section{Import and explore the data set \texttt{RAssign3.csv}.}
+
+  \subsection{Use the \texttt{read.csv} function to import the dataset and assign it to dataframe obs\_data.}
+  
+<<echo = TRUE, results = 'hide', warning = FALSE, comment = FALSE, message = FALSE>>=
+
+library(tidyverse)
+
+obs_data <- read_csv("RAssign3.csv")
+
+@
+
+  \subsection{Use the \texttt{names}, \texttt{tail}, and \texttt{summary} functions to explore the data.}
+  
+<<echo = TRUE>>=
+
+names(obs_data)
+
+tail(obs_data)
+
+summary(obs_data)
+
+@
+  
+  
+  \subsection{Use the \texttt{nrow} function to count the number of communities in the data set. Assign this number as \texttt{n}.}
+  
+<<echo = TRUE>>=
+
+n <- nrow(obs_data)
+
+n
+
+@
+
+\section{Code discrete Super Learner to select the estimator with the lowest cross-validated risk estimate.}
+
+  \subsection{Briefly discuss the motivation for using discrete Super Learner (a.k.a. the cross-validation selector).}
+  
+  \textcolor{red}{add explanation here}
+  
+  \subsection{Create the following transformed variables and add them to the data frame \texttt{obs\_data}:}
+  \begin{itemize}
+    \item \texttt{sin\_W3 <- sin(obs\_data\$W3)}
+    \item \texttt{W4\_sq <- obs\_data\$W4 * obs\_data\$W4}
+    \item \texttt{cos\_W5 <- cos(obs\_data\$W5)}
+  \end{itemize}
+
+<<echo = TRUE>>=
+
+obs_data$sin_W3 <- sin(obs_data$W3)
+obs_data$W4_sq <- obs_data$W4 * obs_data$W4
+obs_data$cos_W5 <- cos(obs_data$W5)
+
+@
+  
+  \subsection{Split the data into $V = 20$ folds. Create the vector \texttt{fold} and add it to the data frame \texttt{obs\_data}.}
+  
+<<echo = TRUE>>=
+
+# With n = 5000 observations total, we want n/20 = 250 observations in each fold.
+
+obs_data$fold <- c(rep(1, 250), 
+                   rep(2, 250), 
+                   rep(3, 250),
+                   rep(4, 250),
+                   rep(5, 250),
+                   rep(6, 250),
+                   rep(7, 250), 
+                   rep(8, 250), 
+                   rep(9, 250), 
+                   rep(10, 250), 
+                   rep(11, 250), 
+                   rep(12, 250), 
+                   rep(13, 250),
+                   rep(14, 250),
+                   rep(15, 250),
+                   rep(16, 250),
+                   rep(17, 250), 
+                   rep(18, 250), 
+                   rep(19, 250), 
+                   rep(20, 250))
+
+@ 
+  
+  \subsection{Create an empty matrix \texttt{CV\_risk} with 20 rows and 4 columns for each algorithm, evaluated at each fold.}
+  
+<<echo = TRUE>>=
+
+cv_risk <- matrix(NA, nrow=20, ncol=4)
+
+@
+
+
+  \subsection{Use a \texttt{for} loop to fit each estimator on the training set (19/20 of the data); predict the expected MUAC for the communities in the validation set (1/20 of the data), and evaluate the cross-validated risk.}
+  \begin{enumerate}
+    \item \textbf{Since each fold needs to serve as the training set, have the \texttt{for} loop run from \texttt{V} is 1 to 20.}
+    \item \textbf{Create the validation set as a data frame \texttt{valid}, consisting of observations with \texttt{fold} equal to \texttt{V}.}
+    \item \textbf{Create the training set as a data frame \texttt{train}, consisting of observations with \texttt{fold} not equal to \texttt{V}.}
+    \item \textbf{Use \texttt{glm} to fit each algorithm on the training set. Be sure to specify \texttt{data = train}.}
+    \item \textbf{For each algorithm, predict the average MUAC for each community in the validation set. Be sure to specify the \texttt{type = 'response'} and \texttt{newdata = valid}.}
+    \item \textbf{Estimate the cross-validated risk for each algorithm with the L2 loss function. Take the \texttt{mean} of the squared differences between the observed outcomes Y in the validation set and the predicted outcomes. Assign the cross-validated risks as a row in the matrix \texttt{cv\_risk}.}
+  \end{enumerate}
+  
+<<echo = TRUE>>=
+
+for (V in 1:20){
+  valid <- obs_data[obs_data$fold == V,]
+  train <- obs_data[obs_data$fold != V,]
+  model_a <- glm(Y ~ W1 + W2 + sin_W3 + W4_sq, data = train)
+  model_b <- glm(Y ~ W1 + W2 + W4 + cos_W5, data = train)
+  model_c <- glm(Y ~ W2 + W3 + W5 + W2:W5 + W4_sq + cos_W5, data = train)
+  model_d <- glm(Y ~ W1*W2*W5, data = train)
+  
+  predict_a <- predict(object = model_a, type = 'response', newdata = valid)
+  predict_b <- predict(object = model_b, type = 'response', newdata = valid)
+  predict_c <- predict(object = model_c, type = 'response', newdata = valid)
+  predict_d <- predict(object = model_d, type = 'response', newdata = valid)
+  
+  cv_risk[V,1] <- mean((valid$Y - predict_a)^2)
+  cv_risk[V,2] <- mean((valid$Y - predict_b)^2)
+  cv_risk[V,3] <- mean((valid$Y - predict_c)^2)
+  cv_risk[V,4] <- mean((valid$Y - predict_d)^2)
+}
+
+
+@
+  
+  \subsection{Select the algorithm with the lowest average cross-validated risk. Hint: Use the \texttt{colMeans} function.}
+  
+<<>>=
+
+# get the average risks
+average_risks <- colMeans(cv_risk)
+
+# restore their model names
+names(average_risks) <- c("model_a", "model_b", "model_c", "model_d")
+
+# print them
+average_risks
+
+# find the average risk that minimizes the L2 loss function
+minimum_average_risk <- average_risks[average_risks == min(average_risks)]
+
+# print it
+minimum_average_risk
+
+# get the model name
+best_discrete_model_name <- names(minimum_average_risk)
+
+@
+
+
+  \subsection{Fit the chosen algorithm on all the data.}
+  
+<<>>=
+
+# fit the best model 
+# (Note: This code takes the name of whatever model came out on top
+#  as a character string stored in the variable best_discrete_model_name,
+#  deparse-substitutes it back to a variable to get the 
+#  glm() model object, pulls its formula using formula(), and then 
+#  uses that to run the new glm(), replacing
+#  the data with the full dataset obs_data. I did that so that 
+#  I wouldn't have to check manually which model won in the prior
+#  step.)
+discrete_best_estimate <- 
+  glm(formula = formula(deparse(substitute(best_discrete_model_name))), 
+      data = obs_data)
+
+discrete_best_estimate
+
+summary(discrete_best_estimate)
+
+@
+
+  \subsection{Can we do better?}
+  
+  I bet that we can, since we just arbitrarily picked four models and then stipulated that we had to choose one and only one of them.
+  
+\section{Use the \texttt{SuperLearner} package to build the best combination of algorithms.}
+
+  \subsection{Load the Super Learner package with the \texttt{library} function and set the seed to 252.}
+  
+<<>>=
+
+library(SuperLearner)
+
+set.seed(252)
+
+@
+
+  \subsection{Use the \texttt{source} function to load script file \texttt{Rassign3.Wrappers.R}, which includes the wrapper functions for the \textit{a priori} specified parametric regressions.} 
+  
+<<>>=
+
+source("Rassign3.Wrappers.R")
+
+@
+
+  \subsection{Specify the algorithms to be included in Super Learner's library.}
+  
+<<>>=
+
+sl_library <- c('SL.glm.EstA', 
+                'SL.glm.EstB', 
+                'SL.glm.EstC', 
+                'SL.glm.EstD', 
+                'SL.ridge',
+                'SL.rpartPrune', 
+                'SL.polymars', 
+                'SL.mean')
+
+@
+  
+  
+  
+  \textit{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+  
+  \textcolor{red}{do this at the end}
+  
+  \subsection{Create data frame \texttt{X} with the predictor variables.} Include the original predictor variables and the transformed variables.
+  
+  \subsection{Run the \texttt{SuperLearner} function. Be sure to specify the outcome \texttt{Y}, the predictors \texttt{X}, and the library \texttt{SL.library}. Also include \texttt{cvControl=list(V=20)} in order to get 20-fold cross-validation.}
+  
+  \subsection{Explain the output to relevant policy makers and stake-holders. What do the columns \texttt{Risk} and \texttt{Coef} mean? Are the cross-validated risks from \texttt{SuperLearner} close to those obtained by your code?}
+  
+\textcolor{red}{do this at the end}
+
+\section{Implement \texttt{CV.SuperLearner}.}
+
+  \subsection{Explain why we need \texttt{CV.SuperLearner}.}  
+  
+\textcolor{red}{do this at the end}
+  
+  \subsection{Run \texttt{CV.SuperLearner}.}  
+  
+  \subsection{Explore the output. Only include the output from the \texttt{summary} function in your write-up, but comment on the other output.}  
+
+\section{Bonus!}
+
+  \subsection{Try adding more algorithms to the \texttt{SuperLearner} library.}
+  
+\textcolor{red}{do this at the end}
+  
+  \subsection{Try writing your own wrapper function.}  
+  
+\textcolor{red}{do this at the end}
+  
+\end{document}

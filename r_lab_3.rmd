@@ -1,0 +1,180 @@
+---
+title: "RLab2"
+author: "Katherine Rose Wolf"
+date: "3/30/2020"
+output: pdf_document
+---
+
+
+```{r}
+
+library(tidyverse)
+
+```
+
+
+```{r}
+
+ObsData <- read_csv("RLab3.SuperLearner.csv")
+
+```
+
+
+```{r}
+
+names(ObsData)
+
+head(ObsData)
+
+summary(ObsData)
+
+n = nrow(ObsData)
+
+```
+
+
+```{r}
+
+table(ObsData$W1, ObsData$W3)
+
+table(ObsData$W3)
+
+```
+
+
+```{r}
+
+mean(ObsData$Y[ObsData$W1 == 0 & ObsData$W3 == 5])
+
+glm(Y ~ W1*factor(W3), data=ObsData, family='binomial')
+
+```
+
+4.1 not a clue
+
+4.2
+
+```{r}
+
+ObsData$W2sq <- ObsData$W2*ObsData$W2
+ObsData$sinW2sq<- sin(ObsData$W2sq)
+ObsData$logW2<- log(ObsData$W2)
+ObsData$W4sq <- ObsData$W4*ObsData$W4
+ObsData$sinW4sq <- sin(ObsData$W4sq)
+ObsData$logW4 <- log(ObsData$W4)
+
+```
+
+4.3
+
+```{r}
+
+ObsData$Fold <- c(rep(1, 100), 
+          rep(2, 100), 
+          rep(3, 100),
+          rep(4, 100),
+          rep(5, 100), 
+          rep(6, 100),
+          rep(7, 100), 
+          rep(8, 100), 
+          rep(9, 100), 
+          rep(10, 100))
+
+head(ObsData)
+
+```
+
+4.4
+
+```{r}
+
+CV.risk <- matrix(NA, nrow = 10, ncol = 4)
+
+
+
+```
+
+4.5
+
+```{r}
+
+for (V in 1:10){
+  valid <- ObsData[ObsData$Fold == V,]
+  train <- ObsData[ObsData$Fold != V,]
+  model_a <- glm(Y ~ W1*W3 + W4sq, family = 'binomial', data = train)
+  model_b <- glm(Y ~ W1 + logW2 + W3*W4, family = 'binomial', data = train)
+  model_c <- glm(Y ~ W1*W2*W4, family = 'binomial', data = train)
+  model_d <- glm(Y ~ W1*sinW2sq + logW4, family = 'binomial', data = train)
+  
+  predict_a <- predict(object = model_a, type = 'response', newdata = valid)
+  predict_b <- predict(object = model_b, type = 'response', newdata = valid)
+  predict_c <- predict(object = model_c, type = 'response', newdata = valid)
+  predict_d <- predict(object = model_d, type = 'response', newdata = valid)
+  
+  CV.risk[V,1] <- mean((valid$Y - predict_a)^2)
+  CV.risk[V,2] <- mean((valid$Y - predict_b)^2)
+  CV.risk[V,3] <- mean((valid$Y - predict_c)^2)
+  CV.risk[V,4] <- mean((valid$Y - predict_d)^2)
+}
+
+# name(min(colMeans(CV.risk)))
+
+# model_a <- glm(Y ~ W1 + W3 + W1*W3 + W4sq, family = 'binomial', data = train)
+# 
+# predict_a <- predict(object = model_a, type = 'response', newdata = valid)
+
+colMeans(CV.risk)
+
+final_model <- glm(Y ~ W1*sinW2sq + logW4, family = 'binomial', data = ObsData)
+
+
+```
+
+5
+
+```{r}
+
+library(SuperLearner)
+
+SL.step
+
+source('RLab3.SuperLearner.Wrappers.R')
+
+SL.library <- c('SL.glm.EstA', 'SL.glm.EstB', 
+               'SL.glm.EstC', 'SL.glm.EstD')
+
+listWrappers()
+
+X <- subset(ObsData, select = -Y)
+
+tail(X)
+
+SL.out <- SuperLearner(Y=ObsData$Y, 
+                       X=X, 
+                       SL.library=SL.library, 
+                       family='binomial', 
+                       cvControl=list(V=10))
+
+SL.out
+
+names(SL.out)
+
+```
+
+Algorithm D had the lowest cross-validated risk and got the biggest weight. They are kinda close, but lower.
+
+6
+
+```{r}
+
+CV.SL.out <- CV.SuperLearner(Y = ObsData$Y, 
+                             X = X, 
+                             SL.library = SL.library, 
+                             family='binomial')
+
+summary(CV.SL.out)
+
+CV.SL.out$AllSL
+
+```
+

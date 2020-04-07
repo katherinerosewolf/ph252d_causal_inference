@@ -1,0 +1,470 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\title{\textbf{R Homework Three}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+\usepackage{dejavu}
+\usepackage{mathpazo}
+\usepackage{lmodern}
+
+% set fonts
+\setmainfont{Garamond}
+\setsansfont{Lucida Console}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+
+% remove automatic indenting
+\setlength{\parindent}{0pt}
+
+
+
+% end the preamble and begin the document
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\maketitle
+
+\section{Background story.}
+
+\section{Import and explore the data set \texttt{RAssign3.csv}.}
+
+  \subsection{Use the \texttt{read.csv} function to import the dataset and assign it to dataframe obs\_data.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(tidyverse)}
+
+\hlstd{obs_data} \hlkwb{<-} \hlkwd{read_csv}\hlstd{(}\hlstr{"RAssign3.csv"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+  \subsection{Use the \texttt{names}, \texttt{tail}, and \texttt{summary} functions to explore the data.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{names}\hlstd{(obs_data)}
+\end{alltt}
+\begin{verbatim}
+## [1] "W1" "W2" "W3" "W4" "W5" "Y"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{tail}\hlstd{(obs_data)}
+\end{alltt}
+\begin{verbatim}
+## # A tibble: 6 x 6
+##      W1    W2     W3    W4    W5     Y
+##   <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+## 1     0     0 0.609  0.393     2  92.5
+## 2     1     0 1.47   0.713     3  95.7
+## 3     0     0 0.0843 0.448     2  90.4
+## 4     0     0 1.13   0.160     4  97.5
+## 5     0     1 0.207  0.444     1 112. 
+## 6     0     0 0.435  0.121     1  99.0
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(obs_data)}
+\end{alltt}
+\begin{verbatim}
+##        W1              W2               W3                 W4        
+##  Min.   :0.000   Min.   :0.0000   Min.   :0.000327   Min.   :0.1192  
+##  1st Qu.:0.000   1st Qu.:0.0000   1st Qu.:1.194527   1st Qu.:0.2839  
+##  Median :0.000   Median :1.0000   Median :2.486190   Median :0.3980  
+##  Mean   :0.108   Mean   :0.5082   Mean   :2.474991   Mean   :0.4174  
+##  3rd Qu.:0.000   3rd Qu.:1.0000   3rd Qu.:3.731702   3rd Qu.:0.5522  
+##  Max.   :1.000   Max.   :1.0000   Max.   :4.998937   Max.   :0.8807  
+##        W5              Y         
+##  Min.   :1.000   Min.   : 88.00  
+##  1st Qu.:1.000   1st Qu.: 99.28  
+##  Median :2.000   Median :109.39  
+##  Mean   :1.897   Mean   :109.39  
+##  3rd Qu.:2.000   3rd Qu.:119.30  
+##  Max.   :4.000   Max.   :137.65
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+  
+  
+  \subsection{Use the \texttt{nrow} function to count the number of communities in the data set. Assign this number as \texttt{n}.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{n} \hlkwb{<-} \hlkwd{nrow}\hlstd{(obs_data)}
+
+\hlstd{n}
+\end{alltt}
+\begin{verbatim}
+## [1] 5000
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\section{Code discrete Super Learner to select the estimator with the lowest cross-validated risk estimate.}
+
+  \subsection{Briefly discuss the motivation for using discrete Super Learner (a.k.a. the cross-validation selector).}
+  
+  \textcolor{red}{add explanation here}
+  
+  \subsection{Create the following transformed variables and add them to the data frame \texttt{obs\_data}:}
+  \begin{itemize}
+    \item \texttt{sin\_W3 <- sin(obs\_data\$W3)}
+    \item \texttt{W4\_sq <- obs\_data\$W4 * obs\_data\$W4}
+    \item \texttt{cos\_W5 <- cos(obs\_data\$W5)}
+  \end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{obs_data}\hlopt{$}\hlstd{sin_W3} \hlkwb{<-} \hlkwd{sin}\hlstd{(obs_data}\hlopt{$}\hlstd{W3)}
+\hlstd{obs_data}\hlopt{$}\hlstd{W4_sq} \hlkwb{<-} \hlstd{obs_data}\hlopt{$}\hlstd{W4} \hlopt{*} \hlstd{obs_data}\hlopt{$}\hlstd{W4}
+\hlstd{obs_data}\hlopt{$}\hlstd{cos_W5} \hlkwb{<-} \hlkwd{cos}\hlstd{(obs_data}\hlopt{$}\hlstd{W5)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
+  \subsection{Split the data into $V = 20$ folds. Create the vector \texttt{fold} and add it to the data frame \texttt{obs\_data}.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# With n = 5000 observations total, we want n/20 = 250 observations in each fold.}
+
+\hlstd{obs_data}\hlopt{$}\hlstd{fold} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{7}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{9}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{10}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{11}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{12}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{13}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{14}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{15}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{16}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{17}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{18}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{19}\hlstd{,} \hlnum{250}\hlstd{),}
+                   \hlkwd{rep}\hlstd{(}\hlnum{20}\hlstd{,} \hlnum{250}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
+  \subsection{Create an empty matrix \texttt{CV\_risk} with 20 rows and 4 columns for each algorithm, evaluated at each fold.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{cv_risk} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{NA}\hlstd{,} \hlkwc{nrow}\hlstd{=}\hlnum{20}\hlstd{,} \hlkwc{ncol}\hlstd{=}\hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+  \subsection{Use a \texttt{for} loop to fit each estimator on the training set (19/20 of the data); predict the expected MUAC for the communities in the validation set (1/20 of the data), and evaluate the cross-validated risk.}
+  \begin{enumerate}
+    \item \textbf{Since each fold needs to serve as the training set, have the \texttt{for} loop run from \texttt{V} is 1 to 20.}
+    \item \textbf{Create the validation set as a data frame \texttt{valid}, consisting of observations with \texttt{fold} equal to \texttt{V}.}
+    \item \textbf{Create the training set as a data frame \texttt{train}, consisting of observations with \texttt{fold} not equal to \texttt{V}.}
+    \item \textbf{Use \texttt{glm} to fit each algorithm on the training set. Be sure to specify \texttt{data = train}.}
+    \item \textbf{For each algorithm, predict the average MUAC for each community in the validation set. Be sure to specify the \texttt{type = 'response'} and \texttt{newdata = valid}.}
+    \item \textbf{Estimate the cross-validated risk for each algorithm with the L2 loss function. Take the \texttt{mean} of the squared differences between the observed outcomes Y in the validation set and the predicted outcomes. Assign the cross-validated risks as a row in the matrix \texttt{cv\_risk}.}
+  \end{enumerate}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwa{for} \hlstd{(V} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{20}\hlstd{)\{}
+  \hlstd{valid} \hlkwb{<-} \hlstd{obs_data[obs_data}\hlopt{$}\hlstd{fold} \hlopt{==} \hlstd{V,]}
+  \hlstd{train} \hlkwb{<-} \hlstd{obs_data[obs_data}\hlopt{$}\hlstd{fold} \hlopt{!=} \hlstd{V,]}
+  \hlstd{model_a} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{sin_W3} \hlopt{+} \hlstd{W4_sq,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_b} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{W4} \hlopt{+} \hlstd{cos_W5,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_c} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W2} \hlopt{+} \hlstd{W3} \hlopt{+} \hlstd{W5} \hlopt{+} \hlstd{W2}\hlopt{:}\hlstd{W5} \hlopt{+} \hlstd{W4_sq} \hlopt{+} \hlstd{cos_W5,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_d} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1}\hlopt{*}\hlstd{W2}\hlopt{*}\hlstd{W5,} \hlkwc{data} \hlstd{= train)}
+
+  \hlstd{predict_a} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwc{object} \hlstd{= model_a,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{,} \hlkwc{newdata} \hlstd{= valid)}
+  \hlstd{predict_b} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwc{object} \hlstd{= model_b,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{,} \hlkwc{newdata} \hlstd{= valid)}
+  \hlstd{predict_c} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwc{object} \hlstd{= model_c,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{,} \hlkwc{newdata} \hlstd{= valid)}
+  \hlstd{predict_d} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwc{object} \hlstd{= model_d,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{,} \hlkwc{newdata} \hlstd{= valid)}
+
+  \hlstd{cv_risk[V,}\hlnum{1}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_a)}\hlopt{^}\hlnum{2}\hlstd{)}
+  \hlstd{cv_risk[V,}\hlnum{2}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_b)}\hlopt{^}\hlnum{2}\hlstd{)}
+  \hlstd{cv_risk[V,}\hlnum{3}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_c)}\hlopt{^}\hlnum{2}\hlstd{)}
+  \hlstd{cv_risk[V,}\hlnum{4}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_d)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
+  \subsection{Select the algorithm with the lowest average cross-validated risk. Hint: Use the \texttt{colMeans} function.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# get the average risks}
+\hlstd{average_risks} \hlkwb{<-} \hlkwd{colMeans}\hlstd{(cv_risk)}
+
+\hlcom{# restore their model names}
+\hlkwd{names}\hlstd{(average_risks)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"model_a"}\hlstd{,} \hlstr{"model_b"}\hlstd{,} \hlstr{"model_c"}\hlstd{,} \hlstr{"model_d"}\hlstd{)}
+
+\hlcom{# print them}
+\hlstd{average_risks}
+\end{alltt}
+\begin{verbatim}
+##   model_a   model_b   model_c   model_d 
+##  8.312289 13.025325  7.762348 16.031240
+\end{verbatim}
+\begin{alltt}
+\hlcom{# find the average risk that minimizes the L2 loss function}
+\hlstd{minimum_average_risk} \hlkwb{<-} \hlstd{average_risks[average_risks} \hlopt{==} \hlkwd{min}\hlstd{(average_risks)]}
+
+\hlcom{# print it}
+\hlstd{minimum_average_risk}
+\end{alltt}
+\begin{verbatim}
+##  model_c 
+## 7.762348
+\end{verbatim}
+\begin{alltt}
+\hlcom{# get the model name}
+\hlstd{best_discrete_model_name} \hlkwb{<-} \hlkwd{names}\hlstd{(minimum_average_risk)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+  \subsection{Fit the chosen algorithm on all the data.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# fit the best model }
+\hlcom{# (Note: This code takes the name of whatever model came out on top}
+\hlcom{#  as a character string stored in the variable best_discrete_model_name,}
+\hlcom{#  deparse-substitutes it back to a variable to get the }
+\hlcom{#  glm() model object, pulls its formula using formula(), and then }
+\hlcom{#  uses that to run the new glm(), replacing}
+\hlcom{#  the data with the full dataset obs_data. I did that so that }
+\hlcom{#  I wouldn't have to check manually which model won in the prior}
+\hlcom{#  step.)}
+\hlstd{discrete_best_estimate} \hlkwb{<-}
+  \hlkwd{glm}\hlstd{(}\hlkwc{formula} \hlstd{=} \hlkwd{formula}\hlstd{(}\hlkwd{deparse}\hlstd{(}\hlkwd{substitute}\hlstd{(best_discrete_model_name))),}
+      \hlkwc{data} \hlstd{= obs_data)}
+
+\hlstd{discrete_best_estimate}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:  glm(formula = formula(deparse(substitute(best_discrete_model_name))), 
+##     data = obs_data)
+## 
+## Coefficients:
+## (Intercept)           W2           W3           W5        W4_sq       cos_W5  
+##    95.64175     12.84349      2.02159      0.07781    -10.80041      2.11408  
+##       W2:W5  
+##     4.87470  
+## 
+## Degrees of Freedom: 4999 Total (i.e. Null);  4993 Residual
+## Null Deviance:	    618800 
+## Residual Deviance: 38700 	AIC: 24440
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(discrete_best_estimate)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = formula(deparse(substitute(best_discrete_model_name))), 
+##     data = obs_data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.6682  -1.9842  -0.4801   0.9096   9.5123  
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  95.64175    0.26641 359.001   <2e-16 ***
+## W2           12.84349    0.21116  60.824   <2e-16 ***
+## W3            2.02159    0.02716  74.424   <2e-16 ***
+## W5            0.07781    0.14745   0.528    0.598    
+## W4_sq       -10.80041    0.29801 -36.242   <2e-16 ***
+## cos_W5        2.11408    0.18974  11.142   <2e-16 ***
+## W2:W5         4.87470    0.09881  49.335   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 7.75025)
+## 
+##     Null deviance: 618826  on 4999  degrees of freedom
+## Residual deviance:  38697  on 4993  degrees of freedom
+## AIC: 24437
+## 
+## Number of Fisher Scoring iterations: 2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+  \subsection{Can we do better?}
+  
+  I bet that we can, since we just arbitrarily picked four models and then stipulated that we had to choose one and only one of them.
+  
+\section{Use the \texttt{SuperLearner} package to build the best combination of algorithms.}
+
+  \subsection{Load the Super Learner package with the \texttt{library} function and set the seed to 252.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(SuperLearner)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'SuperLearner' was built under R version 3.6.3}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: nnls}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Super Learner}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Version: 2.0-26}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Package created on 2019-10-27}}\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{252}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+  \subsection{Use the \texttt{source} function to load script file \texttt{Rassign3.Wrappers.R}, which includes the wrapper functions for the \textit{a priori} specified parametric regressions.} 
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{source}\hlstd{(}\hlstr{"Rassign3.Wrappers.R"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+  \subsection{Specify the algorithms to be included in Super Learner's library.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sl_library} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{'SL.glm.EstA'}\hlstd{,}
+                \hlstr{'SL.glm.EstB'}\hlstd{,}
+                \hlstr{'SL.glm.EstC'}\hlstd{,}
+                \hlstr{'SL.glm.EstD'}\hlstd{,}
+                \hlstr{'SL.ridge'}\hlstd{,}
+                \hlstr{'SL.rpartPrune'}\hlstd{,}
+                \hlstr{'SL.polymars'}\hlstd{,}
+                \hlstr{'SL.mean'}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
+  
+  
+  \textit{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+  
+  \textcolor{red}{do this at the end}
+  
+  \subsection{Create data frame \texttt{X} with the predictor variables.} Include the original predictor variables and the transformed variables.
+  
+  \subsection{Run the \texttt{SuperLearner} function. Be sure to specify the outcome \texttt{Y}, the predictors \texttt{X}, and the library \texttt{SL.library}. Also include \texttt{cvControl=list(V=20)} in order to get 20-fold cross-validation.}
+  
+  \subsection{Explain the output to relevant policy makers and stake-holders. What do the columns \texttt{Risk} and \texttt{Coef} mean? Are the cross-validated risks from \texttt{SuperLearner} close to those obtained by your code?}
+  
+\textcolor{red}{do this at the end}
+
+\section{Implement \texttt{CV.SuperLearner}.}
+
+  \subsection{Explain why we need \texttt{CV.SuperLearner}.}  
+  
+\textcolor{red}{do this at the end}
+  
+  \subsection{Run \texttt{CV.SuperLearner}.}  
+  
+  \subsection{Explore the output. Only include the output from the \texttt{summary} function in your write-up, but comment on the other output.}  
+
+\section{Bonus!}
+
+  \subsection{Try adding more algorithms to the \texttt{SuperLearner} library.}
+  
+\textcolor{red}{do this at the end}
+  
+  \subsection{Try writing your own wrapper function.}  
+  
+\textcolor{red}{do this at the end}
+  
+\end{document}
