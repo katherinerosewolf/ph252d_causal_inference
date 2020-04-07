@@ -98,9 +98,9 @@ n
 
 <<echo = TRUE>>=
 
-obs_data$sin_W3 <- sin(obs_data$W3)
-obs_data$W4_sq <- obs_data$W4 * obs_data$W4
-obs_data$cos_W5 <- cos(obs_data$W5)
+obs_data$sinW3 <- sin(obs_data$W3)
+obs_data$W4sq <- obs_data$W4 * obs_data$W4
+obs_data$cosW5 <- cos(obs_data$W5)
 
 @
   
@@ -157,9 +157,9 @@ cv_risk <- matrix(NA, nrow=20, ncol=4)
 for (V in 1:20){
   valid <- obs_data[obs_data$fold == V,]
   train <- obs_data[obs_data$fold != V,]
-  model_a <- glm(Y ~ W1 + W2 + sin_W3 + W4_sq, data = train)
-  model_b <- glm(Y ~ W1 + W2 + W4 + cos_W5, data = train)
-  model_c <- glm(Y ~ W2 + W3 + W5 + W2:W5 + W4_sq + cos_W5, data = train)
+  model_a <- glm(Y ~ W1 + W2 + sinW3 + W4sq, data = train)
+  model_b <- glm(Y ~ W1 + W2 + W4 + cosW5, data = train)
+  model_c <- glm(Y ~ W2 + W3 + W5 + W2:W5 + W4sq + cosW5, data = train)
   model_d <- glm(Y ~ W1*W2*W5, data = train)
   
   predict_a <- predict(object = model_a, type = 'response', newdata = valid)
@@ -271,7 +271,28 @@ sl_library <- c('SL.glm.EstA',
   
   \subsection{Create data frame \texttt{X} with the predictor variables.} Include the original predictor variables and the transformed variables.
   
+<<>>=
+
+X <- obs_data %>%
+  select(-c(Y)) %>% 
+  as.data.frame()
+
+@
+  
   \subsection{Run the \texttt{SuperLearner} function. Be sure to specify the outcome \texttt{Y}, the predictors \texttt{X}, and the library \texttt{SL.library}. Also include \texttt{cvControl=list(V=20)} in order to get 20-fold cross-validation.}
+  
+<<>>=
+
+sl_out <- SuperLearner(Y = obs_data$Y, 
+                       X = X, 
+                       SL.library = sl_library,
+                       cvControl = list(V = 20))
+
+sl_out
+
+
+
+@
   
   \subsection{Explain the output to relevant policy makers and stake-holders. What do the columns \texttt{Risk} and \texttt{Coef} mean? Are the cross-validated risks from \texttt{SuperLearner} close to those obtained by your code?}
   
@@ -285,11 +306,50 @@ sl_library <- c('SL.glm.EstA',
   
   \subsection{Run \texttt{CV.SuperLearner}.}  
   
+<<>>=
+
+cv_sl_out <- CV.SuperLearner(Y = obs_data$Y, 
+                             X = X, 
+                             SL.library = sl_library, 
+                             cvControl=list(V=5), 
+                             innerCvControl = list(list(V=20)))
+
+@
+
+
+  
   \subsection{Explore the output. Only include the output from the \texttt{summary} function in your write-up, but comment on the other output.}  
+  
+<<>>=
+
+summary(cv_sl_out)
+
+@
+
+
+<<include = FALSE>>=
+
+# returns the output for each call to Super Learner
+cv_sl_out$AllSL
+
+# condensed version of the output from CV.SL.out$AllSL with only the coefficients for each Super Learner run
+cv_sl_out$coef
+
+# returns the algorithm with lowest CV risk (discrete Super Learner) at each step.
+cv_sl_out$whichDiscrete
+
+@
+
 
 \section{Bonus!}
 
   \subsection{Try adding more algorithms to the \texttt{SuperLearner} library.}
+  
+<<>>=
+
+summary(cv_sl_out)
+
+@
   
 \textcolor{red}{do this at the end}
   
