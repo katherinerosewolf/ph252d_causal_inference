@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  10 APR 2020 09:51
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.10)  18 APR 2020 19:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**r_homework_three.tex
-(./r_homework_three.tex
+**r_homework_four.tex
+(./r_homework_four.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-02-25>
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
@@ -616,8 +616,8 @@ tim
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base
 /textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)) (./r_homework_three.aux)
-\openout1 = `r_homework_three.aux'.
+)) (./r_homework_four.aux)
+\openout1 = `r_homework_four.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 91.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
@@ -806,54 +806,35 @@ LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 104.
  [1
 
-] [2] [3] [4] [5]
+] [2]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 408.
+(Font)              <14.4> on input line 230.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7.6> on input line 408.
+(Font)              <10> on input line 230.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 408.
- [6] [7]
+(Font)              <8> on input line 230.
 LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
-546.
+232.
 
 (c:/Users/Katherine Rose Wolf/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnf
 ss/ufplmbb.fd
 File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
-) [8]
-Overfull \hbox (26.72499pt too wide) in paragraph at lines 621--621
-[]\TU/lmtt/m/n/10 ## Warning in CV.SuperLearner(Y = obs_data$Y, X = X, SL.libra
-ry = sl_library, : Only a single innerCvControl
- []
-
-[9] [10] [11]
-Overfull \hbox (52.97499pt too wide) in paragraph at lines 799--799
-[]\TU/lmtt/m/n/10 ## Warning in CV.SuperLearner(Y = obs_data$Y, X = X, SL.libra
-ry = sl_library_plus, : Only a single innerCvControl
- []
-
-
-Overfull \hbox (25.25499pt too wide) in paragraph at lines 950--950
-[][]\TU/lmtt/m/it/10 # condensed version of the output from CV.SL.out$AllSL wit
-h only the coefficients for each Super Learner run[][] 
- []
-
-[12]
-Underfull \vbox (badness 10000) detected at line 993
- []
-
-
-Underfull \vbox (badness 10000) detected at line 993
- []
-
-[13] [14] [15] (./r_homework_three.aux) ) 
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.6> on input line 280.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 280.
+ [3] [4] [5] [6] [7]
+File: figure/unnamed-chunk-21-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-21-1.pdf>
+ [8] [9] [10] (./r_homework_four.aux) ) 
 Here is how much of TeX's memory you used:
- 13518 strings out of 481765
- 262001 string characters out of 5933240
- 575563 words of memory out of 5000000
- 30272 multiletter control sequences out of 15000+600000
- 573290 words of font info for 138 fonts, out of 8000000 for 9000
+ 13552 strings out of 481765
+ 262594 string characters out of 5933240
+ 554562 words of memory out of 5000000
+ 30305 multiletter control sequences out of 15000+600000
+ 586089 words of font info for 163 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,10n,67p,1329b,292s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,11n,67p,749b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on r_homework_three.pdf (15 pages).
+Output written on r_homework_four.pdf (10 pages).

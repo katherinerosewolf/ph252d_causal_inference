@@ -1,0 +1,213 @@
+---
+title: "R Lab 4"
+author: "Katherine Rose Wolf"
+date: "3/30/2020"
+output: pdf_document
+---
+
+
+```{r}
+
+library(tidyverse)
+
+```
+ 
+part 3
+
+```{r}
+
+set.seed(252)
+
+ObsData <- read.csv("RLab5.TMLE.csv")
+
+head(ObsData)
+
+summary(ObsData)
+
+n = nrow(ObsData)
+
+```
+
+4.1
+
+```{r}
+
+library(SuperLearner)
+
+SL.library <- c("SL.glm", 
+                "SL.step", 
+                "SL.gam")
+
+X <- data.frame(A = ObsData$A,
+                W1 = ObsData$W1, 
+                W2 = ObsData$W2, 
+                W3 = ObsData$W3, 
+                W4 = ObsData$W4)
+
+X1 <- X0 <- X
+
+X1$A <- 1
+
+X0$A <- 0
+
+QbarSL <- SuperLearner(Y=ObsData$Y, X=X, SL.library=SL.library, family="binomial")
+
+QbarSL
+
+QbarAW <- predict(QbarSL, newdata=ObsData)$pred
+
+Qbar1W<- predict(QbarSL, newdata=X1)$pred
+
+Qbar0W<- predict(QbarSL, newdata=X0)$pred
+
+tail(data.frame(A=ObsData$A, QbarAW, Qbar1W, Qbar0W))
+
+PsiHat.SS <- mean(Qbar1W - Qbar0W)
+
+PsiHat.SS
+
+
+```
+
+4.3
+
+```{r}
+
+gHatSL <- SuperLearner(Y = ObsData$A, 
+                       X = subset(ObsData, 
+                                  select = -c(A,Y)),
+                       SL.library = SL.library, 
+                       family="binomial")
+gHatSL
+
+gHat1W <- gHatSL$SL.predict
+
+gHat0W <- 1 - gHat1W
+
+summary(gHat1W)
+
+summary(gHat0W)
+
+gHatAW <- vector(length = n)
+
+gHatAW[ObsData$A == 1] <- gHat1W[ObsData$A == 1]
+  
+gHatAW[ObsData$A == 0] <- gHat0W[ObsData$A == 0]
+
+```
+
+4.4
+
+```{r}
+H.AW <- as.numeric(ObsData$A==1)/gHat1W - as.numeric(ObsData$A==0)/gHat0W
+
+tail(data.frame(ObsData$A, gHatAW, gHat1W, gHat0W))
+
+H.1W <- 1/gHat1W
+   
+H.0W <- -1/gHat0W
+
+iptw_thing <- H.AW*ObsData$Y
+
+PsiHat.IPTW <- mean(iptw_thing)
+
+```
+
+4.5
+
+```{r}
+
+logitUpdate <- glm(ObsData$Y ~ -1 + offset(qlogis(QbarAW)) + H.AW,
+                   family='binomial')
+
+summary(logitUpdate)
+
+epsilon <- logitUpdate$coef
+
+epsilon
+
+QbarAW.star <- plogis(qlogis(QbarAW)+ epsilon*H.AW)
+
+Qbar1W.star <- plogis( qlogis(Qbar1W)+ epsilon*H.1W)
+
+Qbar0W.star <- plogis( qlogis(Qbar0W)+ epsilon*H.0W)
+
+
+
+
+logitUpdate2 <- glm(ObsData$Y ~ -1 + offset(qlogis(QbarAW.star)) + H.AW,
+                   family='binomial')
+
+summary(logitUpdate2)
+
+epsilon2 <- logitUpdate2$coef
+
+epsilon2
+
+
+```
+
+4.6
+
+```{r}
+
+PsiHat.TMLE <- mean(Qbar1W.star- Qbar0W.star)
+
+PsiHat.TMLE
+
+c(PsiHat.SS, PsiHat.IPTW, PsiHat.TMLE)
+
+```
+
+5
+
+```{r}
+
+library(SuperLearner)
+library(ltmle)
+?ltmle
+
+ltmle.SL <- ltmle(data = ObsData, 
+                  Anodes = 'A', 
+                  Ynodes = 'Y', 
+                  abar = list(1,0),
+                  SL.library = SL.library)
+
+summary(ltmle.SL)
+
+ltmle.parametric<- ltmle(data=ObsData, Anodes='A', Ynodes='Y', abar=list(1,0),
+                         Qform=c(Y="Q.kplus1 ~ A+W1+W2+W3+W4"), gform="A~W1+W2+W3+W4")
+summary(ltmle.parametric)
+
+# adding a dummy variable to observed data
+ObsData <- data.frame(U=1, ObsData)
+ltmle.unadj <- ltmle(data=ObsData, 
+                     Anodes='A', 
+                     Ynodes='Y', 
+                     abar=list(1,0),
+                     Qform=c(Y="Q.kplus1 ~ A"),
+                     gform="A~U")
+summary(ltmle.unadj)
+
+# double robustness wrong q
+ltmle.DR<- ltmle(data=ObsData, 
+                 Anodes='A', 
+                 Ynodes='Y', 
+                 abar=list(1,0),
+                 SL.library=SL.library,
+                 Qform=c(Y="Q.kplus1 ~ A"))
+summary(ltmle.DR)
+
+# wrong g
+ltmle.DRb <- ltmle(data = ObsData, 
+                   Anodes = 'A', 
+                   Ynodes = 'Y', 
+                   abar = list(1,0),
+                   SL.library = SL.library,
+                   gform = "A~U")
+summary(ltmle.DRb)
+
+
+
+```
+

@@ -63,7 +63,6 @@
 \usepackage{xunicode}
 \usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
 \usepackage{longtable}
-\usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{bm}
 \usepackage{caption}
@@ -72,6 +71,8 @@
 \usepackage{dejavu}
 \usepackage{mathpazo}
 \usepackage{lmodern}
+\usepackage{dirtytalk}
+\usepackage{amsmath}
 
 % set fonts
 \setmainfont{Garamond}
@@ -95,7 +96,7 @@
 
 \section{Import and explore the data set \texttt{RAssign3.csv}.}
 
-  \subsection{Use the \texttt{read.csv} function to import the dataset and assign it to dataframe obs\_data.}
+  \subsection{Use the \texttt{read\_csv} function to import the dataset and assign it to dataframe \texttt{obs\_data}.}
   
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -172,8 +173,8 @@
 \section{Code discrete Super Learner to select the estimator with the lowest cross-validated risk estimate.}
 
   \subsection{Briefly discuss the motivation for using discrete Super Learner (a.k.a. the cross-validation selector).}
-  
-  \textcolor{red}{add explanation here}
+
+One motivation for the discrete Super Learner is to find a good statistical model of our outcome when the non-parametric maximum likelihood estimator is not well defined due to strata with zero or only a few observations, leading to over-fitting, but when we don't know enough \textit{a priori} to specify the correct parametric model and want to choose the best among candidates. In particular, the discrete Super Learner allows us to avoid the potential bias (usually incorrect rejection of the null hypothesis as investigators prefer models that confirm their prior beliefs or offer significant results) that can arise from using ad hoc model specification procedures, as well as the corresponding misleading uncertainty estimates that assume an \textit{a priori} specified model and ignore multiple looks at the data. The discrete Super Learner resolves these problems by specifying the candidate models and the way of choosing among them ahead of time and then incorporating the model selection process into the estimator. (The cross-validation aspect, specifially, allows the comparison of model performance on independent data from the same distribution.)
   
   \subsection{Create the following transformed variables and add them to the data frame \texttt{obs\_data}:}
   \begin{itemize}
@@ -185,9 +186,9 @@
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{obs_data}\hlopt{$}\hlstd{sin_W3} \hlkwb{<-} \hlkwd{sin}\hlstd{(obs_data}\hlopt{$}\hlstd{W3)}
-\hlstd{obs_data}\hlopt{$}\hlstd{W4_sq} \hlkwb{<-} \hlstd{obs_data}\hlopt{$}\hlstd{W4} \hlopt{*} \hlstd{obs_data}\hlopt{$}\hlstd{W4}
-\hlstd{obs_data}\hlopt{$}\hlstd{cos_W5} \hlkwb{<-} \hlkwd{cos}\hlstd{(obs_data}\hlopt{$}\hlstd{W5)}
+\hlstd{obs_data}\hlopt{$}\hlstd{sinW3} \hlkwb{<-} \hlkwd{sin}\hlstd{(obs_data}\hlopt{$}\hlstd{W3)}
+\hlstd{obs_data}\hlopt{$}\hlstd{W4sq} \hlkwb{<-} \hlstd{obs_data}\hlopt{$}\hlstd{W4} \hlopt{*} \hlstd{obs_data}\hlopt{$}\hlstd{W4}
+\hlstd{obs_data}\hlopt{$}\hlstd{cosW5} \hlkwb{<-} \hlkwd{cos}\hlstd{(obs_data}\hlopt{$}\hlstd{W5)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -250,9 +251,9 @@
 \hlkwa{for} \hlstd{(V} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{20}\hlstd{)\{}
   \hlstd{valid} \hlkwb{<-} \hlstd{obs_data[obs_data}\hlopt{$}\hlstd{fold} \hlopt{==} \hlstd{V,]}
   \hlstd{train} \hlkwb{<-} \hlstd{obs_data[obs_data}\hlopt{$}\hlstd{fold} \hlopt{!=} \hlstd{V,]}
-  \hlstd{model_a} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{sin_W3} \hlopt{+} \hlstd{W4_sq,} \hlkwc{data} \hlstd{= train)}
-  \hlstd{model_b} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{W4} \hlopt{+} \hlstd{cos_W5,} \hlkwc{data} \hlstd{= train)}
-  \hlstd{model_c} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W2} \hlopt{+} \hlstd{W3} \hlopt{+} \hlstd{W5} \hlopt{+} \hlstd{W2}\hlopt{:}\hlstd{W5} \hlopt{+} \hlstd{W4_sq} \hlopt{+} \hlstd{cos_W5,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_a} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{sinW3} \hlopt{+} \hlstd{W4sq,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_b} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1} \hlopt{+} \hlstd{W2} \hlopt{+} \hlstd{W4} \hlopt{+} \hlstd{cosW5,} \hlkwc{data} \hlstd{= train)}
+  \hlstd{model_c} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W2} \hlopt{+} \hlstd{W3} \hlopt{+} \hlstd{W5} \hlopt{+} \hlstd{W2}\hlopt{:}\hlstd{W5} \hlopt{+} \hlstd{W4sq} \hlopt{+} \hlstd{cosW5,} \hlkwc{data} \hlstd{= train)}
   \hlstd{model_d} \hlkwb{<-} \hlkwd{glm}\hlstd{(Y} \hlopt{~} \hlstd{W1}\hlopt{*}\hlstd{W2}\hlopt{*}\hlstd{W5,} \hlkwc{data} \hlstd{= train)}
 
   \hlstd{predict_a} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwc{object} \hlstd{= model_a,} \hlkwc{type} \hlstd{=} \hlstr{'response'}\hlstd{,} \hlkwc{newdata} \hlstd{= valid)}
@@ -265,7 +266,32 @@
   \hlstd{cv_risk[V,}\hlnum{3}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_c)}\hlopt{^}\hlnum{2}\hlstd{)}
   \hlstd{cv_risk[V,}\hlnum{4}\hlstd{]} \hlkwb{<-} \hlkwd{mean}\hlstd{((valid}\hlopt{$}\hlstd{Y} \hlopt{-} \hlstd{predict_d)}\hlopt{^}\hlnum{2}\hlstd{)}
 \hlstd{\}}
+
+\hlstd{cv_risk}
 \end{alltt}
+\begin{verbatim}
+##            [,1]     [,2]     [,3]     [,4]
+##  [1,]  8.939385 13.81455 5.097290 16.11975
+##  [2,]  7.740905 13.27176 8.472968 17.08363
+##  [3,]  9.166189 13.00529 7.489641 16.24683
+##  [4,]  9.583816 14.85455 7.937800 14.84962
+##  [5,]  7.672768 12.55622 7.384802 14.55799
+##  [6,]  7.186142 11.93893 6.704494 13.73259
+##  [7,]  8.251682 13.33489 6.772499 17.17728
+##  [8,]  8.862116 12.15105 8.618398 16.63734
+##  [9,]  9.321865 11.83951 6.761189 15.47617
+## [10,]  8.268905 14.42099 7.310155 15.28207
+## [11,]  7.780033 14.25615 8.912688 16.19174
+## [12,]  7.829750 11.78438 8.245043 16.37069
+## [13,]  7.053946 11.18856 9.516343 16.37126
+## [14,]  7.954040 13.07750 7.092210 14.95172
+## [15,]  7.888961 13.18341 8.862611 18.47103
+## [16,]  8.803498 12.80874 7.704269 15.58583
+## [17,]  8.321003 12.62118 9.472928 16.64250
+## [18,]  8.623221 13.51818 8.011789 16.69266
+## [19,]  6.823230 11.80595 7.939244 16.93725
+## [20,] 10.174328 15.07470 6.940609 15.24685
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
   
@@ -332,7 +358,7 @@
 ##     data = obs_data)
 ## 
 ## Coefficients:
-## (Intercept)           W2           W3           W5        W4_sq       cos_W5  
+## (Intercept)           W2           W3           W5         W4sq        cosW5  
 ##    95.64175     12.84349      2.02159      0.07781    -10.80041      2.11408  
 ##       W2:W5  
 ##     4.87470  
@@ -360,8 +386,8 @@
 ## W2           12.84349    0.21116  60.824   <2e-16 ***
 ## W3            2.02159    0.02716  74.424   <2e-16 ***
 ## W5            0.07781    0.14745   0.528    0.598    
-## W4_sq       -10.80041    0.29801 -36.242   <2e-16 ***
-## cos_W5        2.11408    0.18974  11.142   <2e-16 ***
+## W4sq        -10.80041    0.29801 -36.242   <2e-16 ***
+## cosW5         2.11408    0.18974  11.142   <2e-16 ***
 ## W2:W5         4.87470    0.09881  49.335   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -379,7 +405,7 @@
 
   \subsection{Can we do better?}
   
-  I bet that we can, since we just arbitrarily picked four models and then stipulated that we had to choose one and only one of them.
+Model C had the lowest mean squared prediction error of our four discrete models, with the stability of the region ($W2$), community socioeconomic status ($W3$), the community number of health facilities ($W5$) and its cosine ($cosW5$), the square of the community proportion of children visiting a health center in the last year for a common childhood illness ($W4$), and the multiplicative interaction between region stability and the community number of health facilities ($W2:W5$) all emerging as predictors of mid-upper-arm circumference in the model. I bet that we can do better, however, since although we specified four models that were informed by subject matter knowledge, we stipulated that we had to choose one and only one of them. A combination of models could work even better (i.e., have a lower mean squared prediction error).
   
 \section{Use the \texttt{SuperLearner} package to build the best combination of algorithms.}
 
@@ -435,36 +461,538 @@
   
   
   
-  \textit{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+\textbf{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SL.ridge}
+
+\hlstd{SL.rpartPrune}
+
+\hlstd{SL.polymars}
+
+\hlstd{SL.mean}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{itemize}
+  \item The \texttt{SL.ridge} algorithm uses the \texttt{MASS} package to fit a linear ridge regression  model to the input covariates $X$ and outcome $Y$ (with ridge parameter $\lambda$ values ranging from 1 to 20 scaled by 0.1), chooses the model with the lowest generalized cross validation (GCV) value, and outputs the chosen model's parameter estimates and its predicted $X$ values.
   
-  \textcolor{red}{do this at the end}
+  \item The \texttt{SL.rpartPrune} algorithm uses the \texttt{rpart} package to build a regression tree for a continuous $Y$ or a classification tree for a binary $Y$, prunes the tree using the pruning parameter value $CP$ that reults in the lowest prediction error, and outputs the chosen model's parameter estimates, including the pruning parameter value, and its predicted $X$ values. 
+  
+  \item The \texttt{SL.polymars} algorithm for a continuous outcome uses the \texttt{polspline} package to fit a multivariate adaptive polynomial spline regression model with knots a minimum of three order statistics apart that minimizes the residual sum of squares divided by the square of $1 - (4 * model \; size)/cases$ and outputs both the model parameters and the predicted $X$ values the chosen model generates. For a binary outcome \texttt{polspline} fits a a polychotomous regression and multiple classification selected using five-fold cross validation and outputs both the chosen model's parameter estimates and its predicted $X$ values.
+  
+  \item The \texttt{SL.mean} algorithm fits a very simple model by calculating the mean of the outcome $Y$ across the observations, weighted by any supplied observation weights, and outputs its parameter estimate, which is simply that mean, and its predicted values, which are simply also that mean repeated times the number of observations.
+
+\end{itemize}
   
   \subsection{Create data frame \texttt{X} with the predictor variables.} Include the original predictor variables and the transformed variables.
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{X} \hlkwb{<-} \hlstd{obs_data} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(}\hlopt{-}\hlkwd{c}\hlstd{(Y, fold))} \hlopt{%>%}
+  \hlkwd{as.data.frame}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  
   \subsection{Run the \texttt{SuperLearner} function. Be sure to specify the outcome \texttt{Y}, the predictors \texttt{X}, and the library \texttt{SL.library}. Also include \texttt{cvControl=list(V=20)} in order to get 20-fold cross-validation.}
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sl_out} \hlkwb{<-} \hlkwd{SuperLearner}\hlstd{(}\hlkwc{Y} \hlstd{= obs_data}\hlopt{$}\hlstd{Y,}
+                       \hlkwc{X} \hlstd{= X,}
+                       \hlkwc{SL.library} \hlstd{= sl_library,}
+                       \hlkwc{cvControl} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{V} \hlstd{=} \hlnum{20}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required namespace: polspline}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required namespace: MASS}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required namespace: rpart}}\begin{alltt}
+\hlstd{sl_out}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:  
+## SuperLearner(Y = obs_data$Y, X = X, SL.library = sl_library, cvControl = list(V = 20)) 
+## 
+## 
+## 
+##                         Risk       Coef
+## SL.glm.EstA_All     8.315724 0.00000000
+## SL.glm.EstB_All    13.030465 0.00000000
+## SL.glm.EstC_All     7.765873 0.22633112
+## SL.glm.EstD_All    16.028482 0.03433797
+## SL.ridge_All        3.994286 0.48544923
+## SL.rpartPrune_All   4.821257 0.25388168
+## SL.polymars_All    26.587062 0.00000000
+## SL.mean_All       123.810204 0.00000000
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
   
   \subsection{Explain the output to relevant policy makers and stake-holders. What do the columns \texttt{Risk} and \texttt{Coef} mean? Are the cross-validated risks from \texttt{SuperLearner} close to those obtained by your code?}
   
-\textcolor{red}{do this at the end}
+\textbf{\texttt{Risk}} 
 
+Colloquially, the \textbf{\texttt{Risk}} column effectively gives the \say{score} of the model, where lower is better. Specifically, it gives the cross-validated risk for each algorithm averaged across twenty folds. More specifically, the word \say{risk} in the prior sentence denotes the expectation of a loss function, $\mathbb{E}_0L(O,\bar{Q})$, where
+
+\begin{itemize}
+  \item $O = (Y,W)$ is a random variable representing the set of observed random variables;
+  \item $Y$ is a random variable representing the outcome;
+  \item $W$ is a random variable representing the covariates $W1$, $W2$, $W3$, $W4$, and $W5$ and their transformations as calculated above;
+    \item The subscript $0$ denotes parameters of the distribution of the observed data, $(W, Y) \sim P_0$;
+  \item $\bar{Q}$ is a candidate function for estimating the expected value of $Y$ conditional on $W$, $\mathbb{E}_0(Y|W)$; and
+  \item $L$ denotes a loss function, or a measure of performance assigned to $\bar{Q}$.
+
+\end{itemize}
+
+Even more specifically, here the word \say{risk} denotes the expectation of the L2 loss function $L(O,\bar{Q})=(Y-\bar{Q}(A,W))^2$, also known as the mean squared prediction error: $L(O,\bar{Q})=\mathbb{E}_0[(Y-\bar{Q}(W))^2]$.
+
+\vspace{2mm}
+
+We define our target parameter, $\bar{Q}_0$, then, as the candidate function of the that minimizes the L2 loss function:
+
+\begin{align*}
+\bar{Q}_0(W) = argmin_{\bar{Q}}\mathbb{E}_0[(Y-\bar{Q}(W))^2].
+\end{align*}
+
+\textbf{\texttt{Coef}} 
+
+The \textbf{\texttt{Coef}} column gives the weight of each algorithm in the final convex combination of algorithms that had the lowest cross-validated mean square error (risk) after regressing the outcome $Y$ on the cross-validated predicted values of each algorithm.
+
+\vspace{2mm}
+
+\textbf{Comparing the discrete and ensemble SuperLearner}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sl_risks} \hlkwb{<-} \hlstd{sl_out}\hlopt{$}\hlstd{cvRisk[}\hlnum{1}\hlopt{:}\hlnum{4}\hlstd{]}
+
+\hlkwd{names}\hlstd{(sl_risks)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"model_a"}\hlstd{,} \hlstr{"model_b"}\hlstd{,} \hlstr{"model_c"}\hlstd{,} \hlstr{"model_d"}\hlstd{)}
+
+\hlcom{# table of both manual (average_risks) and SuperLearner (sl_risks) risk values}
+\hlstd{merged_risks} \hlkwb{<-} \hlkwd{bind_rows}\hlstd{(average_risks, sl_risks)} \hlopt{%>%}
+  \hlkwd{add_column}\hlstd{(}\hlstr{"algorithm"} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"manual"}\hlstd{,} \hlstr{"SuperLearner"}\hlstd{),}
+             \hlkwc{.before} \hlstd{=} \hlnum{1}\hlstd{)}
+
+\hlstd{merged_risks}
+\end{alltt}
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   algorithm    model_a model_b model_c model_d
+##   <chr>          <dbl>   <dbl>   <dbl>   <dbl>
+## 1 manual          8.31    13.0    7.76    16.0
+## 2 SuperLearner    8.32    13.0    7.77    16.0
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+From the table above, the discrete cross-validated risks from \texttt{SuperLearner} look basically identical to those obtained from my code.
+  
 \section{Implement \texttt{CV.SuperLearner}.}
 
   \subsection{Explain why we need \texttt{CV.SuperLearner}.}  
   
-\textcolor{red}{do this at the end}
+We need \texttt{CV.SuperLearner} to evaluate the performance of \texttt{SuperLearner}. It adds another layer of cross validation to (1) check for overfitting by the SuperLearning algorithm and (2) evaluate the entire \texttt{SuperLearner} algorithm against other modeling algorithms.
   
   \subsection{Run \texttt{CV.SuperLearner}.}  
   
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{cv_sl_out} \hlkwb{<-} \hlkwd{CV.SuperLearner}\hlstd{(}\hlkwc{Y} \hlstd{= obs_data}\hlopt{$}\hlstd{Y,}
+                             \hlkwc{X} \hlstd{= X,}
+                             \hlkwc{SL.library} \hlstd{= sl_library,}
+                             \hlkwc{cvControl}\hlstd{=}\hlkwd{list}\hlstd{(}\hlkwc{V}\hlstd{=}\hlnum{5}\hlstd{),}
+                             \hlkwc{innerCvControl}\hlstd{=}\hlkwd{list}\hlstd{(}\hlkwd{list}\hlstd{(}\hlkwc{V}\hlstd{=}\hlnum{20}\hlstd{)))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in CV.SuperLearner(Y = obs\_data\$Y, X = X, SL.library = sl\_library, : Only a single innerCvControl is given, will be replicated across all cross-validation split calls to SuperLearner}}\end{kframe}
+\end{knitrout}
+
   \subsection{Explore the output. Only include the output from the \texttt{summary} function in your write-up, but comment on the other output.}  
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(cv_sl_out)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:  
+## CV.SuperLearner(Y = obs_data$Y, X = X, SL.library = sl_library, cvControl = list(V = 5),  
+##     innerCvControl = list(list(V = 20))) 
+## 
+## Risk is based on: Mean Squared Error
+## 
+## All risk estimates are based on V =  5 
+## 
+##          Algorithm      Ave       se        Min      Max
+##      Super Learner   2.4076 0.051714   2.058445   2.6728
+##        Discrete SL   3.9984 0.073388   3.640737   4.1874
+##    SL.glm.EstA_All   8.3112 0.218672   7.249236   8.9454
+##    SL.glm.EstB_All  13.0328 0.242088  12.607410  13.6007
+##    SL.glm.EstC_All   7.7705 0.219642   7.532044   8.1683
+##    SL.glm.EstD_All  16.0284 0.268789  15.525887  16.5901
+##       SL.ridge_All   3.9984 0.073388   3.640737   4.1874
+##  SL.rpartPrune_All   5.0513 0.121594   4.511556   5.6756
+##    SL.polymars_All  22.0382 0.826980   0.010278  94.4624
+##        SL.mean_All 123.9447 1.470855 118.382591 127.9419
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+From the \texttt{summary} output, the ensemble Super Learner algorithm beat all the individual discrete parameterizations in terms of the cross-validated risk (defined here as the expectation of the L2 loss function, or the mean squared prediction error). The \texttt{whichDiscrete} output also shows that ridge regression had the lowest risk in each of the five cross-validation folds. The first-place performance (risk) of the ensemble combination of models was followed by the ridge regression algorithm and the discrete SuperLearner algorithm, exactly tied for second place because ridge regression is the best performing discrete algorithm included in the SuperLearner library. The \texttt{AllSL} and \texttt{coef} output shows that the ensemble SuperLearner algorithm consistently assigns over half the weight in each fold to the ridge regression algorithm in each of the five folds of the top layer of cross-validation, a little under a quarter of the weight to our prespecified estimator C, a little above a fifth of the weight to the regression tree algorithm, and then about five percent of the weight to prespecified model D. Prespecified models A and B, the polyspline model, and the mean outcome across the Ys never received any weight in the final convex combination of models.
+
+
 
 \section{Bonus!}
 
   \subsection{Try adding more algorithms to the \texttt{SuperLearner} library.}
   
-\textcolor{red}{do this at the end}
-  
+Below I try adding algorithms for penalized elastic net regression models and Bayesian generalized linear models.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# add penalized regression using elastic net and }
+\hlcom{# Bayes generalized linear model algorithms}
+\hlstd{sl_library_expanded} \hlkwb{<-} \hlkwd{c}\hlstd{(sl_library,} \hlstr{"SL.glmnet"}\hlstd{,} \hlstr{"SL.bayesglm"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+I will test these after I add my own wrapper functions to the library too!
+
   \subsection{Try writing your own wrapper function.}  
   
-\textcolor{red}{do this at the end}
+Below I write a function that predicts $Y$ by taking its median across the observations.
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# create an algorithm for the median of Y}
+\hlstd{SL.median} \hlkwb{<-} \hlkwa{function} \hlstd{(}\hlkwc{Y}\hlstd{,} \hlkwc{X}\hlstd{,} \hlkwc{newX}\hlstd{,} \hlkwc{family}\hlstd{,} \hlkwc{obsWeights}\hlstd{,} \hlkwc{id}\hlstd{,} \hlkwc{...}\hlstd{)}
+\hlstd{\{}
+    \hlstd{medianY} \hlkwb{<-} \hlkwd{median}\hlstd{(Y)}
+    \hlstd{pred} \hlkwb{<-} \hlkwd{rep.int}\hlstd{(medianY,} \hlkwc{times} \hlstd{=} \hlkwd{nrow}\hlstd{(newX))}
+    \hlstd{fit} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{object} \hlstd{= medianY)}
+    \hlstd{out} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{pred} \hlstd{= pred,} \hlkwc{fit} \hlstd{= fit)}
+    \hlkwd{class}\hlstd{(out}\hlopt{$}\hlstd{fit)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"SL.median"}\hlstd{)}
+    \hlkwd{return}\hlstd{(out)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Below I write an algorithm that, for a continous outcome variable, creates pseudo-random values for $Y$ within the range of the observed $Y$ from a uniform distribution. For a binary outcome it generates a random value from a binomial distribution within the range of the observed $Y$.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# create an algorithm that creates random values for Y from a}
+\hlcom{# uniform distribution for Y within the range of the Y values for a }
+\hlcom{# "gaussian" family specification and and random values for Y up to the maximum }
+\hlcom{# value of Y from a binomial distribution for a "binomial" family specification}
+\hlstd{SL.random} \hlkwb{<-} \hlkwa{function} \hlstd{(}\hlkwc{Y}\hlstd{,} \hlkwc{X}\hlstd{,} \hlkwc{newX}\hlstd{,} \hlkwc{family}\hlstd{,} \hlkwc{obsWeights}\hlstd{,} \hlkwc{id}\hlstd{,} \hlkwc{...}\hlstd{)}
+\hlstd{\{}
+    \hlkwa{if} \hlstd{(family}\hlopt{$}\hlstd{family} \hlopt{==} \hlstr{"gaussian"}\hlstd{) \{}
+        \hlstd{randomY} \hlkwb{<-} \hlkwd{runif}\hlstd{(}\hlkwd{nrow}\hlstd{(newX),} \hlkwc{min} \hlstd{=} \hlkwd{min}\hlstd{(Y),} \hlkwc{max} \hlstd{=} \hlkwd{max}\hlstd{(Y))}
+        \hlstd{pred} \hlkwb{<-} \hlstd{randomY}
+        \hlstd{fit} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{object} \hlstd{= randomY)}
+        \hlstd{out} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{pred} \hlstd{= pred,} \hlkwc{fit} \hlstd{= fit)}
+        \hlkwd{class}\hlstd{(out}\hlopt{$}\hlstd{fit)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"SL.random"}\hlstd{)}
+        \hlkwd{return}\hlstd{(out)}
+    \hlstd{\}}
+
+    \hlkwa{if} \hlstd{(family}\hlopt{$}\hlstd{family} \hlopt{==} \hlstr{"binomial"}\hlstd{) \{}
+        \hlstd{randomY} \hlkwb{<-} \hlkwd{rbinom}\hlstd{(}\hlkwd{nrow}\hlstd{(newX),} \hlkwc{size} \hlstd{=} \hlkwd{max}\hlstd{(Y),} \hlkwc{prob} \hlstd{=} \hlnum{0.5}\hlstd{)}
+        \hlstd{pred} \hlkwb{<-} \hlstd{randomY}
+        \hlstd{fit} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{object} \hlstd{= randomY)}
+        \hlstd{out} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{pred} \hlstd{= pred,} \hlkwc{fit} \hlstd{= fit)}
+        \hlkwd{class}\hlstd{(out}\hlopt{$}\hlstd{fit)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"SL.random"}\hlstd{)}
+        \hlkwd{return}\hlstd{(out)}
+    \hlstd{\}}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Now I run SuperLearner again using my new and exciting library with four new wrapper functions!
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# add my functions to SuperLearner's library}
+\hlstd{sl_library_plus} \hlkwb{<-} \hlkwd{c}\hlstd{(sl_library_expanded,} \hlstr{"SL.median"}\hlstd{,} \hlstr{"SL.random"}\hlstd{)}
+
+\hlcom{# run SuperLearner with my new not very exciting library}
+\hlstd{sl_out_plus} \hlkwb{<-} \hlkwd{SuperLearner}\hlstd{(}\hlkwc{Y} \hlstd{= obs_data}\hlopt{$}\hlstd{Y,}
+                            \hlkwc{X} \hlstd{= X,}
+                            \hlkwc{SL.library} \hlstd{= sl_library_plus,}
+                            \hlkwc{cvControl} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{V} \hlstd{=} \hlnum{20}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required namespace: arm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required namespace: glmnet}}\begin{alltt}
+\hlstd{sl_out_plus}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:  
+## SuperLearner(Y = obs_data$Y, X = X, SL.library = sl_library_plus, cvControl = list(V = 20)) 
+## 
+## 
+## 
+##                         Risk       Coef
+## SL.glm.EstA_All     8.312903 0.00000000
+## SL.glm.EstB_All    13.019920 0.00000000
+## SL.glm.EstC_All     7.760012 0.21842813
+## SL.glm.EstD_All    16.023770 0.02442038
+## SL.ridge_All        3.994763 0.00000000
+## SL.rpartPrune_All   4.702274 0.26058327
+## SL.polymars_All    12.104627 0.04788184
+## SL.mean_All       123.838484 0.00000000
+## SL.glmnet_All       4.000507 0.00000000
+## SL.bayesglm_All     3.994786 0.44868637
+## SL.median_All     124.122580 0.00000000
+## SL.random_All     345.749991 0.00000000
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Among the pre-made wrapper functions I added, the Bayesian generalized linear modeling approach did very well and took nearly half the weight in the final ensemble. The ridge regression and penalized elastic net regression algorithms had almost the same risk but no weight in the final ensemble, likely due to collinearity between their results and those of the Bayes. The regression tree and model C algorithms still took a quarter and a fifth of the weight, respectively, followed by a few percentage points of weight for model D.
+
+\vspace{2mm}
+
+Among my own wrapper functions, it appears that ignoring the predictors entirely is a bad way to make predictions. But the risk of my little \texttt{SL.median} function was almost as low as the risk of the other function that ignored the predictors, the \texttt{SL.mean} function! It was almost not the worst! And my \texttt{SL.random} function did even worse than the worst. I'm somewhat reassured to see that the actual modeling attempts beat pseudo-random chance. 
+
+\vspace{2mm}
+
+But . . . what if the pre-written function models are overfit so badly to these particular predictors that my median Y or pseudo-random chance models that completely \textit{ignore} the predictors are actually better? Unlikely, but onward we march to \texttt{CV.SuperLearner} to make sure!
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# run CV.SuperLearner with my expanded library}
+\hlstd{cv_sl_out_plus} \hlkwb{<-} \hlkwd{CV.SuperLearner}\hlstd{(}\hlkwc{Y} \hlstd{= obs_data}\hlopt{$}\hlstd{Y,}
+                                  \hlkwc{X} \hlstd{= X,}
+                                  \hlkwc{SL.library} \hlstd{= sl_library_plus,}
+                                  \hlkwc{cvControl}\hlstd{=}\hlkwd{list}\hlstd{(}\hlkwc{V}\hlstd{=}\hlnum{5}\hlstd{),}
+                                  \hlkwc{innerCvControl}\hlstd{=}\hlkwd{list}\hlstd{(}\hlkwd{list}\hlstd{(}\hlkwc{V}\hlstd{=}\hlnum{20}\hlstd{)))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in CV.SuperLearner(Y = obs\_data\$Y, X = X, SL.library = sl\_library\_plus, : Only a single innerCvControl is given, will be replicated across all cross-validation split calls to SuperLearner}}\begin{alltt}
+\hlcom{# inspect the output}
+\hlkwd{summary}\hlstd{(cv_sl_out_plus)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:  
+## CV.SuperLearner(Y = obs_data$Y, X = X, SL.library = sl_library_plus, cvControl = list(V = 5),  
+##     innerCvControl = list(list(V = 20))) 
+## 
+## Risk is based on: Mean Squared Error
+## 
+## All risk estimates are based on V =  5 
+## 
+##          Algorithm       Ave       se        Min      Max
+##      Super Learner   2.13534 0.045851 1.8472e+00   2.3096
+##        Discrete SL   3.99288 0.073202 3.7644e+00   4.1793
+##    SL.glm.EstA_All   8.31631 0.219051 7.7931e+00   8.6763
+##    SL.glm.EstB_All  13.03150 0.241836 1.2611e+01  13.3201
+##    SL.glm.EstC_All   7.77054 0.219580 7.3693e+00   8.1097
+##    SL.glm.EstD_All  16.03115 0.268514 1.5752e+01  16.2287
+##       SL.ridge_All   3.99261 0.073201 3.7644e+00   4.1793
+##  SL.rpartPrune_All   5.06485 0.119220 4.6535e+00   5.2938
+##    SL.polymars_All   0.51483 0.035733 9.3334e-03   2.5348
+##        SL.mean_All 123.85873 1.469184 1.2075e+02 129.7246
+##      SL.glmnet_All   3.99813 0.072934 3.7941e+00   4.1867
+##    SL.bayesglm_All   3.99265 0.073184 3.7641e+00   4.1784
+##      SL.median_All 124.25797 1.472435 1.2072e+02 130.7243
+##      SL.random_All 342.01659 5.696803 3.2792e+02 353.6865
+\end{verbatim}
+\begin{alltt}
+\hlcom{# returns the output for each call to Super Learner}
+\hlstd{cv_sl_out_plus}\hlopt{$}\hlstd{AllSL}
+\end{alltt}
+\begin{verbatim}
+## $`1`
+## 
+## Call:  
+## SuperLearner(Y = cvOutcome, X = cvLearn, newX = cvValid, family = family,  
+##     SL.library = SL.library, method = method, id = cvId, verbose = verbose,  
+##     control = control, cvControl = valid[[2]], obsWeights = cvObsWeights,  
+##     env = env) 
+## 
+## 
+##                         Risk       Coef
+## SL.glm.EstA_All     8.261987 0.00000000
+## SL.glm.EstB_All    13.030257 0.00000000
+## SL.glm.EstC_All     7.683230 0.20777281
+## SL.glm.EstD_All    16.018401 0.03403678
+## SL.ridge_All        3.949501 0.00000000
+## SL.rpartPrune_All   4.940816 0.20168567
+## SL.polymars_All     7.361034 0.14722050
+## SL.mean_All       122.397321 0.00000000
+## SL.glmnet_All       3.954970 0.00000000
+## SL.bayesglm_All     3.949529 0.40928424
+## SL.median_All     123.124863 0.00000000
+## SL.random_All     336.627709 0.00000000
+## 
+## $`2`
+## 
+## Call:  
+## SuperLearner(Y = cvOutcome, X = cvLearn, newX = cvValid, family = family,  
+##     SL.library = SL.library, method = method, id = cvId, verbose = verbose,  
+##     control = control, cvControl = valid[[2]], obsWeights = cvObsWeights,  
+##     env = env) 
+## 
+## 
+##                         Risk       Coef
+## SL.glm.EstA_All     8.224453 0.00000000
+## SL.glm.EstB_All    12.984716 0.00000000
+## SL.glm.EstC_All     7.761470 0.22230512
+## SL.glm.EstD_All    16.109809 0.03330945
+## SL.ridge_All        3.967849 0.00000000
+## SL.rpartPrune_All   4.614641 0.25831117
+## SL.polymars_All    13.901834 0.01922809
+## SL.mean_All       124.467927 0.00000000
+## SL.glmnet_All       3.973962 0.00000000
+## SL.bayesglm_All     3.967830 0.46684617
+## SL.median_All     124.806143 0.00000000
+## SL.random_All     335.785572 0.00000000
+## 
+## $`3`
+## 
+## Call:  
+## SuperLearner(Y = cvOutcome, X = cvLearn, newX = cvValid, family = family,  
+##     SL.library = SL.library, method = method, id = cvId, verbose = verbose,  
+##     control = control, cvControl = valid[[2]], obsWeights = cvObsWeights,  
+##     env = env) 
+## 
+## 
+##                         Risk       Coef
+## SL.glm.EstA_All     8.256134 0.00000000
+## SL.glm.EstB_All    13.023757 0.00000000
+## SL.glm.EstC_All     7.712062 0.22188748
+## SL.glm.EstD_All    16.058995 0.03492089
+## SL.ridge_All        3.994668 0.00000000
+## SL.rpartPrune_All   4.996129 0.22431303
+## SL.polymars_All    14.096316 0.06296375
+## SL.mean_All       123.947450 0.00000000
+## SL.glmnet_All       4.001497 0.00000000
+## SL.bayesglm_All     3.994669 0.45591484
+## SL.median_All     124.300862 0.00000000
+## SL.random_All     338.925174 0.00000000
+## 
+## $`4`
+## 
+## Call:  
+## SuperLearner(Y = cvOutcome, X = cvLearn, newX = cvValid, family = family,  
+##     SL.library = SL.library, method = method, id = cvId, verbose = verbose,  
+##     control = control, cvControl = valid[[2]], obsWeights = cvObsWeights,  
+##     env = env) 
+## 
+## 
+##                         Risk        Coef
+## SL.glm.EstA_All     8.449270 0.000000000
+## SL.glm.EstB_All    13.131741 0.000000000
+## SL.glm.EstC_All     7.807676 0.227055032
+## SL.glm.EstD_All    16.028027 0.034411933
+## SL.ridge_All        4.044249 0.000000000
+## SL.rpartPrune_All   4.824691 0.255765679
+## SL.polymars_All    16.905270 0.001245647
+## SL.mean_All       124.571812 0.000000000
+## SL.glmnet_All       4.051736 0.000000000
+## SL.bayesglm_All     4.044243 0.481521708
+## SL.median_All     124.712282 0.000000000
+## SL.random_All     334.698621 0.000000000
+## 
+## $`5`
+## 
+## Call:  
+## SuperLearner(Y = cvOutcome, X = cvLearn, newX = cvValid, family = family,  
+##     SL.library = SL.library, method = method, id = cvId, verbose = verbose,  
+##     control = control, cvControl = valid[[2]], obsWeights = cvObsWeights,  
+##     env = env) 
+## 
+## 
+##                         Risk        Coef
+## SL.glm.EstA_All     8.386427 0.000000000
+## SL.glm.EstB_All    12.954082 0.000000000
+## SL.glm.EstC_All     7.868713 0.231922241
+## SL.glm.EstD_All    16.001335 0.045753346
+## SL.ridge_All        4.058480 0.000000000
+## SL.rpartPrune_All   5.022585 0.227917986
+## SL.polymars_All    21.615022 0.005861249
+## SL.mean_All       123.729351 0.000000000
+## SL.glmnet_All       4.064688 0.000000000
+## SL.bayesglm_All     4.058502 0.488545179
+## SL.median_All     123.907282 0.000000000
+## SL.random_All     329.916980 0.000000000
+\end{verbatim}
+\begin{alltt}
+\hlcom{# condensed version of the output from CV.SL.out$AllSL with only the coefficients for each Super Learner run}
+\hlstd{cv_sl_out_plus}\hlopt{$}\hlstd{coef}
+\end{alltt}
+\begin{verbatim}
+##   SL.glm.EstA_All SL.glm.EstB_All SL.glm.EstC_All SL.glm.EstD_All SL.ridge_All
+## 1               0               0       0.2077728      0.03403678            0
+## 2               0               0       0.2223051      0.03330945            0
+## 3               0               0       0.2218875      0.03492089            0
+## 4               0               0       0.2270550      0.03441193            0
+## 5               0               0       0.2319222      0.04575335            0
+##   SL.rpartPrune_All SL.polymars_All SL.mean_All SL.glmnet_All SL.bayesglm_All
+## 1         0.2016857     0.147220500           0             0       0.4092842
+## 2         0.2583112     0.019228090           0             0       0.4668462
+## 3         0.2243130     0.062963753           0             0       0.4559148
+## 4         0.2557657     0.001245647           0             0       0.4815217
+## 5         0.2279180     0.005861249           0             0       0.4885452
+##   SL.median_All SL.random_All
+## 1             0             0
+## 2             0             0
+## 3             0             0
+## 4             0             0
+## 5             0             0
+\end{verbatim}
+\begin{alltt}
+\hlcom{# returns the algorithm with lowest CV risk (discrete Super Learner) at each step.}
+\hlstd{cv_sl_out_plus}\hlopt{$}\hlstd{whichDiscrete}
+\end{alltt}
+\begin{verbatim}
+## $`1`
+## [1] "SL.ridge_All"
+## 
+## $`2`
+## [1] "SL.bayesglm_All"
+## 
+## $`3`
+## [1] "SL.ridge_All"
+## 
+## $`4`
+## [1] "SL.bayesglm_All"
+## 
+## $`5`
+## [1] "SL.ridge_All"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+The Super Learner algorithm beat all the discrete algorithms in average mean squared prediction error, predictably, followed by the Bayesian generalized linear model algorithm and then the ridge regression algorithm, which in some of the cross-validation folds beats the Bayes for the lowest risk. The final ensemble combination of models, however, only assigns weight to the Bayesian generalized linear model, which I suspect is due to collinearity between the results of the two algorithms. At the other end of candidate algorithm performance, my attempts at predciting without predictors had similarly awful risks after an additional layer of cross-validation and showed completely zeroed-out coefficients in both the overall final SuperLearner ensemble fit to all the data and in each of the five folds of the cross validation. Alas.
   
 \end{document}

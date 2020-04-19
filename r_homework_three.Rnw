@@ -13,7 +13,6 @@
 \usepackage{xunicode}
 \usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
 \usepackage{longtable}
-\usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{bm}
 \usepackage{caption}
@@ -22,6 +21,8 @@
 \usepackage{dejavu}
 \usepackage{mathpazo}
 \usepackage{lmodern}
+\usepackage{dirtytalk}
+\usepackage{amsmath}
 
 % set fonts
 \setmainfont{Garamond}
@@ -50,7 +51,7 @@ knit_hooks$set(document = function(x) {
 
 \section{Import and explore the data set \texttt{RAssign3.csv}.}
 
-  \subsection{Use the \texttt{read.csv} function to import the dataset and assign it to dataframe obs\_data.}
+  \subsection{Use the \texttt{read\_csv} function to import the dataset and assign it to dataframe \texttt{obs\_data}.}
   
 <<echo = TRUE, results = 'hide', warning = FALSE, comment = FALSE, message = FALSE>>=
 
@@ -86,8 +87,8 @@ n
 \section{Code discrete Super Learner to select the estimator with the lowest cross-validated risk estimate.}
 
   \subsection{Briefly discuss the motivation for using discrete Super Learner (a.k.a. the cross-validation selector).}
-  
-  \textcolor{red}{add explanation here}
+
+One motivation for the discrete Super Learner is to find a good statistical model of our outcome when the non-parametric maximum likelihood estimator is not well defined due to strata with zero or only a few observations, leading to over-fitting, but when we don't know enough \textit{a priori} to specify the correct parametric model and want to choose the best among candidates. In particular, the discrete Super Learner allows us to avoid the potential bias (usually incorrect rejection of the null hypothesis as investigators prefer models that confirm their prior beliefs or offer significant results) that can arise from using ad hoc model specification procedures, as well as the corresponding misleading uncertainty estimates that assume an \textit{a priori} specified model and ignore multiple looks at the data. The discrete Super Learner resolves these problems by specifying the candidate models and the way of choosing among them ahead of time and then incorporating the model selection process into the estimator. (The cross-validation aspect, specifially, allows the comparison of model performance on independent data from the same distribution.)
   
   \subsection{Create the following transformed variables and add them to the data frame \texttt{obs\_data}:}
   \begin{itemize}
@@ -173,6 +174,7 @@ for (V in 1:20){
   cv_risk[V,4] <- mean((valid$Y - predict_d)^2)
 }
 
+cv_risk
 
 @
   
@@ -226,7 +228,7 @@ summary(discrete_best_estimate)
 
   \subsection{Can we do better?}
   
-  I bet that we can, since we just arbitrarily picked four models and then stipulated that we had to choose one and only one of them.
+Model C had the lowest mean squared prediction error of our four discrete models, with the stability of the region ($W2$), community socioeconomic status ($W3$), the community number of health facilities ($W5$) and its cosine ($cosW5$), the square of the community proportion of children visiting a health center in the last year for a common childhood illness ($W4$), and the multiplicative interaction between region stability and the community number of health facilities ($W2:W5$) all emerging as predictors of mid-upper-arm circumference in the model. I bet that we can do better, however, since although we specified four models that were informed by subject matter knowledge, we stipulated that we had to choose one and only one of them. A combination of models could work even better (i.e., have a lower mean squared prediction error).
   
 \section{Use the \texttt{SuperLearner} package to build the best combination of algorithms.}
 
@@ -265,16 +267,37 @@ sl_library <- c('SL.glm.EstA',
   
   
   
-  \textit{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+\textbf{Bonus: Very briefly describe the algorithms corresponding to \texttt{SL.ridge}, \texttt{SL.rpartPrune}, \texttt{SL.polymars} and \texttt{SL.mean}.}
+
+<<results = FALSE >>=
+
+SL.ridge
+
+SL.rpartPrune
   
-  \textcolor{red}{do this at the end}
+SL.polymars
+
+SL.mean
+
+@
+
+\begin{itemize}
+  \item The \texttt{SL.ridge} algorithm uses the \texttt{MASS} package to fit a linear ridge regression  model to the input covariates $X$ and outcome $Y$ (with ridge parameter $\lambda$ values ranging from 1 to 20 scaled by 0.1), chooses the model with the lowest generalized cross validation (GCV) value, and outputs the chosen model's parameter estimates and its predicted $X$ values.
+  
+  \item The \texttt{SL.rpartPrune} algorithm uses the \texttt{rpart} package to build a regression tree for a continuous $Y$ or a classification tree for a binary $Y$, prunes the tree using the pruning parameter value $CP$ that reults in the lowest prediction error, and outputs the chosen model's parameter estimates, including the pruning parameter value, and its predicted $X$ values. 
+  
+  \item The \texttt{SL.polymars} algorithm for a continuous outcome uses the \texttt{polspline} package to fit a multivariate adaptive polynomial spline regression model with knots a minimum of three order statistics apart that minimizes the residual sum of squares divided by the square of $1 - (4 * model \; size)/cases$ and outputs both the model parameters and the predicted $X$ values the chosen model generates. For a binary outcome \texttt{polspline} fits a a polychotomous regression and multiple classification selected using five-fold cross validation and outputs both the chosen model's parameter estimates and its predicted $X$ values.
+  
+  \item The \texttt{SL.mean} algorithm fits a very simple model by calculating the mean of the outcome $Y$ across the observations, weighted by any supplied observation weights, and outputs its parameter estimate, which is simply that mean, and its predicted values, which are simply also that mean repeated times the number of observations.
+
+\end{itemize}
   
   \subsection{Create data frame \texttt{X} with the predictor variables.} Include the original predictor variables and the transformed variables.
   
 <<>>=
 
 X <- obs_data %>%
-  select(-c(Y)) %>% 
+  select(-c(Y, fold)) %>% 
   as.data.frame()
 
 @
@@ -290,19 +313,64 @@ sl_out <- SuperLearner(Y = obs_data$Y,
 
 sl_out
 
-
-
 @
   
   \subsection{Explain the output to relevant policy makers and stake-holders. What do the columns \texttt{Risk} and \texttt{Coef} mean? Are the cross-validated risks from \texttt{SuperLearner} close to those obtained by your code?}
   
-\textcolor{red}{do this at the end}
+\textbf{\texttt{Risk}} 
 
+Colloquially, the \textbf{\texttt{Risk}} column effectively gives the \say{score} of the model, where lower is better. Specifically, it gives the cross-validated risk for each algorithm averaged across twenty folds. More specifically, the word \say{risk} in the prior sentence denotes the expectation of a loss function, $\mathbb{E}_0L(O,\bar{Q})$, where
+
+\begin{itemize}
+  \item $O = (Y,W)$ is a random variable representing the set of observed random variables;
+  \item $Y$ is a random variable representing the outcome;
+  \item $W$ is a random variable representing the covariates $W1$, $W2$, $W3$, $W4$, and $W5$ and their transformations as calculated above;
+    \item The subscript $0$ denotes parameters of the distribution of the observed data, $(W, Y) \sim P_0$;
+  \item $\bar{Q}$ is a candidate function for estimating the expected value of $Y$ conditional on $W$, $\mathbb{E}_0(Y|W)$; and
+  \item $L$ denotes a loss function, or a measure of performance assigned to $\bar{Q}$.
+
+\end{itemize}
+
+Even more specifically, here the word \say{risk} denotes the expectation of the L2 loss function $L(O,\bar{Q})=(Y-\bar{Q}(A,W))^2$, also known as the mean squared prediction error: $L(O,\bar{Q})=\mathbb{E}_0[(Y-\bar{Q}(W))^2]$.
+
+\vspace{2mm}
+
+We define our target parameter, $\bar{Q}_0$, then, as the candidate function of the that minimizes the L2 loss function:
+
+\begin{align*}
+\bar{Q}_0(W) = argmin_{\bar{Q}}\mathbb{E}_0[(Y-\bar{Q}(W))^2].
+\end{align*}
+
+\textbf{\texttt{Coef}} 
+
+The \textbf{\texttt{Coef}} column gives the weight of each algorithm in the final convex combination of algorithms that had the lowest cross-validated mean square error (risk) after regressing the outcome $Y$ on the cross-validated predicted values of each algorithm.
+
+\vspace{2mm}
+
+\textbf{Comparing the discrete and ensemble SuperLearner}
+
+<<>>=
+
+sl_risks <- sl_out$cvRisk[1:4]
+
+names(sl_risks) <- c("model_a", "model_b", "model_c", "model_d")
+
+# table of both manual (average_risks) and SuperLearner (sl_risks) risk values
+merged_risks <- bind_rows(average_risks, sl_risks) %>%
+  add_column("algorithm" = c("manual", "SuperLearner"), 
+             .before = 1)
+
+merged_risks
+
+@
+
+From the table above, the discrete cross-validated risks from \texttt{SuperLearner} look basically identical to those obtained from my code.
+  
 \section{Implement \texttt{CV.SuperLearner}.}
 
   \subsection{Explain why we need \texttt{CV.SuperLearner}.}  
   
-\textcolor{red}{do this at the end}
+We need \texttt{CV.SuperLearner} to evaluate the performance of \texttt{SuperLearner}. It adds another layer of cross validation to (1) check for overfitting by the SuperLearning algorithm and (2) evaluate the entire \texttt{SuperLearner} algorithm against other modeling algorithms.
   
   \subsection{Run \texttt{CV.SuperLearner}.}  
   
@@ -312,12 +380,10 @@ cv_sl_out <- CV.SuperLearner(Y = obs_data$Y,
                              X = X, 
                              SL.library = sl_library, 
                              cvControl=list(V=5), 
-                             innerCvControl = list(list(V=20)))
+                             innerCvControl=list(list(V=20)))
 
 @
 
-
-  
   \subsection{Explore the output. Only include the output from the \texttt{summary} function in your write-up, but comment on the other output.}  
   
 <<>>=
@@ -326,6 +392,7 @@ summary(cv_sl_out)
 
 @
 
+From the \texttt{summary} output, the ensemble Super Learner algorithm beat all the individual discrete parameterizations in terms of the cross-validated risk (defined here as the expectation of the L2 loss function, or the mean squared prediction error). The \texttt{whichDiscrete} output also shows that ridge regression had the lowest risk in each of the five cross-validation folds. The first-place performance (risk) of the ensemble combination of models was followed by the ridge regression algorithm and the discrete SuperLearner algorithm, exactly tied for second place because ridge regression is the best performing discrete algorithm included in the SuperLearner library. The \texttt{AllSL} and \texttt{coef} output shows that the ensemble SuperLearner algorithm consistently assigns over half the weight in each fold to the ridge regression algorithm in each of the five folds of the top layer of cross-validation, a little under a quarter of the weight to our prespecified estimator C, a little above a fifth of the weight to the regression tree algorithm, and then about five percent of the weight to prespecified model D. Prespecified models A and B, the polyspline model, and the mean outcome across the Ys never received any weight in the final convex combination of models.
 
 <<include = FALSE>>=
 
@@ -340,21 +407,122 @@ cv_sl_out$whichDiscrete
 
 @
 
-
 \section{Bonus!}
 
   \subsection{Try adding more algorithms to the \texttt{SuperLearner} library.}
   
+Below I try adding algorithms for penalized elastic net regression models and Bayesian generalized linear models.
+
 <<>>=
 
-summary(cv_sl_out)
+# add penalized regression using elastic net and 
+# Bayes generalized linear model algorithms
+sl_library_expanded <- c(sl_library, "SL.glmnet", "SL.bayesglm")
 
 @
-  
-\textcolor{red}{do this at the end}
-  
+
+I will test these after I add my own wrapper functions to the library too!
+
   \subsection{Try writing your own wrapper function.}  
   
-\textcolor{red}{do this at the end}
+Below I write a function that predicts $Y$ by taking its median across the observations.
+  
+<<>>=
+
+# create an algorithm for the median of Y
+SL.median <- function (Y, X, newX, family, obsWeights, id, ...) 
+{
+    medianY <- median(Y)
+    pred <- rep.int(medianY, times = nrow(newX))
+    fit <- list(object = medianY)
+    out <- list(pred = pred, fit = fit)
+    class(out$fit) <- c("SL.median")
+    return(out)
+}
+
+@
+
+Below I write an algorithm that, for a continous outcome variable, creates pseudo-random values for $Y$ within the range of the observed $Y$ from a uniform distribution. For a binary outcome it generates a random value from a binomial distribution within the range of the observed $Y$.
+
+<<>>=
+
+# create an algorithm that creates random values for Y from a
+# uniform distribution for Y within the range of the Y values for a 
+# "gaussian" family specification and and random values for Y up to the maximum 
+# value of Y from a binomial distribution for a "binomial" family specification
+SL.random <- function (Y, X, newX, family, obsWeights, id, ...) 
+{   
+    if (family$family == "gaussian") {
+        randomY <- runif(nrow(newX), min = min(Y), max = max(Y))
+        pred <- randomY
+        fit <- list(object = randomY)
+        out <- list(pred = pred, fit = fit)
+        class(out$fit) <- c("SL.random")
+        return(out)
+    }
+  
+    if (family$family == "binomial") {
+        randomY <- rbinom(nrow(newX), size = max(Y), prob = 0.5)
+        pred <- randomY
+        fit <- list(object = randomY)
+        out <- list(pred = pred, fit = fit)
+        class(out$fit) <- c("SL.random")
+        return(out)
+    }
+}
+
+@
+
+Now I run SuperLearner again using my new and exciting library with four new wrapper functions!
+
+<<>>=
+
+# add my functions to SuperLearner's library
+sl_library_plus <- c(sl_library_expanded, "SL.median", "SL.random")
+
+# run SuperLearner with my new not very exciting library
+sl_out_plus <- SuperLearner(Y = obs_data$Y, 
+                            X = X, 
+                            SL.library = sl_library_plus,
+                            cvControl = list(V = 20))
+
+sl_out_plus
+
+@
+
+Among the pre-made wrapper functions I added, the Bayesian generalized linear modeling approach did very well and took nearly half the weight in the final ensemble. The ridge regression and penalized elastic net regression algorithms had almost the same risk but no weight in the final ensemble, likely due to collinearity between their results and those of the Bayes. The regression tree and model C algorithms still took a quarter and a fifth of the weight, respectively, followed by a few percentage points of weight for model D.
+
+\vspace{2mm}
+
+Among my own wrapper functions, it appears that ignoring the predictors entirely is a bad way to make predictions. But the risk of my little \texttt{SL.median} function was almost as low as the risk of the other function that ignored the predictors, the \texttt{SL.mean} function! It was almost not the worst! And my \texttt{SL.random} function did even worse than the worst. I'm somewhat reassured to see that the actual modeling attempts beat pseudo-random chance. 
+
+\vspace{2mm}
+
+But . . . what if the pre-written function models are overfit so badly to these particular predictors that my median Y or pseudo-random chance models that completely \textit{ignore} the predictors are actually better? Unlikely, but onward we march to \texttt{CV.SuperLearner} to make sure!
+
+<<>>=
+
+# run CV.SuperLearner with my expanded library
+cv_sl_out_plus <- CV.SuperLearner(Y = obs_data$Y, 
+                                  X = X, 
+                                  SL.library = sl_library_plus, 
+                                  cvControl=list(V=5), 
+                                  innerCvControl=list(list(V=20)))
+
+# inspect the output
+summary(cv_sl_out_plus)
+
+# returns the output for each call to Super Learner
+cv_sl_out_plus$AllSL
+
+# condensed version of the output from CV.SL.out$AllSL with only the coefficients for each Super Learner run
+cv_sl_out_plus$coef
+
+# returns the algorithm with lowest CV risk (discrete Super Learner) at each step.
+cv_sl_out_plus$whichDiscrete
+
+@
+
+The Super Learner algorithm beat all the discrete algorithms in average mean squared prediction error, predictably, followed by the Bayesian generalized linear model algorithm and then the ridge regression algorithm, which in some of the cross-validation folds beats the Bayes for the lowest risk. The final ensemble combination of models, however, only assigns weight to the Bayesian generalized linear model, which I suspect is due to collinearity between the results of the two algorithms. At the other end of candidate algorithm performance, my attempts at predciting without predictors had similarly awful risks after an additional layer of cross-validation and showed completely zeroed-out coefficients in both the overall final SuperLearner ensemble fit to all the data and in each of the five folds of the cross validation. Alas.
   
 \end{document}

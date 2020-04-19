@@ -1,0 +1,144 @@
+---
+title: "R Lab 4"
+author: "Katherine Rose Wolf"
+date: "3/30/2020"
+output: pdf_document
+---
+
+
+```{r}
+
+library(tidyverse)
+
+```
+
+
+```{r}
+
+ObsData <- read.csv("RLab4.IPTW.csv")
+
+```
+
+
+```{r}
+
+n <- nrow(ObsData)
+
+n
+
+names(ObsData)
+
+head(ObsData)
+
+tail(ObsData)
+
+summary(ObsData)
+
+```
+
+
+```{r}
+
+table(ObsData$W1, ObsData$W2, ObsData$A)
+
+```
+
+
+```{r}
+
+iptw_for_gcomp <- 
+  glm(A ~ W1 + W2,
+  family = 'binomial',
+  data = ObsData)
+
+iptw_for_gcomp$coef
+
+pred.g1W <- predict(iptw_for_gcomp, type = 'response')
+
+pred.g0W <- 1 - pred.g1W
+
+gAW <- vector(length = n)
+
+gAW[ObsData$A==1] <- pred.g1W[ObsData$A==1]
+
+gAW[ObsData$A==0] <- pred.g0W[ObsData$A==0]
+
+summary(gAW)
+
+wt <- 1/gAW
+
+summary(wt)
+
+
+```
+
+
+```{r}
+
+interim_column_A1 <- as.numeric(ObsData$A == 1)*ObsData$Y/gAW
+
+interim_column_A0 <- as.numeric(ObsData$A == 0)*ObsData$Y/gAW
+
+final_column <- mean(interim_column_A1) - mean(interim_column_A0)
+
+IPTW <- mean(wt * as.numeric(ObsData$A == 1) * ObsData$Y) - mean(wt * as.numeric(ObsData$A == 0) * ObsData$Y)
+
+IPTW
+
+sum(wt > 10)
+
+wt.trunc <- wt
+
+wt.trunc[wt.trunc > 10] <- 10
+
+IPTW_trunc <- mean(wt.trunc * as.numeric(ObsData$A == 1) * ObsData$Y) - 
+  mean(wt.trunc * as.numeric(ObsData$A == 0) * ObsData$Y)
+
+IPTW_trunc
+
+IPTW_stab <- mean(wt * as.numeric(ObsData$A == 1) * ObsData$Y)/mean(wt * as.numeric(ObsData$A == 1)) - 
+  mean(wt * as.numeric(ObsData$A == 0) * ObsData$Y)/mean(wt * as.numeric(ObsData$A == 0))
+
+```
+
+4.3
+
+```{r}
+
+thingie <- glm(Y ~ A*W2, family = 'binomial', data = ObsData, weights = wt)
+
+thingie$coef
+```
+
+4.3.3
+
+```{r}
+
+gAV.reg <- glm(A ~ as.factor(W2), family="binomial", data=ObsData)
+
+gAV.reg$coef
+
+pred.g1V <- predict(gAV.reg, type = 'response')
+
+pred.g0V <- 1 - pred.g1V
+
+gAV <- vector(length = n)
+
+gAV[ObsData$A==1] <- pred.g1V[ObsData$A==1]
+
+gAV[ObsData$A==0] <- pred.g0V[ObsData$A==0]
+
+wt.MSM <- gAV/gAW
+
+summary(wt.MSM)
+
+thingie2 <- glm(Y ~ A*W2, family = 'binomial', data = ObsData, weights = wt.MSM)
+
+thingie2$coef
+
+
+
+
+
+```
+

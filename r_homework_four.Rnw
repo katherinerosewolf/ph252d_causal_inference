@@ -1,0 +1,385 @@
+\documentclass{article}
+\title{\textbf{R Homework Three}}
+\author{\textbf{Katherine Wolf}\\ Introduction to Causal Inference (PH252D)\\ \today}
+\date{}
+
+% list of latex packages you'll need
+\usepackage{float}  % for tables
+\usepackage{mathtools}  % for mathematical symbols
+\usepackage{bm}  % to bold mathematical symbols like betas
+\usepackage{scrextend}  % to indent subsections
+\usepackage{xltxtra}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[skip=0.5\baselineskip]{caption}  % control caption printing space
+\usepackage{longtable}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{txfonts}
+\usepackage{dejavu}
+\usepackage{mathpazo}
+\usepackage{lmodern}
+\usepackage{dirtytalk}
+\usepackage{amsmath}
+
+% set fonts
+\setmainfont{Garamond}
+\setsansfont{Lucida Console}
+
+% set the margins of the document
+\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
+
+% remove automatic indenting
+\setlength{\parindent}{0pt}
+
+<<echo=FALSE>>=
+library(knitr)
+knit_hooks$set(document = function(x) {
+  sub('\\usepackage[]{color}', '\\usepackage[]{xcolor}', x, fixed = TRUE)
+})
+@
+
+% end the preamble and begin the document
+
+\begin{document}
+
+\maketitle
+
+\section{Background and Causal Roadmap.}
+
+\section{Import and explore the data set \texttt{RAssign4.csv}.}
+
+  \subsection{Import the data set and assign it to object \texttt{ObsData}.}
+  
+<<echo = TRUE, results = 'hide', warning = FALSE, comment = FALSE, message = FALSE>>=
+
+library(tidyverse)
+
+ObsData <- read.csv("RAssign4.csv")
+
+@
+
+  \subsection{Assign the number of riders to \texttt{n}.}
+  
+<<echo = TRUE>>=
+
+n <- nrow(ObsData)
+
+n
+
+@
+
+  \subsection{Use the \texttt{summary} function to explore the data.}
+  
+<<echo = TRUE>>=
+
+summary(ObsData)
+
+tail(ObsData)
+
+@
+
+  \subsection{Are there certain covariate combinations with limited variability in the exposure (burpees completed)?}
+  
+<<echo = TRUE>>=
+
+table(ObsData$W1, ObsData$W2, ObsData$A)
+
+@
+  
+    \subsubsection{Use the table function to check the number of riders in each exposure-covariate category.}
+    
+    \subsubsection{Comment.}
+    
+    \textcolor{red}{do this post-coding}
+
+\section{IPTW for the statistical estimand estimand equal to the ATE under $\mathcal{M}^{\mathcal{F}^*}$}
+
+  \subsection{We need to estimate the treatment mechanism $\mathbb{P}_0(A|W) = g_0(A|W)$, which is the conditional probability of completing $A$ burpees, given the rider's characteristics.} 
+
+Implement the following code to estimate the treatment mechanism with multinomial logistic regression. You will need the \texttt{nnet} package:
+
+<<echo = TRUE>>=
+
+library("nnet")
+
+gAW.reg <- multinom(A ~ W1 + W2, 
+                    data = ObsData)
+
+@
+  
+  \subsection{Predict each rider's probability of his/her observed exposure (burpees completed), given his/her covariates $\hat{g}(A_i|W_i)$:}
+  
+    \subsubsection{Use the \texttt{predict} function to obtain the predicted probability of each exposure level, given the rider's covariates. Be sure to specify \texttt{type = "probs"}.}
+    
+<<echo = TRUE>>=
+
+gAW.pred <- predict(gAW.reg, type="probs")
+
+@ 
+
+    \subsubsection{Create an empty vector \texttt{gAW} of length \textit{n} for the predicted probabilities.}
+    
+<<echo = TRUE>>=
+
+gAW <- rep(NA, n)
+
+@ 
+    
+    \subsubsection{Among riders with exposure level $A = 1$, assign the appropriate predicted probability:}
+    
+<<echo = TRUE>>=
+
+gAW[ObsData$A==1] <- gAW.pred[ObsData$A==1, "1"]
+
+@ 
+  
+    \subsubsection{Implement the analogous code for exposure levels $A = 2, \ldots, A = 7$:}
+    
+<<echo = TRUE>>=
+
+gAW[ObsData$A==2] <- gAW.pred[ObsData$A==2, "2"]
+
+gAW[ObsData$A==3] <- gAW.pred[ObsData$A==3, "3"]
+
+gAW[ObsData$A==4] <- gAW.pred[ObsData$A==4, "4"]
+
+gAW[ObsData$A==5] <- gAW.pred[ObsData$A==5, "5"]
+
+gAW[ObsData$A==6] <- gAW.pred[ObsData$A==6, "6"]
+
+gAW[ObsData$A==7] <- gAW.pred[ObsData$A==7, "7"]
+
+@ 
+    
+    \subsubsection{Use the \texttt{summary} function to examine the distribution of predicted probabilities. Any cause for concern?}
+    
+<<echo = TRUE>>=
+
+summary(gAW)
+
+@ 
+
+\textcolor{red}{talk about cause for concern after programming}
+    
+  \subsection{Create the vector \texttt{wt} as the inverse of the predicted probabilities. Use the \texttt{summary} function to examine the distribution of weights. Comment on the distribution of weights.}
+  
+<<echo = TRUE>>=
+
+wt <- 1/gAW
+summary(wt)
+
+@ 
+  
+\textcolor{red}{comment after programming}
+
+  \subsection{Evaluate the IPTW estimand:}
+  
+\begin{align*}
+\hat{\Psi}_{IPTW}(\mathbb{P}_n)=\frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=7)}{\hat{g}(A_i|W_i)}Y_i - \frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=1)}{\hat{g}(A_i|W_i)}Y_i
+\end{align*}
+
+The first quantity is the weighted mean outcome, where riders completing $A_i = 7$ burpees receive weight $\frac{1}{\hat{g}(A_i = 7 | W_i)}$ and riders completing $A_i \neq 7$ burpees receive weight 0. The second quantity is the weighted mean outcome, where riders completing $A_i = 1$ burpees receive weight $\frac{1}{\hat{g}(A_i = 1 | W_i)}$ and riders completing $A_i \neq 1$ burpees receive weight 0.
+
+<<echo = TRUE>>=
+
+iptw.estimand <- mean(wt*as.numeric(ObsData$A==7)*ObsData$Y) -
+  mean(wt*as.numeric(ObsData$A==1)*ObsData$Y)
+
+iptw.estimand
+
+@ 
+
+  \subsection{Implement the stabilized IPTW estimator (a.k.a. the modified Horvitz-Thompson estimator):}
+  
+\begin{align*}
+\hat{\Psi}_{st.IPTW}=
+  \frac{\frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=7)}{\hat{g}(A_i|W_i)}Y_i}{\frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=7)}{\hat{g}(A_i|W_i)}} - 
+  \frac{\frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=1)}{\hat{g}(A_i|W_i)}Y_i}{\frac{1}{n}\sum_{i=1}^{n}\frac{\mathbb{I}(A_i=1)}{\hat{g}(A_i|W_i)}}
+\end{align*}
+
+<<echo = TRUE>>=
+
+iptw.ht.estimand <- 
+  mean(wt*as.numeric(ObsData$A==7)*ObsData$Y)/
+  mean(wt*as.numeric(ObsData$A==7)) - 
+  mean(wt*as.numeric(ObsData$A==1)*ObsData$Y)/
+  mean(wt*as.numeric(ObsData$A==1))
+
+@ 
+  
+  \subsection{Interpet the point estimates.}
+  
+\textcolor{red}{do this after programming}
+  
+\section{IPTW and Marginal Structural Models}
+
+  \subsection{IPTW for the MSM parameter without stabilized weights}
+  
+    \subsubsection{Estimate the treatment mechanism $\mathbb{P}_0(A|W)=g_0(A|W)$, which is the conditional probability of completing $A$ burpees, given the rider's characteristics. Use multinomial logistic regression.
+    \textit{Hint: We already did this! Skip to the next step.}}
+    
+    \subsubsection{Predict each rider's probability of her observed expsoure (burpees completed), given his/her covariates $\hat{g}(A_i|W_i)$. 
+    \textit{Hint: We already did this! Skip to the next step.}}
+    
+    \subsubsection{Create the vector \texttt{wt} as the inverse of the predicted probabilities. 
+    \textit{Hint: We already did this! Skip to the next step.}}
+        
+    \subsubsection{Estimate the parameters corresponding to the MSM by regressing the observed outcome $Y$ on the exposure $A$ according to $m(a|\beta)$. You must specify the \texttt{weights} and the \texttt{data}.}
+    
+<<echo = TRUE>>=
+
+iptw.msm <- glm(Y ~ A , 
+                weights = wt,
+                data = ObsData)
+
+iptw.msm$coef
+
+summary(iptw.msm)
+
+@
+            
+    \subsubsection{Interpret the results.}
+
+\textcolor{red}{do after programming QUESTION: INCLUDE COVARIATES?}
+    
+  \subsection{IPTW for a MSM parameter with stabilized weights}
+  
+  \subsection{Implement IPTW for a MSM parameter with stabilized weights}
+  
+    \subsubsection{Estimate the treatment mechanism $g_0(A|W) = \mathbb{P}_0(A|W)$. 
+    \textit{Hint: We already did this! Skip to the next step.}}
+    
+    \subsubsection{Predict the probability of the observed exposure for each rider \texttt{gAW}. 
+    \textit{Hint: We already did this! Skip to the next step.}}
+    
+    \subsubsection{Create the stabilized weights \texttt{wt.MSM}:}
+    
+\begin{align*}
+\frac{\hat{g}^*(A)}{\hat{g}(A|W)}, \; where \; \hat{g}^*(A) = \frac{1}{n}\sum_{i=1}^{n}\mathbb{I}(A_i=a)
+\end{align*}
+
+    \begin{enumerate}
+      \item Create empty vector \texttt{gA} of length $n$ for the numerator of the weights.
+      
+<<>>=
+
+gA <- rep(NA, n)
+
+@ 
+      
+      \item Index the vector \texttt{gA} by exposure status and assign the appropriate estimated probability. \textit{Hint:} For riders completing $A=1$ burpee, the numerator $g^*(A)$ is the observed proportion with $A=1$.
+      
+<<>>=
+
+gA[ObsData$A==1] <- mean(ObsData$A==1)
+
+gA[ObsData$A==2] <- mean(ObsData$A==2)
+
+gA[ObsData$A==3] <- mean(ObsData$A==3)
+
+gA[ObsData$A==4] <- mean(ObsData$A==4)
+
+gA[ObsData$A==5] <- mean(ObsData$A==5)
+
+gA[ObsData$A==6] <- mean(ObsData$A==6)
+
+gA[ObsData$A==7] <- mean(ObsData$A==7)
+
+@ 
+      
+      \item Create the stabilized weights:
+      
+<<>>=
+
+wt.MSM <- gA/gAW
+
+@
+    
+      \item Comment on the distribution of the stabilized weights.
+      
+\textcolor{red}{do this post-programming}
+    
+    \end{enumerate}
+    
+  \subsubsection{Estimate the parameters corresponding to the MSM by regressing the observed outcome $Y$ on the exposure $A$. You must specify the \texttt{weights} and the \texttt{data}.}
+  
+<<>>=
+
+iptw.msm.st <- glm(Y ~ A , 
+                   weights = wt.MSM,
+                   data = ObsData)
+
+iptw.msm.st$coef
+
+summary(iptw.msm.st)
+
+@
+  
+  \subsubsection{Are the estimated coefficients the same? Briefly discuss.}
+  
+\textcolor{red}{do this post-programming}
+  
+\section{Improving the IPTW estimator and the G-computation formula}
+
+  \subsection{Run the code given in \texttt{Rassign4\_modifiedIPTW.R} and report how the standard IPTW and modified Horvitz-Thompson estimators perform in terms of bias, variance, and MSE. Which estimator would you use in practice?}
+  
+<<>>=
+
+source("Rassign4_iptwModified.R")
+
+@
+
+The modified Horvitz-Thompson IPTW estimator has lower bias, variance, and mean squared error for this sample than the standard IPTW estimator, and I would likely use it in practice. That said, with a large enough sample, both estimators should be unbiased, but I would still likely use the Horvitz-Thompson estimator because it weights uncommon exposure-covariate combinations in the data (i.e., covariate combinations with small numbers of either exposed or unexposed observations) less heavily than standard IPTW estimator, which makes it less sensitive to theoretical and practical positivity violations, generally reduces its variance, and leads to better final sample performance than that of the standard IPTW estimator.
+
+  \subsection{Look at the IPTW column in the \texttt{est} matrix. What do you notice about the IPTW estimates across these 2000 Monte Carlo draws?}
+  
+<<echo = TRUE>>=
+
+summary(est[,"IPTW"])
+
+var(est[,"IPTW"])
+
+hist(est[,"IPTW"])
+
+@
+  
+$Y$ can only take on one of two values, $Y = 1000$ or $Y = 1001$, but the IPTW estimates include $Y$ values ranging from \Sexpr{round(min(est[,"IPTW"]), 2)} to \Sexpr{round(max(est[,"IPTW"]), 2)}.
+  
+  \subsection{What is the variance of a random variable $X$ with $Pr(X = 0) = 1/2$ and $Pr(X = 1) = 1/2$?}
+  
+Such a random variable is a Bernoulli random variable with $p = Pr(X = 1) = 1/2$ and $q = Pr(X = 0) = 1/2$. Thus the mean of $X$ is $E[X]=\frac{1}{2}*1+\frac{1}{2}*0=\frac{1}{2}$, and the expected value of $X^2$ is $E[X^2] = \sum_{x\in range(X)}x^2(\mathbb{P}_x) = 1^2*\frac{1}{2}+0^2*\frac{1}{2} = \frac{1}{2}$. Since variance of a random variable is by defnition $Var[X]=E[(X-E[X])^2]=E[X^2]-(E[X])^2$, then the variance of our Bernoulli random variable friend $X$ is $Var[X] = E[X^2]-(E[X])^2 = \frac{1}{2} - (\frac{1}{2})^2 = \frac{1}{4}$.
+
+  \subsection{What is the variance of a random variable $X2$ with $Pr(X2 = 0) = 1/2$ and $Pr(X2 = 1000) = 1/2$?}
+  
+The mean of such a variable would be $E[X2]=\sum_{x2\in range(X2)}x2(\mathbb{P}_x2) = \frac{1}{2}*0+\frac{1}{2}*1000 = 500$.
+
+The expected value of the square of such a variable would be $E[X2^2]=\sum_{x2\in range(X2)}x2^2(\mathbb{P}_x2)=0^2*\frac{1}{2}+1000^2*\frac{1}{2} = \Sexpr{1000*1000/2}$.
+
+Thus the variance of such a variable would be $Var[X2] = E[X2^2]-(E[X2])^2 = \Sexpr{1000*1000/2} - 500^2 = \Sexpr{1000*1000/2 - 500^2}$.
+  
+  \subsection{Can you think of how the above two calculations could be relevant to improving the IPTW estimator in this problem?}
+  
+If we find a way to reduce the range of the predicted Y values that the estimator averages to estimate $\psi(\mathbb{P}_0)$, the resulting estimator will be more efficient, i.e., its estimate will have a smaller variance, which could possibly reduce the ultimate mean squared error. 
+  
+  \subsection{\textit{Bonus:} Write down an estimator $\hat{\Psi}_{my.est}$ which applies the ideas of the previous three questions into an estimator. There's no need to give the best possible estimator, but you should give an estimator that outperforms the IPTW estimator by a significant margin (i.e. does as or almost as well as the modified Horvitz-Thompson estimator in terms of bias/variance/MSE).}
+  
+Below is the IPTW estimator stabilized by subracting the mean of the observed $Y$ values from each $Y_i$ and then adding that mean back at the end before calculating the overall mean.
+  
+\begin{align*}
+\hat{\psi}_{katie}(\mathbb{P}_n)=\frac{1}{n}\sum_{i=1}^{n}[\frac{A_i(Y_i-\sum_{i=1}^{n}(Y_i))}{g_0(1|W_i)}+\sum_{i=1}^{n}(Y_i)]
+\end{align*}
+  
+  \subsection{\textit{Bonus:} Code your estimator and replace the NA on the line \texttt{my.est = NA} with the estimator you defined in the previous question. Report the bias/variance/MSE of your estimator over the 2000 Monte Carlo draws.}
+
+<<>>=
+
+source("Rassign4_iptwModified.R")
+
+@
+
+My estimator beats both the standard IPTW and modified modified Horvitz-Thompson estimator in bias, variance, and mean squared error! It fails, however, to beat taking a simple mean of the observed Y values in terms of mean square error.
+
+\end{document}
